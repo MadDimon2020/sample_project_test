@@ -12,7 +12,6 @@ subscription fetchNewsFeed {
     created_at
     id
     title
-    updated_at
   }
 }
 ''';
@@ -20,16 +19,16 @@ subscription fetchNewsFeed {
   @override
   void onInit() {
     super.onInit();
-    ApiController.subscribe(
-      SubscriptionOptions(
-        document: gql(newsSubscription),
-      ),
-    );
   }
 
   @override
   void onReady() {
     super.onReady();
+    ApiController.subscribe(
+      SubscriptionOptions(
+        document: gql(newsSubscription),
+      ),
+    );
   }
 
   @override

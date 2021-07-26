@@ -7,6 +7,8 @@ import 'package:sample_project/app/modules/home/bindings/home_binding.dart';
 import 'package:sample_project/app/modules/home/views/home_view.dart';
 import 'package:sample_project/app/modules/new_post/bindings/new_post_binding.dart';
 import 'package:sample_project/app/modules/new_post/views/new_post_view.dart';
+import 'package:sample_project/app/modules/post_details/bindings/post_details_binding.dart';
+import 'package:sample_project/app/modules/post_details/views/post_details_view.dart';
 
 part 'app_routes.dart';
 
@@ -33,6 +35,11 @@ class AppPages {
       name: _Paths.NEW_POST,
       page: () => NewPostView(),
       binding: NewPostBinding(),
+    ),
+    GetPage(
+      name: _Paths.POST_DETAILS,
+      page: () => PostDetailsView(),
+      binding: PostDetailsBinding(),
     ),
   ];
 }

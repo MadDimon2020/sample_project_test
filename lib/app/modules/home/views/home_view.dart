@@ -18,9 +18,9 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.grey[400],
       appBar: AppBar(
-        leading: Icon(Icons.more_vert),
+        leading: Icon(Icons.menu),
         title: Text('Awesome Posts'),
         centerTitle: true,
         actions: [
@@ -67,6 +67,10 @@ class HomeView extends GetView<HomeController> {
                   top: _masterContainerMargin * 2,
                 ),
                 child: InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.POST_DETAILS,
+                        arguments: [news[index]['id']]);
+                  },
                   splashColor: Theme.of(context).primaryColor,
                   child: Card(
                     color: Colors.grey[200],
