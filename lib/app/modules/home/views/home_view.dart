@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
 import 'package:sample_project/controllers/api_controller.dart';
 
@@ -14,13 +15,21 @@ class HomeView extends GetView<HomeController> {
   double get _masterContainerWidth => deviceWidth;
   double get _masterContainerHeight => _masterContainerWidth * 0.53;
   double get _masterContainerMargin => deviceWidth * 0.015;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    if (_scaffoldKey.currentState != null)
+      _scaffoldKey.currentState.openDrawer();
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        leading: IconButton(icon: Icon(Icons.menu), onPressed: _openDrawer),
         title: Text('Awesome Posts'),
         centerTitle: true,
         actions: [
@@ -40,6 +49,7 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: Subscription(
         options: SubscriptionOptions(
           document: gql(HomeController.newsSubscription),
