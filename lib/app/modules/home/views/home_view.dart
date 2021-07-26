@@ -200,9 +200,9 @@ class HomeView extends GetView<HomeController> {
                                   child: Align(
                                     child: Text(
                                       '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(news[index]['created_at'].toString()))}',
-                                      // style: TextStyle(
-                                      //     fontSize:
-                                      //         _masterContainerHeight * 0.07),
+                                      style: TextStyle(
+                                          fontSize:
+                                              _masterContainerHeight * 0.07),
                                     ),
                                   ),
                                 ),
@@ -219,9 +219,9 @@ class HomeView extends GetView<HomeController> {
                                   child: Align(
                                     child: Text(
                                       'Post by {author name}',
-                                      // style: TextStyle(
-                                      //     fontSize:
-                                      //         _masterContainerHeight * 0.07),
+                                      style: TextStyle(
+                                          fontSize:
+                                              _masterContainerHeight * 0.07),
                                     ),
                                   ),
                                 ),

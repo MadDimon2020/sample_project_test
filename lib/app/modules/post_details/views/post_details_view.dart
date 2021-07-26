@@ -64,10 +64,9 @@ class PostDetailsView extends GetView<PostDetailsController> {
                     ),
                   ),
                   Flexible(
-                    child: Padding(
+                    child: Container(
                       padding: EdgeInsets.all(deviceWidth * 0.04),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
@@ -81,12 +80,11 @@ class PostDetailsView extends GetView<PostDetailsController> {
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: deviceWidth * 0.02,
-                                right: deviceWidth * 0.01),
-                            child: Flexible(
-                              fit: FlexFit.tight,
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: deviceWidth * 0.02,
+                                  right: deviceWidth * 0.01),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
@@ -100,15 +98,16 @@ class PostDetailsView extends GetView<PostDetailsController> {
                               ),
                             ),
                           ),
-                          Container(
-                            child: Flexible(
-                              fit: FlexFit.tight,
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Container(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '| ${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails['created_at'].toString()))}',
-                                  style:
-                                      TextStyle(fontSize: deviceHeight * 0.02),
+                                  '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails['created_at'].toString()))}',
+                                  style: TextStyle(
+                                      fontSize: deviceHeight * 0.022,
+                                      fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
