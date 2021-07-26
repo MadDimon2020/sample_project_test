@@ -18,7 +18,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         leading: Icon(Icons.more_vert),
         title: Text('Awesome Posts'),
@@ -76,113 +76,154 @@ class HomeView extends GetView<HomeController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(children: [
-                          Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                  top: _masterContainerHeight * 0.04,
-                                  left: _masterContainerWidth * 0.04,
+                        Flexible(
+                          flex: 80,
+                          child: Row(children: [
+                            Flexible(
+                              flex: 70,
+                              child: Column(
+                                children: [
+                                  Flexible(
+                                    flex: 70,
+                                    child: Container(
+                                      // decoration:
+                                      //     BoxDecoration(color: Colors.blue),
+                                      margin: EdgeInsets.only(
+                                        top: _masterContainerWidth * 0.03,
+                                        left: _masterContainerWidth * 0.04,
+                                        right: _masterContainerWidth * 0.04,
+                                      ),
+                                      // width: (_masterContainerWidth -
+                                      //         _masterContainerMargin * 2) *
+                                      //     0.63,
+                                      // height: (_masterContainerHeight * 0.58),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          news[index]['title'],
+                                          style: TextStyle(
+                                            fontSize:
+                                                _masterContainerHeight * 0.10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 4,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 30,
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: _masterContainerHeight * 0.04,
+                                        horizontal:
+                                            _masterContainerWidth * 0.04,
+                                      ),
+                                      // padding: EdgeInsets.only(
+                                      //     left: _masterContainerWidth * 0.04,
+                                      //     right: _masterContainerWidth * 0.01),
+                                      // width: (_masterContainerWidth -
+                                      //         _masterContainerMargin * 2) *
+                                      //     0.63,
+                                      // height: (_masterContainerHeight -
+                                      //         _masterContainerMargin * 2) *
+                                      //     0.21,
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          news[index]['content'],
+                                          style: TextStyle(
+                                            fontSize:
+                                                _masterContainerHeight * 0.07,
+                                          ),
+                                          maxLines: 2,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Flexible(
+                              flex: 30,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  top: _masterContainerWidth * 0.03,
                                   right: _masterContainerWidth * 0.03,
-                                  bottom: _masterContainerHeight * 0.04,
                                 ),
-                                width: (_masterContainerWidth -
-                                        _masterContainerMargin * 2) *
-                                    0.63,
-                                height: (_masterContainerHeight * 0.58),
+                                // width: (_masterContainerWidth -
+                                //         _masterContainerMargin * 2) *
+                                //     0.34,
+                                // height: (_masterContainerWidth -
+                                //         _masterContainerMargin * 2) *
+                                //     0.36,
+                                // padding: EdgeInsets.only(
+                                //   right: _masterContainerWidth * 0.02,
+                                //   bottom: _masterContainerWidth * 0.05,
+                                // ),
                                 child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    news[index]['title'],
-                                    style: TextStyle(
-                                      fontSize: _masterContainerHeight * 0.10,
-                                      fontWeight: FontWeight.bold,
+                                  alignment: Alignment.topCenter,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    child: Image.asset(
+                                      'assets/images/user-image-placeholder.jpg',
+                                      fit: BoxFit.cover,
                                     ),
-                                    maxLines: 4,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: _masterContainerWidth * 0.04,
-                                    right: _masterContainerWidth * 0.01),
-                                width: (_masterContainerWidth -
-                                        _masterContainerMargin * 2) *
-                                    0.63,
-                                height: (_masterContainerHeight -
-                                        _masterContainerMargin * 2) *
-                                    0.21,
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    news[index]['content'],
-                                    style: TextStyle(
-                                      fontSize: _masterContainerHeight * 0.08,
+                            ),
+                          ]),
+                        ),
+                        Flexible(
+                          flex: 20,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Flexible(
+                                flex: 55,
+                                child: Container(
+                                  // width: (_masterContainerWidth -
+                                  //         _masterContainerMargin * 2) *
+                                  //     0.55,
+                                  // height: (_masterContainerHeight -
+                                  //         _masterContainerMargin * 2) *
+                                  //     0.18,
+                                  child: Align(
+                                    child: Text(
+                                      '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(news[index]['created_at'].toString()))}',
+                                      // style: TextStyle(
+                                      //     fontSize:
+                                      //         _masterContainerHeight * 0.07),
                                     ),
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
+                              Flexible(
+                                flex: 45,
+                                child: Container(
+                                  // width: (_masterContainerWidth -
+                                  //         _masterContainerMargin * 2) *
+                                  //     0.4,
+                                  // height: (_masterContainerHeight -
+                                  //         _masterContainerMargin * 2) *
+                                  //     0.18,
+                                  child: Align(
+                                    child: Text(
+                                      'Post by {author name}',
+                                      // style: TextStyle(
+                                      //     fontSize:
+                                      //         _masterContainerHeight * 0.07),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
-                          Container(
-                            width: (_masterContainerWidth -
-                                    _masterContainerMargin * 2) *
-                                0.34,
-                            height: (_masterContainerWidth -
-                                    _masterContainerMargin * 2) *
-                                0.36,
-                            padding: EdgeInsets.only(
-                              right: _masterContainerWidth * 0.02,
-                              bottom: _masterContainerWidth * 0.05,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15.0),
-                              child: Image.asset(
-                                'assets/images/user-image-placeholder.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ]),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              width: (_masterContainerWidth -
-                                      _masterContainerMargin * 2) *
-                                  0.55,
-                              height: (_masterContainerHeight -
-                                      _masterContainerMargin * 2) *
-                                  0.18,
-                              child: Align(
-                                child: Text(
-                                  '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(news[index]['created_at'].toString()))}',
-                                  style: TextStyle(
-                                      fontSize: _masterContainerHeight * 0.07),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: (_masterContainerWidth -
-                                      _masterContainerMargin * 2) *
-                                  0.4,
-                              height: (_masterContainerHeight -
-                                      _masterContainerMargin * 2) *
-                                  0.18,
-                              child: Align(
-                                child: Text(
-                                  'Post by {author name}',
-                                  style: TextStyle(
-                                      fontSize: _masterContainerHeight * 0.07),
-                                ),
-                              ),
-                            )
-                          ],
                         ),
                       ],
                     ),
