@@ -75,9 +75,11 @@ class NewPostView extends GetView<NewPostController> {
                 backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
               ),
               child: Text('Cancel'),
-              onPressed: () => Get.back(
-                closeOverlays: true,
-              ),
+              onPressed: () {
+                Get.back(
+                  closeOverlays: true,
+                );
+              },
             ),
           ),
         ],

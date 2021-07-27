@@ -118,13 +118,16 @@ class PostDetailsView extends GetView<PostDetailsController> {
                   ),
                   Flexible(
                     child: Container(
-                      padding: EdgeInsets.only(
-                          left: deviceWidth * 0.04, right: deviceWidth * 0.02),
-                      child: Text(
-                        postDetails['content'],
-                        style: TextStyle(fontSize: deviceHeight * 0.022),
-                        softWrap: true,
-                        strutStyle: StrutStyle(height: deviceHeight * 0.002),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(postDetails['content'],
+                            style: TextStyle(fontSize: deviceHeight * 0.022),
+                            softWrap: true,
+                            strutStyle:
+                                StrutStyle(height: deviceHeight * 0.002),
+                            textAlign: TextAlign.left),
                       ),
                     ),
                   ),

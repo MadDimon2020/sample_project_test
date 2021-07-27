@@ -5,13 +5,12 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
-import 'package:sample_project/controllers/api_controller.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  final deviceWidth = Get.width;
-  final deviceHeight = Get.height;
+  double get deviceWidth => Get.width;
+  double get deviceHeight => Get.height;
   double get _masterContainerWidth => deviceWidth;
   double get _masterContainerHeight => _masterContainerWidth * 0.53;
   double get _masterContainerMargin => deviceWidth * 0.015;
@@ -32,22 +31,22 @@ class HomeView extends GetView<HomeController> {
         leading: IconButton(icon: Icon(Icons.menu), onPressed: _openDrawer),
         title: Text('Awesome Posts'),
         centerTitle: true,
-        actions: [
-          Container(
-            margin: const EdgeInsets.all(8),
-            child: ElevatedButton.icon(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.red.shade400),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)))),
-              label: Text('Logout'),
-              icon: Icon(Icons.logout),
-              onPressed: ApiController.to.logout,
-            ),
-          ),
-        ],
+        // actions: [
+        //   Container(
+        //     margin: const EdgeInsets.all(8),
+        //     child: ElevatedButton.icon(
+        //       style: ButtonStyle(
+        //           backgroundColor:
+        //               MaterialStateProperty.all<Color>(Colors.red.shade400),
+        //           shape: MaterialStateProperty.all<OutlinedBorder>(
+        //               RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.circular(15)))),
+        //       label: Text('Logout'),
+        //       icon: Icon(Icons.logout),
+        //       onPressed: ApiController.to.logout,
+        //     ),
+        //   ),
+        // ],
       ),
       drawer: AppDrawer(),
       body: Subscription(
