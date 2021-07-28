@@ -163,31 +163,70 @@ class HomeView extends GetView<HomeController> {
                             ),
                             Flexible(
                               flex: 30,
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                  top: _masterContainerWidth * 0.03,
-                                  right: _masterContainerWidth * 0.03,
-                                ),
-                                // width: (_masterContainerWidth -
-                                //         _masterContainerMargin * 2) *
-                                //     0.34,
-                                // height: (_masterContainerWidth -
-                                //         _masterContainerMargin * 2) *
-                                //     0.36,
-                                // padding: EdgeInsets.only(
-                                //   right: _masterContainerWidth * 0.02,
-                                //   bottom: _masterContainerWidth * 0.05,
-                                // ),
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset(
-                                      'assets/images/user-image-placeholder.jpg',
-                                      fit: BoxFit.cover,
+                              child: Column(
+                                children: [
+                                  Flexible(
+                                    flex: 75,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top: _masterContainerWidth * 0.03,
+                                        right: _masterContainerWidth * 0.03,
+                                      ),
+                                      // width: (_masterContainerWidth -
+                                      //         _masterContainerMargin * 2) *
+                                      //     0.34,
+                                      // height: (_masterContainerWidth -
+                                      //         _masterContainerMargin * 2) *
+                                      //     0.36,
+                                      // padding: EdgeInsets.only(
+                                      //   right: _masterContainerWidth * 0.02,
+                                      //   bottom: _masterContainerWidth * 0.05,
+                                      // ),
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          child: Image.asset(
+                                            'assets/images/user-image-placeholder.jpg',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Flexible(
+                                    flex: 25,
+                                    child: Container(
+                                      child: Align(
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        deviceWidth * 0.04),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.green),
+                                              shape: MaterialStateProperty.all<
+                                                  OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                ),
+                                              )),
+                                          child: Text('SAVE'),
+                                          onPressed: () {
+                                            print('SAVE-Button pressed');
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ]),

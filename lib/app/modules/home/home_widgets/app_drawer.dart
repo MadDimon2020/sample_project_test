@@ -19,8 +19,7 @@ class AppDrawer extends GetView<HomeController> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             actions: [
-              IconButton(
-                icon: Icon(Icons.close_outlined),
+              CloseButton(
                 onPressed: Get.back,
               ),
             ],
