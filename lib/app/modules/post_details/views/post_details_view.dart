@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/post_details_controller.dart';
 
@@ -21,7 +22,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
       ),
       body: Query(
         options: QueryOptions(
-          document: gql(PostDetailsController.fetchPostByIdQuery),
+          document: FetchPostByIdQueryQuery().document,
           variables: {'id': PostDetailsController.to.postId},
         ),
         builder: (result, {fetchMore, refetch}) {
@@ -35,7 +36,9 @@ class PostDetailsView extends GetView<PostDetailsController> {
               child: CircularProgressIndicator(),
             );
           }
-          var postDetails = result.data['news_by_pk'];
+          // var postDetails = result.data['news_by_pk'];
+          var postDetails =
+              FetchPostByIdQuery$QueryRoot.fromJson(result.data).newsByPk;
           return Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
@@ -53,7 +56,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          postDetails['title'],
+                          postDetails.title,
                           style: TextStyle(
                             fontSize: deviceHeight * 0.033,
                             fontWeight: FontWeight.bold,
@@ -104,7 +107,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails['created_at'].toString()))}',
+                                  '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
                                   style: TextStyle(
                                       fontSize: deviceHeight * 0.022,
                                       fontStyle: FontStyle.italic),
@@ -122,7 +125,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                           EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(postDetails['content'],
+                        child: Text(postDetails.content,
                             style: TextStyle(fontSize: deviceHeight * 0.022),
                             softWrap: true,
                             strutStyle:

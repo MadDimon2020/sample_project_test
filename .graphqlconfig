@@ -1,0 +1,15 @@
+{
+  "name": "Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default": {
+        "url": "https://graphql.sample.simpleapps.site/v1/graphql",
+        "introspect": true,
+        "headers": {
+          "X-Hasura-Admin-Secret": "x8uR5rtSFRrRZdjU"
+        }
+      }
+    }
+  }
+}

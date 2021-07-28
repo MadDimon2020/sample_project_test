@@ -5,6 +5,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
+import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -31,27 +32,11 @@ class HomeView extends GetView<HomeController> {
         leading: IconButton(icon: Icon(Icons.menu), onPressed: _openDrawer),
         title: Text('Awesome Posts'),
         centerTitle: true,
-        // actions: [
-        //   Container(
-        //     margin: const EdgeInsets.all(8),
-        //     child: ElevatedButton.icon(
-        //       style: ButtonStyle(
-        //           backgroundColor:
-        //               MaterialStateProperty.all<Color>(Colors.red.shade400),
-        //           shape: MaterialStateProperty.all<OutlinedBorder>(
-        //               RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.circular(15)))),
-        //       label: Text('Logout'),
-        //       icon: Icon(Icons.logout),
-        //       onPressed: ApiController.to.logout,
-        //     ),
-        //   ),
-        // ],
       ),
       drawer: AppDrawer(),
       body: Subscription(
         options: SubscriptionOptions(
-          document: gql(HomeController.newsSubscription),
+          document: NewsFeedSubscriptionSubscription().document,
         ),
         builder: (result) {
           if (result.hasException) {
@@ -64,7 +49,8 @@ class HomeView extends GetView<HomeController> {
               child: CircularProgressIndicator(),
             );
           }
-          var news = result.data['news'] as List<dynamic>;
+          var fetchedNews =
+              NewsFeedSubscription$SubscriptionRoot.fromJson(result.data).news;
           return ListView.builder(
             itemBuilder: (context, index) {
               return Container(
@@ -78,7 +64,7 @@ class HomeView extends GetView<HomeController> {
                 child: InkWell(
                   onTap: () {
                     Get.toNamed(Routes.POST_DETAILS,
-                        arguments: [news[index]['id']]);
+                        arguments: [fetchedNews[index].id]);
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: Card(
@@ -99,21 +85,15 @@ class HomeView extends GetView<HomeController> {
                                   Flexible(
                                     flex: 70,
                                     child: Container(
-                                      // decoration:
-                                      //     BoxDecoration(color: Colors.blue),
                                       margin: EdgeInsets.only(
                                         top: _masterContainerWidth * 0.03,
                                         left: _masterContainerWidth * 0.04,
                                         right: _masterContainerWidth * 0.04,
                                       ),
-                                      // width: (_masterContainerWidth -
-                                      //         _masterContainerMargin * 2) *
-                                      //     0.63,
-                                      // height: (_masterContainerHeight * 0.58),
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          news[index]['title'],
+                                          fetchedNews[index].title,
                                           style: TextStyle(
                                             fontSize:
                                                 _masterContainerHeight * 0.10,
@@ -134,19 +114,10 @@ class HomeView extends GetView<HomeController> {
                                         horizontal:
                                             _masterContainerWidth * 0.04,
                                       ),
-                                      // padding: EdgeInsets.only(
-                                      //     left: _masterContainerWidth * 0.04,
-                                      //     right: _masterContainerWidth * 0.01),
-                                      // width: (_masterContainerWidth -
-                                      //         _masterContainerMargin * 2) *
-                                      //     0.63,
-                                      // height: (_masterContainerHeight -
-                                      //         _masterContainerMargin * 2) *
-                                      //     0.21,
                                       child: Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                          news[index]['content'],
+                                          fetchedNews[index].content,
                                           style: TextStyle(
                                             fontSize:
                                                 _masterContainerHeight * 0.07,
@@ -172,16 +143,6 @@ class HomeView extends GetView<HomeController> {
                                         top: _masterContainerWidth * 0.03,
                                         right: _masterContainerWidth * 0.03,
                                       ),
-                                      // width: (_masterContainerWidth -
-                                      //         _masterContainerMargin * 2) *
-                                      //     0.34,
-                                      // height: (_masterContainerWidth -
-                                      //         _masterContainerMargin * 2) *
-                                      //     0.36,
-                                      // padding: EdgeInsets.only(
-                                      //   right: _masterContainerWidth * 0.02,
-                                      //   bottom: _masterContainerWidth * 0.05,
-                                      // ),
                                       child: Align(
                                         alignment: Alignment.topCenter,
                                         child: ClipRRect(
@@ -239,15 +200,9 @@ class HomeView extends GetView<HomeController> {
                               Flexible(
                                 flex: 55,
                                 child: Container(
-                                  // width: (_masterContainerWidth -
-                                  //         _masterContainerMargin * 2) *
-                                  //     0.55,
-                                  // height: (_masterContainerHeight -
-                                  //         _masterContainerMargin * 2) *
-                                  //     0.18,
                                   child: Align(
                                     child: Text(
-                                      '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(news[index]['created_at'].toString()))}',
+                                      '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index].createdAt.toString()))}',
                                       style: TextStyle(
                                           fontSize:
                                               _masterContainerHeight * 0.07),
@@ -258,15 +213,9 @@ class HomeView extends GetView<HomeController> {
                               Flexible(
                                 flex: 45,
                                 child: Container(
-                                  // width: (_masterContainerWidth -
-                                  //         _masterContainerMargin * 2) *
-                                  //     0.4,
-                                  // height: (_masterContainerHeight -
-                                  //         _masterContainerMargin * 2) *
-                                  //     0.18,
                                   child: Align(
                                     child: Text(
-                                      'Post by {author name}',
+                                      'Posted by {author name}',
                                       style: TextStyle(
                                           fontSize:
                                               _masterContainerHeight * 0.07),
@@ -283,7 +232,7 @@ class HomeView extends GetView<HomeController> {
                 ),
               );
             },
-            itemCount: news.length,
+            itemCount: fetchedNews.length,
           );
         },
       ),

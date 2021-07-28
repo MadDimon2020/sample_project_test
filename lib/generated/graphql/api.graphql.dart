@@ -24,6 +24,40 @@ mixin UserMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetCurrentUser$QueryRoot$User with EquatableMixin, UserMixin {
+  GetCurrentUser$QueryRoot$User();
+
+  factory GetCurrentUser$QueryRoot$User.fromJson(Map<String, dynamic> json) =>
+      _$GetCurrentUser$QueryRoot$UserFromJson(json);
+
+  @override
+  List<Object> get props => [
+        $$typename,
+        id,
+        createdAt,
+        updatedAt,
+        displayName,
+        avatarUrl,
+        phoneNumber
+      ];
+  Map<String, dynamic> toJson() => _$GetCurrentUser$QueryRoot$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCurrentUser$QueryRoot with EquatableMixin {
+  GetCurrentUser$QueryRoot();
+
+  factory GetCurrentUser$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$GetCurrentUser$QueryRootFromJson(json);
+
+  GetCurrentUser$QueryRoot$User user;
+
+  @override
+  List<Object> get props => [user];
+  Map<String, dynamic> toJson() => _$GetCurrentUser$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class CurrentUser$SubscriptionRoot$User with EquatableMixin, UserMixin {
   CurrentUser$SubscriptionRoot$User();
 
@@ -60,37 +94,194 @@ class CurrentUser$SubscriptionRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetCurrentUser$QueryRoot$User with EquatableMixin, UserMixin {
-  GetCurrentUser$QueryRoot$User();
+class NewsFeedSubscription$SubscriptionRoot$News with EquatableMixin {
+  NewsFeedSubscription$SubscriptionRoot$News();
 
-  factory GetCurrentUser$QueryRoot$User.fromJson(Map<String, dynamic> json) =>
-      _$GetCurrentUser$QueryRoot$UserFromJson(json);
+  factory NewsFeedSubscription$SubscriptionRoot$News.fromJson(
+          Map<String, dynamic> json) =>
+      _$NewsFeedSubscription$SubscriptionRoot$NewsFromJson(json);
+
+  String content;
+
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+
+  String id;
+
+  String title;
 
   @override
-  List<Object> get props => [
-        $$typename,
-        id,
-        createdAt,
-        updatedAt,
-        displayName,
-        avatarUrl,
-        phoneNumber
-      ];
-  Map<String, dynamic> toJson() => _$GetCurrentUser$QueryRoot$UserToJson(this);
+  List<Object> get props => [content, createdAt, id, title];
+  Map<String, dynamic> toJson() =>
+      _$NewsFeedSubscription$SubscriptionRoot$NewsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetCurrentUser$QueryRoot with EquatableMixin {
-  GetCurrentUser$QueryRoot();
+class NewsFeedSubscription$SubscriptionRoot with EquatableMixin {
+  NewsFeedSubscription$SubscriptionRoot();
 
-  factory GetCurrentUser$QueryRoot.fromJson(Map<String, dynamic> json) =>
-      _$GetCurrentUser$QueryRootFromJson(json);
+  factory NewsFeedSubscription$SubscriptionRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$NewsFeedSubscription$SubscriptionRootFromJson(json);
 
-  GetCurrentUser$QueryRoot$User user;
+  List<NewsFeedSubscription$SubscriptionRoot$News> news;
 
   @override
-  List<Object> get props => [user];
-  Map<String, dynamic> toJson() => _$GetCurrentUser$QueryRootToJson(this);
+  List<Object> get props => [news];
+  Map<String, dynamic> toJson() =>
+      _$NewsFeedSubscription$SubscriptionRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FetchPostByIdQuery$QueryRoot$NewsByPk with EquatableMixin {
+  FetchPostByIdQuery$QueryRoot$NewsByPk();
+
+  factory FetchPostByIdQuery$QueryRoot$NewsByPk.fromJson(
+          Map<String, dynamic> json) =>
+      _$FetchPostByIdQuery$QueryRoot$NewsByPkFromJson(json);
+
+  String content;
+
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+
+  String id;
+
+  String title;
+
+  @override
+  List<Object> get props => [content, createdAt, id, title];
+  Map<String, dynamic> toJson() =>
+      _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FetchPostByIdQuery$QueryRoot with EquatableMixin {
+  FetchPostByIdQuery$QueryRoot();
+
+  factory FetchPostByIdQuery$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$FetchPostByIdQuery$QueryRootFromJson(json);
+
+  @JsonKey(name: 'news_by_pk')
+  FetchPostByIdQuery$QueryRoot$NewsByPk newsByPk;
+
+  @override
+  List<Object> get props => [newsByPk];
+  Map<String, dynamic> toJson() => _$FetchPostByIdQuery$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetCurrentUserArguments extends JsonSerializable with EquatableMixin {
+  GetCurrentUserArguments({@required this.userId});
+
+  @override
+  factory GetCurrentUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetCurrentUserArgumentsFromJson(json);
+
+  final String userId;
+
+  @override
+  List<Object> get props => [userId];
+  @override
+  Map<String, dynamic> toJson() => _$GetCurrentUserArgumentsToJson(this);
+}
+
+class GetCurrentUserQuery
+    extends GraphQLQuery<GetCurrentUser$QueryRoot, GetCurrentUserArguments> {
+  GetCurrentUserQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'GetCurrentUser'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'userId')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'users_by_pk'),
+              alias: NameNode(value: 'user'),
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'id'),
+                    value: VariableNode(name: NameNode(value: 'userId')))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FragmentSpreadNode(
+                    name: NameNode(value: 'User'), directives: [])
+              ]))
+        ])),
+    FragmentDefinitionNode(
+        name: NameNode(value: 'User'),
+        typeCondition: TypeConditionNode(
+            on: NamedTypeNode(
+                name: NameNode(value: 'users'), isNonNull: false)),
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'created_at'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'updated_at'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'display_name'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'avatar_url'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'phone_number'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null)
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'GetCurrentUser';
+
+  @override
+  final GetCurrentUserArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  GetCurrentUser$QueryRoot parse(Map<String, dynamic> json) =>
+      GetCurrentUser$QueryRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -207,34 +398,98 @@ class CurrentUserSubscription
       CurrentUser$SubscriptionRoot.fromJson(json);
 }
 
-@JsonSerializable(explicitToJson: true)
-class GetCurrentUserArguments extends JsonSerializable with EquatableMixin {
-  GetCurrentUserArguments({@required this.userId});
+class NewsFeedSubscriptionSubscription extends GraphQLQuery<
+    NewsFeedSubscription$SubscriptionRoot, JsonSerializable> {
+  NewsFeedSubscriptionSubscription();
 
   @override
-  factory GetCurrentUserArguments.fromJson(Map<String, dynamic> json) =>
-      _$GetCurrentUserArgumentsFromJson(json);
-
-  final String userId;
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.subscription,
+        name: NameNode(value: 'newsFeedSubscription'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'news'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'order_by'),
+                    value: ObjectValueNode(fields: [
+                      ObjectFieldNode(
+                          name: NameNode(value: 'created_at'),
+                          value: EnumValueNode(name: NameNode(value: 'desc')))
+                    ]))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'content'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'created_at'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'title'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
 
   @override
-  List<Object> get props => [userId];
+  final String operationName = 'newsFeedSubscription';
+
   @override
-  Map<String, dynamic> toJson() => _$GetCurrentUserArgumentsToJson(this);
+  List<Object> get props => [document, operationName];
+  @override
+  NewsFeedSubscription$SubscriptionRoot parse(Map<String, dynamic> json) =>
+      NewsFeedSubscription$SubscriptionRoot.fromJson(json);
 }
 
-class GetCurrentUserQuery
-    extends GraphQLQuery<GetCurrentUser$QueryRoot, GetCurrentUserArguments> {
-  GetCurrentUserQuery({this.variables});
+@JsonSerializable(explicitToJson: true)
+class FetchPostByIdQueryArguments extends JsonSerializable with EquatableMixin {
+  FetchPostByIdQueryArguments({@required this.id});
+
+  @override
+  factory FetchPostByIdQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _$FetchPostByIdQueryArgumentsFromJson(json);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$FetchPostByIdQueryArgumentsToJson(this);
+}
+
+class FetchPostByIdQueryQuery extends GraphQLQuery<FetchPostByIdQuery$QueryRoot,
+    FetchPostByIdQueryArguments> {
+  FetchPostByIdQueryQuery({this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
     OperationDefinitionNode(
         type: OperationType.query,
-        name: NameNode(value: 'GetCurrentUser'),
+        name: NameNode(value: 'fetchPostByIdQuery'),
         variableDefinitions: [
           VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'userId')),
+              variable: VariableNode(name: NameNode(value: 'id')),
               type:
                   NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
@@ -243,80 +498,52 @@ class GetCurrentUserQuery
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(
-              name: NameNode(value: 'users_by_pk'),
-              alias: NameNode(value: 'user'),
+              name: NameNode(value: 'news_by_pk'),
+              alias: null,
               arguments: [
                 ArgumentNode(
                     name: NameNode(value: 'id'),
-                    value: VariableNode(name: NameNode(value: 'userId')))
+                    value: VariableNode(name: NameNode(value: 'id')))
               ],
               directives: [],
               selectionSet: SelectionSetNode(selections: [
-                FragmentSpreadNode(
-                    name: NameNode(value: 'User'), directives: [])
+                FieldNode(
+                    name: NameNode(value: 'content'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'created_at'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'title'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
               ]))
-        ])),
-    FragmentDefinitionNode(
-        name: NameNode(value: 'User'),
-        typeCondition: TypeConditionNode(
-            on: NamedTypeNode(
-                name: NameNode(value: 'users'), isNonNull: false)),
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: '__typename'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'id'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'created_at'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'updated_at'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'display_name'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'avatar_url'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'phone_number'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null)
         ]))
   ]);
 
   @override
-  final String operationName = 'GetCurrentUser';
+  final String operationName = 'fetchPostByIdQuery';
 
   @override
-  final GetCurrentUserArguments variables;
+  final FetchPostByIdQueryArguments variables;
 
   @override
   List<Object> get props => [document, operationName, variables];
   @override
-  GetCurrentUser$QueryRoot parse(Map<String, dynamic> json) =>
-      GetCurrentUser$QueryRoot.fromJson(json);
+  FetchPostByIdQuery$QueryRoot parse(Map<String, dynamic> json) =>
+      FetchPostByIdQuery$QueryRoot.fromJson(json);
 }

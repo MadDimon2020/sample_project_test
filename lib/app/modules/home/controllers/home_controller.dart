@@ -6,7 +6,7 @@ class HomeController extends GetxController {
   static HomeController get to => Get.find<HomeController>();
 
   static String newsSubscription = '''
-subscription fetchNewsFeed {
+subscription newsFeedSubscription {
   news(order_by: {created_at: desc}) {
     content
     created_at
