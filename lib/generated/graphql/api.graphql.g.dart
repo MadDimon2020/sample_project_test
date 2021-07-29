@@ -124,10 +124,9 @@ Map<String, dynamic> _$CurrentUser$SubscriptionRootToJson(
   return val;
 }
 
-NewsFeedSubscription$SubscriptionRoot$News
-    _$NewsFeedSubscription$SubscriptionRoot$NewsFromJson(
-        Map<String, dynamic> json) {
-  return NewsFeedSubscription$SubscriptionRoot$News()
+NewsFeed$SubscriptionRoot$News _$NewsFeed$SubscriptionRoot$NewsFromJson(
+    Map<String, dynamic> json) {
+  return NewsFeed$SubscriptionRoot$News()
     ..content = json['content'] as String
     ..createdAt = json['created_at'] == null
         ? null
@@ -136,8 +135,8 @@ NewsFeedSubscription$SubscriptionRoot$News
     ..title = json['title'] as String;
 }
 
-Map<String, dynamic> _$NewsFeedSubscription$SubscriptionRoot$NewsToJson(
-    NewsFeedSubscription$SubscriptionRoot$News instance) {
+Map<String, dynamic> _$NewsFeed$SubscriptionRoot$NewsToJson(
+    NewsFeed$SubscriptionRoot$News instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -153,19 +152,19 @@ Map<String, dynamic> _$NewsFeedSubscription$SubscriptionRoot$NewsToJson(
   return val;
 }
 
-NewsFeedSubscription$SubscriptionRoot
-    _$NewsFeedSubscription$SubscriptionRootFromJson(Map<String, dynamic> json) {
-  return NewsFeedSubscription$SubscriptionRoot()
+NewsFeed$SubscriptionRoot _$NewsFeed$SubscriptionRootFromJson(
+    Map<String, dynamic> json) {
+  return NewsFeed$SubscriptionRoot()
     ..news = (json['news'] as List)
         ?.map((e) => e == null
             ? null
-            : NewsFeedSubscription$SubscriptionRoot$News.fromJson(
+            : NewsFeed$SubscriptionRoot$News.fromJson(
                 e as Map<String, dynamic>))
         ?.toList();
 }
 
-Map<String, dynamic> _$NewsFeedSubscription$SubscriptionRootToJson(
-    NewsFeedSubscription$SubscriptionRoot instance) {
+Map<String, dynamic> _$NewsFeed$SubscriptionRootToJson(
+    NewsFeed$SubscriptionRoot instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

@@ -8,7 +8,10 @@ class Root extends GetWidget<ApiController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return ApiController.to.token.value == null ? AuthView() : HomeView();
+      return ApiController.to.token.value == null ||
+              ApiController.to.token.value.expiresIn <= 0
+          ? AuthView()
+          : HomeView();
     });
   }
 }

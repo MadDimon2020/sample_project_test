@@ -36,7 +36,7 @@ class HomeView extends GetView<HomeController> {
       drawer: AppDrawer(),
       body: Subscription(
         options: SubscriptionOptions(
-          document: NewsFeedSubscriptionSubscription().document,
+          document: NewsFeedSubscription().document,
         ),
         builder: (result) {
           if (result.hasException) {
@@ -50,7 +50,7 @@ class HomeView extends GetView<HomeController> {
             );
           }
           var fetchedNews =
-              NewsFeedSubscription$SubscriptionRoot.fromJson(result.data).news;
+              NewsFeed$SubscriptionRoot.fromJson(result.data).news;
           return ListView.builder(
             itemBuilder: (context, index) {
               return Container(

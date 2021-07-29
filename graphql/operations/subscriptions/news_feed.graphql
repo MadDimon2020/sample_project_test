@@ -1,8 +1,8 @@
-subscription newsFeedSubscription {
-    news(order_by: {created_at: desc}) {
-        content
-        created_at
-        id
-        title
-    }
+subscription newsFeed {
+  news(order_by: { created_at: desc }) {
+    content
+    created_at
+    id
+    title
+  }
 }

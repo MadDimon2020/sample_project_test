@@ -94,12 +94,11 @@ class CurrentUser$SubscriptionRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class NewsFeedSubscription$SubscriptionRoot$News with EquatableMixin {
-  NewsFeedSubscription$SubscriptionRoot$News();
+class NewsFeed$SubscriptionRoot$News with EquatableMixin {
+  NewsFeed$SubscriptionRoot$News();
 
-  factory NewsFeedSubscription$SubscriptionRoot$News.fromJson(
-          Map<String, dynamic> json) =>
-      _$NewsFeedSubscription$SubscriptionRoot$NewsFromJson(json);
+  factory NewsFeed$SubscriptionRoot$News.fromJson(Map<String, dynamic> json) =>
+      _$NewsFeed$SubscriptionRoot$NewsFromJson(json);
 
   String content;
 
@@ -112,24 +111,21 @@ class NewsFeedSubscription$SubscriptionRoot$News with EquatableMixin {
 
   @override
   List<Object> get props => [content, createdAt, id, title];
-  Map<String, dynamic> toJson() =>
-      _$NewsFeedSubscription$SubscriptionRoot$NewsToJson(this);
+  Map<String, dynamic> toJson() => _$NewsFeed$SubscriptionRoot$NewsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class NewsFeedSubscription$SubscriptionRoot with EquatableMixin {
-  NewsFeedSubscription$SubscriptionRoot();
+class NewsFeed$SubscriptionRoot with EquatableMixin {
+  NewsFeed$SubscriptionRoot();
 
-  factory NewsFeedSubscription$SubscriptionRoot.fromJson(
-          Map<String, dynamic> json) =>
-      _$NewsFeedSubscription$SubscriptionRootFromJson(json);
+  factory NewsFeed$SubscriptionRoot.fromJson(Map<String, dynamic> json) =>
+      _$NewsFeed$SubscriptionRootFromJson(json);
 
-  List<NewsFeedSubscription$SubscriptionRoot$News> news;
+  List<NewsFeed$SubscriptionRoot$News> news;
 
   @override
   List<Object> get props => [news];
-  Map<String, dynamic> toJson() =>
-      _$NewsFeedSubscription$SubscriptionRootToJson(this);
+  Map<String, dynamic> toJson() => _$NewsFeed$SubscriptionRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -398,15 +394,15 @@ class CurrentUserSubscription
       CurrentUser$SubscriptionRoot.fromJson(json);
 }
 
-class NewsFeedSubscriptionSubscription extends GraphQLQuery<
-    NewsFeedSubscription$SubscriptionRoot, JsonSerializable> {
-  NewsFeedSubscriptionSubscription();
+class NewsFeedSubscription
+    extends GraphQLQuery<NewsFeed$SubscriptionRoot, JsonSerializable> {
+  NewsFeedSubscription();
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
     OperationDefinitionNode(
         type: OperationType.subscription,
-        name: NameNode(value: 'newsFeedSubscription'),
+        name: NameNode(value: 'newsFeed'),
         variableDefinitions: [],
         directives: [],
         selectionSet: SelectionSetNode(selections: [
@@ -458,8 +454,8 @@ class NewsFeedSubscriptionSubscription extends GraphQLQuery<
   @override
   List<Object> get props => [document, operationName];
   @override
-  NewsFeedSubscription$SubscriptionRoot parse(Map<String, dynamic> json) =>
-      NewsFeedSubscription$SubscriptionRoot.fromJson(json);
+  NewsFeed$SubscriptionRoot parse(Map<String, dynamic> json) =>
+      NewsFeed$SubscriptionRoot.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
