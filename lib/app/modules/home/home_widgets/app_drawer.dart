@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:fluttericon/linecons_icons.dart';
 
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
+import 'package:sample_project/app/routes/app_pages.dart';
 import 'package:sample_project/controllers/api_controller.dart';
 
 class AppDrawer extends GetView<HomeController> {
@@ -36,7 +37,9 @@ class AppDrawer extends GetView<HomeController> {
             icon: Linecons.doc,
             iconColor: Colors.green,
             title: 'My Reading List',
-            onTapHandler: () {},
+            onTapHandler: () {
+              Get.toNamed(Routes.READING_LIST);
+            },
           ),
           _buildMenuItem(
               icon: Icons.logout,

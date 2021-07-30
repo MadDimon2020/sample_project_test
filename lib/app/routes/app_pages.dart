@@ -9,6 +9,8 @@ import 'package:sample_project/app/modules/new_post/bindings/new_post_binding.da
 import 'package:sample_project/app/modules/new_post/views/new_post_view.dart';
 import 'package:sample_project/app/modules/post_details/bindings/post_details_binding.dart';
 import 'package:sample_project/app/modules/post_details/views/post_details_view.dart';
+import 'package:sample_project/app/modules/reading_list/bindings/reading_list_binding.dart';
+import 'package:sample_project/app/modules/reading_list/views/reading_list_view.dart';
 
 part 'app_routes.dart';
 
@@ -40,6 +42,11 @@ class AppPages {
       name: _Paths.POST_DETAILS,
       page: () => PostDetailsView(),
       binding: PostDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.READING_LIST,
+      page: () => ReadingListView(),
+      binding: ReadingListBinding(),
     ),
   ];
 }

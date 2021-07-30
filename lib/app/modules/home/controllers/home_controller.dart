@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:sample_project/controllers/api_controller.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find<HomeController>();
@@ -24,11 +22,6 @@ subscription newsFeedSubscription {
   @override
   void onReady() {
     super.onReady();
-    ApiController.subscribe(
-      SubscriptionOptions(
-        document: gql(newsSubscription),
-      ),
-    );
   }
 
   @override
