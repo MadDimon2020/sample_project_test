@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart' as sql;
 class DBHelper {
   static FutureOr<sql.Database> initDataBase() async {
     final dbPath = await sql.getDatabasesPath();
-    log('Local DataBase Created', name: 'DBHelper');
+    log('Initializing local database', name: 'DBHelper');
     return sql.openDatabase(
       path.join(dbPath, 'reading_list.db'),
       onCreate: (db, version) {

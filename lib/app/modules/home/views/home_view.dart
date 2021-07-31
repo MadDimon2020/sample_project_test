@@ -26,6 +26,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.grey[400],
@@ -184,8 +185,17 @@ class HomeView extends GetView<HomeController> {
                                                   ),
                                                 )),
                                             child: Text('SAVE'),
-                                            onPressed: () {
+                                            onPressed: () async {
                                               print('SAVE-Button pressed');
+                                              await controller
+                                                  .insertToReadingList({
+                                                'post_id':
+                                                    '${fetchedNews[index].id}'
+                                              });
+                                              var dataList = await controller
+                                                  .readingListDB
+                                                  .query('post_ids');
+                                              print(dataList);
                                             },
                                           ),
                                         ),
