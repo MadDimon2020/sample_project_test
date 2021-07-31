@@ -29,7 +29,6 @@ class HomeView extends GetView<HomeController> {
     Get.put(HomeController());
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.grey[400],
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.menu), onPressed: _openDrawer),
         title: Text('Awesome Posts'),
@@ -53,7 +52,7 @@ class HomeView extends GetView<HomeController> {
           }
           var fetchedNews =
               NewsFeed$SubscriptionRoot.fromJson(result.data).news;
-          return CupertinoScrollbar(
+          return Scrollbar(
             isAlwaysShown: true,
             child: ListView.builder(
               itemBuilder: (context, index) {
@@ -72,10 +71,10 @@ class HomeView extends GetView<HomeController> {
                     },
                     splashColor: Theme.of(context).primaryColor,
                     child: Card(
-                      color: Colors.grey[200],
+                      color: Colors.grey[300],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0)),
-                      elevation: 5.0,
+                      elevation: 8.0,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -165,38 +164,81 @@ class HomeView extends GetView<HomeController> {
                                       flex: 25,
                                       child: Container(
                                         child: Align(
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                                padding: MaterialStateProperty
-                                                    .all<EdgeInsets>(
-                                                  EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          deviceWidth * 0.04),
-                                                ),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all<
-                                                        Color>(Colors.green),
-                                                shape: MaterialStateProperty
-                                                    .all<OutlinedBorder>(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0),
+                                          child: Obx(
+                                            () => ElevatedButton(
+                                              style: ButtonStyle(
+                                                  padding: MaterialStateProperty
+                                                      .all<EdgeInsets>(
+                                                    EdgeInsets.symmetric(
+                                                        horizontal:
+                                                            deviceWidth * 0.04),
                                                   ),
-                                                )),
-                                            child: Text('SAVE'),
-                                            onPressed: () async {
-                                              print('SAVE-Button pressed');
-                                              await controller
-                                                  .insertToReadingList({
-                                                'post_id':
-                                                    '${fetchedNews[index].id}'
-                                              });
-                                              var dataList = await controller
-                                                  .readingListDB
-                                                  .query('post_ids');
-                                              print(dataList);
-                                            },
+                                                  backgroundColor: !controller
+                                                          .readingList
+                                                          .contains(
+                                                              fetchedNews[index]
+                                                                  .id)
+                                                      ? MaterialStateProperty
+                                                          .all<Color>(
+                                                              Colors.green)
+                                                      : MaterialStateProperty
+                                                          .all<Color>(
+                                                              Colors.red),
+                                                  shape: MaterialStateProperty
+                                                      .all<OutlinedBorder>(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0),
+                                                    ),
+                                                  )),
+                                              child: Text(!controller
+                                                      .readingList
+                                                      .contains(
+                                                          fetchedNews[index].id)
+                                                  ? '  SAVE  '
+                                                  : 'UNSAVE'),
+                                              onPressed: () async {
+                                                print('SAVE-Button pressed');
+                                                var dataList = await controller
+                                                    .readingListDB
+                                                    .query(
+                                                  'post_ids',
+                                                  columns: ['post_id'],
+                                                  where: 'post_id = ?',
+                                                  whereArgs: [
+                                                    fetchedNews[index].id
+                                                  ],
+                                                );
+                                                dataList.length == 0
+                                                    ? await controller
+                                                        .insertToDatabase({
+                                                        'post_id':
+                                                            '${fetchedNews[index].id}'
+                                                      })
+                                                    : controller
+                                                        .deleteFromDatabase(
+                                                            fetchedNews[index]
+                                                                .id);
+                                                !controller.readingList
+                                                        .contains(
+                                                            fetchedNews[index]
+                                                                .id)
+                                                    ? controller
+                                                        .insertToReadingList(
+                                                            fetchedNews[index]
+                                                                .id)
+                                                    : controller
+                                                        .deleteFromReadingList(
+                                                            fetchedNews[index]
+                                                                .id);
+                                                dataList = await controller
+                                                    .readingListDB
+                                                    .query('post_ids');
+                                                print(dataList);
+                                                print(controller.readingList);
+                                              },
+                                            ),
                                           ),
                                         ),
                                       ),

@@ -1,8 +1,9 @@
 import 'dart:developer';
+import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:sample_project/app/base/utils/db_helper.dart';
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:path/path.dart' as path;
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find<HomeController>();
@@ -18,24 +19,54 @@ class HomeController extends GetxController {
 // }
 // ''';
 
+  static FutureOr<sql.Database> _initDataBase() async {
+    final dbPath = await sql.getDatabasesPath();
+    log('Initializing local database', name: 'DBHelper');
+    return sql.openDatabase(
+      path.join(dbPath, 'reading_list.db'),
+      onCreate: (db, version) {
+        return db.execute('CREATE TABLE post_ids(post_id TEXT PRIMARY KEY)');
+      },
+      version: 1,
+    );
+  }
+
   static sql.Database _readingListDB;
   sql.Database get readingListDB => _readingListDB;
-  static List<String> _readingList;
-  List<String> get readingList => _readingList;
 
-  Future<void> insertToReadingList(Map<String, Object> data) async {
+  RxList<String> _readingList = RxList<String>();
+  RxList<String> get readingList => _readingList;
+
+  Future<void> insertToDatabase(Map<String, Object> data) async {
     await _readingListDB.insert('post_ids', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     log('The following data has been inserted to the local database: $data',
-        name: 'DBHelper.insert');
+        name: 'HomeController');
+  }
+
+  Future<void> deleteFromDatabase(String postId) async {
+    await _readingListDB
+        .delete('post_ids', where: 'post_id = ?', whereArgs: [postId]);
+  }
+
+  void insertToReadingList(String postId) {
+    _readingList.insert(0, postId);
+  }
+
+  void deleteFromReadingList(String postId) {
+    _readingList.removeWhere((element) => element == postId);
   }
 
   @override
   void onInit() async {
     super.onInit();
-    _readingListDB = await DBHelper.initDataBase();
-    List<Map<String, dynamic>> dataList = await DBHelper.getData('post_ids');
-    print('The Database contains the data: $dataList');
+    _readingListDB = await _initDataBase();
+    var dataList = await _readingListDB.query('post_ids');
+    log('The Database contains the data: $dataList',
+        name: 'HomeController.onInit()');
+    _readingList = dataList?.map((e) => e['post_id'].toString())?.toList()?.obs;
+    log('The readingList contains the data: $readingList',
+        name: 'HomeController.onInit()');
   }
 
   @override
