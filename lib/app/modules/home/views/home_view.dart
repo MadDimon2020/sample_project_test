@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -199,7 +201,8 @@ class HomeView extends GetView<HomeController> {
                                                   ? '  SAVE  '
                                                   : 'UNSAVE'),
                                               onPressed: () async {
-                                                print('SAVE-Button pressed');
+                                                log('Save/Unsave-button pressed',
+                                                    name: 'HomeView');
                                                 var dataList = await controller
                                                     .readingListDB
                                                     .query(

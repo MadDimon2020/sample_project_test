@@ -21,7 +21,7 @@ class HomeController extends GetxController {
 
   static FutureOr<sql.Database> _initDataBase() async {
     final dbPath = await sql.getDatabasesPath();
-    log('Initializing local database', name: 'DBHelper');
+    log('Initializing local database', name: 'HomeController');
     return sql.openDatabase(
       path.join(dbPath, 'reading_list.db'),
       onCreate: (db, version) {
@@ -47,6 +47,7 @@ class HomeController extends GetxController {
   Future<void> deleteFromDatabase(String postId) async {
     await _readingListDB
         .delete('post_ids', where: 'post_id = ?', whereArgs: [postId]);
+    log('The following data has been removed from the local database: $postId');
   }
 
   void insertToReadingList(String postId) {
