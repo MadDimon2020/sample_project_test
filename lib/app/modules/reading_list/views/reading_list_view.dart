@@ -28,11 +28,12 @@ class ReadingListView extends GetView<ReadingListController> {
         title: Text('My Reading List'),
         centerTitle: true,
       ),
-      body: Subscription(
-        options: SubscriptionOptions(
-          document: NewsFeedSubscription().document,
+      body: Query(
+        options: QueryOptions(
+          document: gql(ReadingListController.readingList),
+          variables: {"_in": homeController.readingList},
         ),
-        builder: (result) {
+        builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {
             return Center(
               child: Text(result.exception.toString()),
@@ -43,251 +44,327 @@ class ReadingListView extends GetView<ReadingListController> {
               child: CircularProgressIndicator(),
             );
           }
-          var fetchedNews =
-              NewsFeed$SubscriptionRoot.fromJson(result.data).news;
-          return Scrollbar(
-            isAlwaysShown: true,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Container(
-                  height: _masterContainerHeight,
-                  width: _masterContainerWidth,
-                  margin: EdgeInsets.only(
-                    left: _masterContainerMargin,
-                    right: _masterContainerMargin,
-                    top: _masterContainerMargin * 2,
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.POST_DETAILS,
-                          arguments: [fetchedNews[index].id]);
-                    },
-                    splashColor: Theme.of(context).primaryColor,
+          var fetchedNews = result.data['news'] as List<dynamic>;
+          return fetchedNews.length == 0
+              ? Center(
+                  child: Container(
+                    height: _masterContainerHeight,
+                    padding: EdgeInsets.all(_masterContainerMargin),
                     child: Card(
-                      color: Colors.grey[300],
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      elevation: 8.0,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.greenAccent,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            flex: 80,
-                            child: Row(children: [
-                              Flexible(
-                                flex: 70,
-                                child: Column(
-                                  children: [
-                                    Flexible(
-                                      flex: 70,
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                          top: _masterContainerWidth * 0.03,
-                                          left: _masterContainerWidth * 0.04,
-                                          right: _masterContainerWidth * 0.04,
-                                        ),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            fetchedNews[index].title,
-                                            style: TextStyle(
-                                              fontSize:
-                                                  _masterContainerHeight * 0.10,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            maxLines: 4,
-                                            softWrap: true,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      flex: 30,
-                                      child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                          vertical:
-                                              _masterContainerHeight * 0.04,
-                                          horizontal:
-                                              _masterContainerWidth * 0.04,
-                                        ),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            fetchedNews[index].content,
-                                            style: TextStyle(
-                                              fontSize:
-                                                  _masterContainerHeight * 0.07,
-                                            ),
-                                            maxLines: 2,
-                                            softWrap: true,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                        children: <Widget>[
+                          Expanded(
+                            flex: 65,
+                            child: Align(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: _masterContainerMargin),
+                                child: Text(
+                                  'You have no posts added to your reading list. Please return to the home page and select the desired news by pressing the "SAVE" button.',
+                                  textAlign: TextAlign.center,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: deviceHeight * 0.025,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Flexible(
-                                flex: 30,
-                                child: Column(
-                                  children: [
-                                    Flexible(
-                                      flex: 75,
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                          top: _masterContainerWidth * 0.03,
-                                          right: _masterContainerWidth * 0.03,
-                                        ),
-                                        child: Align(
-                                          alignment: Alignment.topCenter,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            child: Image.asset(
-                                              'assets/images/user-image-placeholder.jpg',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      flex: 25,
-                                      child: Container(
-                                        child: Align(
-                                          child: Obx(
-                                            () => ElevatedButton(
-                                              style: ButtonStyle(
-                                                  padding: MaterialStateProperty
-                                                      .all<EdgeInsets>(
-                                                    EdgeInsets.symmetric(
-                                                        horizontal:
-                                                            deviceWidth * 0.04),
-                                                  ),
-                                                  backgroundColor: !homeController
-                                                          .readingList
-                                                          .contains(
-                                                              fetchedNews[index]
-                                                                  .id)
-                                                      ? MaterialStateProperty
-                                                          .all<Color>(
-                                                              Colors.green)
-                                                      : MaterialStateProperty
-                                                          .all<Color>(
-                                                              Colors.red),
-                                                  shape: MaterialStateProperty
-                                                      .all<OutlinedBorder>(
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                  )),
-                                              child: Text(!homeController
-                                                      .readingList
-                                                      .contains(
-                                                          fetchedNews[index].id)
-                                                  ? '  SAVE  '
-                                                  : 'UNSAVE'),
-                                              onPressed: () {},
-                                              // onPressed: () async {
-                                              //   log('Save/Unsave-button pressed',
-                                              //       name: 'HomeView');
-                                              //   var dataList =
-                                              //       await homeController
-                                              //           .readingListDB
-                                              //           .query(
-                                              //     'post_ids',
-                                              //     columns: ['post_id'],
-                                              //     where: 'post_id = ?',
-                                              //     whereArgs: [
-                                              //       fetchedNews[index].id
-                                              //     ],
-                                              //   );
-                                              //   dataList.length == 0
-                                              //       ? await homeController
-                                              //           .insertToDatabase({
-                                              //           'post_id':
-                                              //               '${fetchedNews[index].id}'
-                                              //         })
-                                              //       : homeController
-                                              //           .deleteFromDatabase(
-                                              //               fetchedNews[index]
-                                              //                   .id);
-                                              //   !homeController.readingList
-                                              //           .contains(
-                                              //               fetchedNews[index]
-                                              //                   .id)
-                                              //       ? homeController
-                                              //           .insertToReadingList(
-                                              //               fetchedNews[index]
-                                              //                   .id)
-                                              //       : homeController
-                                              //           .deleteFromReadingList(
-                                              //               fetchedNews[index]
-                                              //                   .id);
-                                              //   dataList = await homeController
-                                              //       .readingListDB
-                                              //       .query('post_ids');
-                                              //   print(dataList);
-                                              //   print(
-                                              //       homeController.readingList);
-                                              // },
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ]),
+                            ),
                           ),
-                          Flexible(
-                            flex: 20,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Flexible(
-                                  flex: 55,
-                                  child: Container(
-                                    child: Align(
-                                      child: Text(
-                                        '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index].createdAt.toString()))}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                _masterContainerHeight * 0.07),
+                          Expanded(
+                            flex: 35,
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                    elevation:
+                                        MaterialStateProperty.all<double>(8.0),
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                    ),
-                                  ),
+                                    )),
+                                icon: Icon(Icons.home),
+                                label: Text(
+                                  'Return to the Homepage',
+                                  style: TextStyle(
+                                      fontSize: deviceHeight * 0.025,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Flexible(
-                                  flex: 45,
-                                  child: Container(
-                                    child: Align(
-                                      child: Text(
-                                        'Posted by {author name}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                _masterContainerHeight * 0.07),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
+                )
+              : Scrollbar(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: _masterContainerHeight,
+                        width: _masterContainerWidth,
+                        margin: EdgeInsets.only(
+                          left: _masterContainerMargin,
+                          right: _masterContainerMargin,
+                          top: _masterContainerMargin * 2,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.POST_DETAILS,
+                                arguments: [fetchedNews[index]['id']]);
+                          },
+                          splashColor: Theme.of(context).primaryColor,
+                          child: Card(
+                            color: Colors.grey[300],
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            elevation: 8.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  flex: 80,
+                                  child: Row(children: [
+                                    Flexible(
+                                      flex: 70,
+                                      child: Column(
+                                        children: [
+                                          Flexible(
+                                            flex: 70,
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                top: _masterContainerWidth *
+                                                    0.03,
+                                                left: _masterContainerWidth *
+                                                    0.04,
+                                                right: _masterContainerWidth *
+                                                    0.04,
+                                              ),
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  fetchedNews[index]['title'],
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        _masterContainerHeight *
+                                                            0.10,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  maxLines: 4,
+                                                  softWrap: true,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            flex: 30,
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(
+                                                vertical:
+                                                    _masterContainerHeight *
+                                                        0.04,
+                                                horizontal:
+                                                    _masterContainerWidth *
+                                                        0.04,
+                                              ),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  fetchedNews[index]['content'],
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        _masterContainerHeight *
+                                                            0.07,
+                                                  ),
+                                                  maxLines: 2,
+                                                  softWrap: true,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 30,
+                                      child: Column(
+                                        children: [
+                                          Flexible(
+                                            flex: 75,
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                top: _masterContainerWidth *
+                                                    0.03,
+                                                right: _masterContainerWidth *
+                                                    0.03,
+                                              ),
+                                              child: Align(
+                                                alignment: Alignment.topCenter,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  child: Image.asset(
+                                                    'assets/images/user-image-placeholder.jpg',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            flex: 25,
+                                            child: Container(
+                                              child: Align(
+                                                child: Obx(
+                                                  () => ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        padding: MaterialStateProperty
+                                                            .all<EdgeInsets>(
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  deviceWidth *
+                                                                      0.04),
+                                                        ),
+                                                        backgroundColor: !homeController
+                                                                .readingList
+                                                                .contains(
+                                                                    fetchedNews[index]
+                                                                        ['id'])
+                                                            ? MaterialStateProperty.all<Color>(
+                                                                Colors.green)
+                                                            : MaterialStateProperty
+                                                                .all<Color>(
+                                                                    Colors.red),
+                                                        shape: MaterialStateProperty
+                                                            .all<OutlinedBorder>(
+                                                          RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0),
+                                                          ),
+                                                        )),
+                                                    child: Text(!homeController
+                                                            .readingList
+                                                            .contains(
+                                                                fetchedNews[
+                                                                        index]
+                                                                    ['id'])
+                                                        ? '  SAVE  '
+                                                        : 'UNSAVE'),
+                                                    onPressed: () {},
+                                                    // onPressed: () async {
+                                                    //   log('Save/Unsave-button pressed',
+                                                    //       name: 'HomeView');
+                                                    //   var dataList =
+                                                    //       await homeController
+                                                    //           .readingListDB
+                                                    //           .query(
+                                                    //     'post_ids',
+                                                    //     columns: ['post_id'],
+                                                    //     where: 'post_id = ?',
+                                                    //     whereArgs: [
+                                                    //       fetchedNews[index].id
+                                                    //     ],
+                                                    //   );
+                                                    //   dataList.length == 0
+                                                    //       ? await homeController
+                                                    //           .insertToDatabase({
+                                                    //           'post_id':
+                                                    //               '${fetchedNews[index].id}'
+                                                    //         })
+                                                    //       : homeController
+                                                    //           .deleteFromDatabase(
+                                                    //               fetchedNews[index]
+                                                    //                   .id);
+                                                    //   !homeController.readingList
+                                                    //           .contains(
+                                                    //               fetchedNews[index]
+                                                    //                   .id)
+                                                    //       ? homeController
+                                                    //           .insertToReadingList(
+                                                    //               fetchedNews[index]
+                                                    //                   .id)
+                                                    //       : homeController
+                                                    //           .deleteFromReadingList(
+                                                    //               fetchedNews[index]
+                                                    //                   .id);
+                                                    //   dataList = await homeController
+                                                    //       .readingListDB
+                                                    //       .query('post_ids');
+                                                    //   print(dataList);
+                                                    //   print(
+                                                    //       homeController.readingList);
+                                                    // },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                                Flexible(
+                                  flex: 20,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Flexible(
+                                        flex: 55,
+                                        child: Container(
+                                          child: Align(
+                                            child: Text(
+                                              '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index]['created_at'].toString()))}',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      _masterContainerHeight *
+                                                          0.07),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 45,
+                                        child: Container(
+                                          child: Align(
+                                            child: Text(
+                                              'Posted by {author name}',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      _masterContainerHeight *
+                                                          0.07),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: fetchedNews.length,
+                  ),
                 );
-              },
-              itemCount: fetchedNews.length,
-            ),
-          );
         },
       ),
     );
