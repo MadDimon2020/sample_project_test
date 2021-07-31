@@ -290,14 +290,6 @@ class ReadingListView extends GetView<ReadingListController> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add a new post',
-        backgroundColor: Colors.blue.withOpacity(0.7),
-        child: Icon(Icons.add),
-        onPressed: () {
-          Get.toNamed(Routes.NEW_POST);
-        },
-      ),
     );
   }
 }
