@@ -25,7 +25,7 @@ class ReadingListView extends GetView<ReadingListController> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Awesome Posts'),
+        title: Text('My Reading List'),
         centerTitle: true,
       ),
       body: Subscription(
@@ -191,49 +191,50 @@ class ReadingListView extends GetView<ReadingListController> {
                                                           fetchedNews[index].id)
                                                   ? '  SAVE  '
                                                   : 'UNSAVE'),
-                                              onPressed: () async {
-                                                log('Save/Unsave-button pressed',
-                                                    name: 'HomeView');
-                                                var dataList =
-                                                    await homeController
-                                                        .readingListDB
-                                                        .query(
-                                                  'post_ids',
-                                                  columns: ['post_id'],
-                                                  where: 'post_id = ?',
-                                                  whereArgs: [
-                                                    fetchedNews[index].id
-                                                  ],
-                                                );
-                                                dataList.length == 0
-                                                    ? await homeController
-                                                        .insertToDatabase({
-                                                        'post_id':
-                                                            '${fetchedNews[index].id}'
-                                                      })
-                                                    : homeController
-                                                        .deleteFromDatabase(
-                                                            fetchedNews[index]
-                                                                .id);
-                                                !homeController.readingList
-                                                        .contains(
-                                                            fetchedNews[index]
-                                                                .id)
-                                                    ? homeController
-                                                        .insertToReadingList(
-                                                            fetchedNews[index]
-                                                                .id)
-                                                    : homeController
-                                                        .deleteFromReadingList(
-                                                            fetchedNews[index]
-                                                                .id);
-                                                dataList = await homeController
-                                                    .readingListDB
-                                                    .query('post_ids');
-                                                print(dataList);
-                                                print(
-                                                    homeController.readingList);
-                                              },
+                                              onPressed: () {},
+                                              // onPressed: () async {
+                                              //   log('Save/Unsave-button pressed',
+                                              //       name: 'HomeView');
+                                              //   var dataList =
+                                              //       await homeController
+                                              //           .readingListDB
+                                              //           .query(
+                                              //     'post_ids',
+                                              //     columns: ['post_id'],
+                                              //     where: 'post_id = ?',
+                                              //     whereArgs: [
+                                              //       fetchedNews[index].id
+                                              //     ],
+                                              //   );
+                                              //   dataList.length == 0
+                                              //       ? await homeController
+                                              //           .insertToDatabase({
+                                              //           'post_id':
+                                              //               '${fetchedNews[index].id}'
+                                              //         })
+                                              //       : homeController
+                                              //           .deleteFromDatabase(
+                                              //               fetchedNews[index]
+                                              //                   .id);
+                                              //   !homeController.readingList
+                                              //           .contains(
+                                              //               fetchedNews[index]
+                                              //                   .id)
+                                              //       ? homeController
+                                              //           .insertToReadingList(
+                                              //               fetchedNews[index]
+                                              //                   .id)
+                                              //       : homeController
+                                              //           .deleteFromReadingList(
+                                              //               fetchedNews[index]
+                                              //                   .id);
+                                              //   dataList = await homeController
+                                              //       .readingListDB
+                                              //       .query('post_ids');
+                                              //   print(dataList);
+                                              //   print(
+                                              //       homeController.readingList);
+                                              // },
                                             ),
                                           ),
                                         ),
