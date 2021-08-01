@@ -7,7 +7,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
-import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/reading_list_controller.dart';
 
@@ -45,7 +44,9 @@ class ReadingListView extends GetView<ReadingListController> {
             );
           }
           var fetchedNews = result.data['news'] as List<dynamic>;
-          return fetchedNews.length == 0
+          var orderedReadingList =
+              ReadingListController.to.orderFetchedData(fetchedNews);
+          return orderedReadingList.isEmpty
               ? Center(
                   child: Container(
                     height: _masterContainerHeight,
@@ -120,7 +121,7 @@ class ReadingListView extends GetView<ReadingListController> {
                         child: InkWell(
                           onTap: () {
                             Get.toNamed(Routes.POST_DETAILS,
-                                arguments: [fetchedNews[index]['id']]);
+                                arguments: [orderedReadingList[index]['id']]);
                           },
                           splashColor: Theme.of(context).primaryColor,
                           child: Card(
@@ -152,7 +153,8 @@ class ReadingListView extends GetView<ReadingListController> {
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                  fetchedNews[index]['title'],
+                                                  orderedReadingList[index]
+                                                      ['title'],
                                                   style: TextStyle(
                                                     fontSize:
                                                         _masterContainerHeight *
@@ -181,7 +183,8 @@ class ReadingListView extends GetView<ReadingListController> {
                                               child: Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  fetchedNews[index]['content'],
+                                                  orderedReadingList[index]
+                                                      ['content'],
                                                   style: TextStyle(
                                                     fontSize:
                                                         _masterContainerHeight *
@@ -242,7 +245,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                                         backgroundColor: !homeController
                                                                 .readingList
                                                                 .contains(
-                                                                    fetchedNews[index]
+                                                                    orderedReadingList[index]
                                                                         ['id'])
                                                             ? MaterialStateProperty.all<Color>(
                                                                 Colors.green)
@@ -261,12 +264,14 @@ class ReadingListView extends GetView<ReadingListController> {
                                                     child: Text(!homeController
                                                             .readingList
                                                             .contains(
-                                                                fetchedNews[
+                                                                orderedReadingList[
                                                                         index]
                                                                     ['id'])
                                                         ? '  SAVE  '
                                                         : 'UNSAVE'),
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      print(orderedReadingList);
+                                                    },
                                                     // onPressed: () async {
                                                     //   log('Save/Unsave-button pressed',
                                                     //       name: 'HomeView');
@@ -330,7 +335,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                         child: Container(
                                           child: Align(
                                             child: Text(
-                                              '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index]['created_at'].toString()))}',
+                                              '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(orderedReadingList[index]['created_at'].toString()))}',
                                               style: TextStyle(
                                                   fontSize:
                                                       _masterContainerHeight *
@@ -362,7 +367,7 @@ class ReadingListView extends GetView<ReadingListController> {
                         ),
                       );
                     },
-                    itemCount: fetchedNews.length,
+                    itemCount: orderedReadingList.length,
                   ),
                 );
         },

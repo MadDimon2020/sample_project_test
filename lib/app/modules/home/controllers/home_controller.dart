@@ -51,7 +51,7 @@ class HomeController extends GetxController {
   }
 
   void insertToReadingList(String postId) {
-    _readingList.insert(0, postId);
+    _readingList.add(postId);
   }
 
   void deleteFromReadingList(String postId) {
