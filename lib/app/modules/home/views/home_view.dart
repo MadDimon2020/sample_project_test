@@ -8,6 +8,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
+import 'package:sample_project/controllers/controllers.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/home_controller.dart';
@@ -54,6 +55,7 @@ class HomeView extends GetView<HomeController> {
           }
           var fetchedNews =
               NewsFeed$SubscriptionRoot.fromJson(result.data).news;
+          print(UserController.userId);
           return Scrollbar(
             isAlwaysShown: true,
             child: ListView.builder(
