@@ -44,9 +44,10 @@ class ReadingListView extends GetView<ReadingListController> {
             );
           }
           var fetchedNews = result.data['news'] as List<dynamic>;
-          var orderedReadingList =
-              ReadingListController.to.orderFetchedData(fetchedNews);
-          return orderedReadingList.isEmpty
+          var orderedReadingList = fetchedNews != null
+              ? ReadingListController.to.orderFetchedData(fetchedNews)
+              : null;
+          return orderedReadingList == null
               ? Center(
                   child: Container(
                     height: _masterContainerHeight,
@@ -232,90 +233,44 @@ class ReadingListView extends GetView<ReadingListController> {
                                             flex: 25,
                                             child: Container(
                                               child: Align(
-                                                child: Obx(
-                                                  () => ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        padding: MaterialStateProperty
-                                                            .all<EdgeInsets>(
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  deviceWidth *
-                                                                      0.04),
+                                                child: ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      padding:
+                                                          MaterialStateProperty
+                                                              .all<EdgeInsets>(
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                deviceWidth *
+                                                                    0.04),
+                                                      ),
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all<Color>(
+                                                                  Colors.red),
+                                                      shape: MaterialStateProperty
+                                                          .all<OutlinedBorder>(
+                                                        RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15.0),
                                                         ),
-                                                        backgroundColor: !homeController
-                                                                .readingList
-                                                                .contains(
-                                                                    orderedReadingList[index]
-                                                                        ['id'])
-                                                            ? MaterialStateProperty.all<Color>(
-                                                                Colors.green)
-                                                            : MaterialStateProperty
-                                                                .all<Color>(
-                                                                    Colors.red),
-                                                        shape: MaterialStateProperty
-                                                            .all<OutlinedBorder>(
-                                                          RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15.0),
-                                                          ),
-                                                        )),
-                                                    child: Text(!homeController
-                                                            .readingList
-                                                            .contains(
-                                                                orderedReadingList[
-                                                                        index]
-                                                                    ['id'])
-                                                        ? '  SAVE  '
-                                                        : 'UNSAVE'),
-                                                    onPressed: () {
-                                                      print(orderedReadingList);
-                                                    },
-                                                    // onPressed: () async {
-                                                    //   log('Save/Unsave-button pressed',
-                                                    //       name: 'HomeView');
-                                                    //   var dataList =
-                                                    //       await homeController
-                                                    //           .readingListDB
-                                                    //           .query(
-                                                    //     'post_ids',
-                                                    //     columns: ['post_id'],
-                                                    //     where: 'post_id = ?',
-                                                    //     whereArgs: [
-                                                    //       fetchedNews[index].id
-                                                    //     ],
-                                                    //   );
-                                                    //   dataList.length == 0
-                                                    //       ? await homeController
-                                                    //           .insertToDatabase({
-                                                    //           'post_id':
-                                                    //               '${fetchedNews[index].id}'
-                                                    //         })
-                                                    //       : homeController
-                                                    //           .deleteFromDatabase(
-                                                    //               fetchedNews[index]
-                                                    //                   .id);
-                                                    //   !homeController.readingList
-                                                    //           .contains(
-                                                    //               fetchedNews[index]
-                                                    //                   .id)
-                                                    //       ? homeController
-                                                    //           .insertToReadingList(
-                                                    //               fetchedNews[index]
-                                                    //                   .id)
-                                                    //       : homeController
-                                                    //           .deleteFromReadingList(
-                                                    //               fetchedNews[index]
-                                                    //                   .id);
-                                                    //   dataList = await homeController
-                                                    //       .readingListDB
-                                                    //       .query('post_ids');
-                                                    //   print(dataList);
-                                                    //   print(
-                                                    //       homeController.readingList);
-                                                    // },
-                                                  ),
+                                                      )),
+                                                  child: Text('UNSAVE'),
+                                                  onPressed: () async {
+                                                    log('Unsave-button pressed',
+                                                        name:
+                                                            'ReadingListView');
+                                                    await homeController
+                                                        .deleteFromDatabase(
+                                                            orderedReadingList[
+                                                                index]['id']);
+                                                    homeController
+                                                        .deleteFromReadingList(
+                                                            orderedReadingList[
+                                                                index]['id']);
+                                                    await refetch();
+                                                  },
                                                 ),
                                               ),
                                             ),
