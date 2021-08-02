@@ -16,13 +16,11 @@ class ReadingListView extends GetView<ReadingListController> {
   double get _masterContainerWidth => deviceWidth;
   double get _masterContainerHeight => _masterContainerWidth * 0.53;
   double get _masterContainerMargin => deviceWidth * 0.015;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final homeController = Get.put(HomeController());
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('My Reading List'),
         centerTitle: true,
@@ -131,193 +129,222 @@ class ReadingListView extends GetView<ReadingListController> {
                                 borderRadius: BorderRadius.circular(15.0)),
                             elevation: 8.0,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  flex: 80,
-                                  child: Row(children: [
-                                    Flexible(
-                                      flex: 70,
-                                      child: Column(
-                                        children: [
-                                          Flexible(
-                                            flex: 70,
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                top: _masterContainerWidth *
-                                                    0.03,
-                                                left: _masterContainerWidth *
-                                                    0.04,
-                                                right: _masterContainerWidth *
-                                                    0.04,
-                                              ),
-                                              child: Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  orderedReadingList[index]
-                                                      ['title'],
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        _masterContainerHeight *
-                                                            0.10,
-                                                    fontWeight: FontWeight.bold,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    flex: 80,
+                                    child: Row(children: [
+                                      Flexible(
+                                        flex: 70,
+                                        child: Column(
+                                          children: [
+                                            Flexible(
+                                              flex: 60,
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  top: _masterContainerWidth *
+                                                      0.03,
+                                                  left: _masterContainerWidth *
+                                                      0.04,
+                                                  right: _masterContainerWidth *
+                                                      0.04,
+                                                ),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    orderedReadingList[index]
+                                                        ['title'],
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          _masterContainerHeight *
+                                                              0.10,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 4,
+                                                    softWrap: true,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
-                                                  maxLines: 4,
-                                                  softWrap: true,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Flexible(
-                                            flex: 30,
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                vertical:
-                                                    _masterContainerHeight *
-                                                        0.04,
-                                                horizontal:
-                                                    _masterContainerWidth *
-                                                        0.04,
-                                              ),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  orderedReadingList[index]
-                                                      ['content'],
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        _masterContainerHeight *
-                                                            0.07,
+                                            Flexible(
+                                              flex: 25,
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical:
+                                                      _masterContainerHeight *
+                                                          0.04,
+                                                  horizontal:
+                                                      _masterContainerWidth *
+                                                          0.04,
+                                                ),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    orderedReadingList[index]
+                                                        ['content'],
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          _masterContainerHeight *
+                                                              0.07,
+                                                    ),
+                                                    maxLines: 2,
+                                                    softWrap: true,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
-                                                  maxLines: 2,
-                                                  softWrap: true,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            Flexible(
+                                              flex: 15,
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    bottom:
+                                                        _masterContainerHeight *
+                                                            0.03),
+                                                child: Align(
+                                                  child: Text(
+                                                    '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(orderedReadingList[index]['created_at'].toString()))}',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            _masterContainerHeight *
+                                                                0.07),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      flex: 30,
-                                      child: Column(
-                                        children: [
-                                          Flexible(
-                                            flex: 75,
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                top: _masterContainerWidth *
-                                                    0.03,
-                                                right: _masterContainerWidth *
-                                                    0.03,
-                                              ),
-                                              child: Align(
-                                                alignment: Alignment.topCenter,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  child: Image.asset(
-                                                    'assets/images/user-image-placeholder.jpg',
-                                                    fit: BoxFit.cover,
+                                      Flexible(
+                                        flex: 30,
+                                        child: Column(
+                                          children: [
+                                            Flexible(
+                                              flex: 60,
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  top: _masterContainerWidth *
+                                                      0.03,
+                                                  right: _masterContainerWidth *
+                                                      0.03,
+                                                ),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                    child: Image.asset(
+                                                      'assets/images/user-image-placeholder.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Flexible(
-                                            flex: 25,
-                                            child: Container(
-                                              child: Align(
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      padding:
-                                                          MaterialStateProperty
-                                                              .all<EdgeInsets>(
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                deviceWidth *
-                                                                    0.04),
+                                            Query(
+                                              options: QueryOptions(
+                                                document: gql(HomeController
+                                                    .userNameAndAvatarQuery),
+                                                variables: {
+                                                  'id':
+                                                      orderedReadingList[index]
+                                                          ['user_id']
+                                                },
+                                              ),
+                                              builder: (result,
+                                                  {fetchMore, refetch}) {
+                                                final userDetails =
+                                                    result.data['users_by_pk']
+                                                        as Map<String, dynamic>;
+                                                return Flexible(
+                                                  flex: 20,
+                                                  child: Container(
+                                                    child: Align(
+                                                      child: Text(
+                                                        userDetails != null
+                                                            ? userDetails[
+                                                                'display_name']
+                                                            : 'Author unknown',
+                                                        softWrap: true,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                _masterContainerHeight *
+                                                                    0.07),
                                                       ),
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.red),
-                                                      shape: MaterialStateProperty
-                                                          .all<OutlinedBorder>(
-                                                        RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      15.0),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            Flexible(
+                                              flex: 25,
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    bottom:
+                                                        _masterContainerHeight *
+                                                            0.04),
+                                                child: Align(
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        padding:
+                                                            MaterialStateProperty
+                                                                .all<
+                                                                    EdgeInsets>(
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  deviceWidth *
+                                                                      0.04),
                                                         ),
-                                                      )),
-                                                  child: Text('UNSAVE'),
-                                                  onPressed: () async {
-                                                    log('Unsave-button pressed',
-                                                        name:
-                                                            'ReadingListView');
-                                                    await homeController
-                                                        .deleteFromDatabase(
-                                                            orderedReadingList[
-                                                                index]['id']);
-                                                    homeController
-                                                        .deleteFromReadingList(
-                                                            orderedReadingList[
-                                                                index]['id']);
-                                                    await refetch();
-                                                  },
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all<Color>(
+                                                                    Colors.red),
+                                                        shape: MaterialStateProperty
+                                                            .all<
+                                                                OutlinedBorder>(
+                                                          RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0),
+                                                          ),
+                                                        )),
+                                                    child: Text('UNSAVE'),
+                                                    onPressed: () async {
+                                                      log('Unsave-button pressed',
+                                                          name:
+                                                              'ReadingListView');
+                                                      await homeController
+                                                          .deleteFromDatabase(
+                                                              orderedReadingList[
+                                                                  index]['id']);
+                                                      homeController
+                                                          .deleteFromReadingList(
+                                                              orderedReadingList[
+                                                                  index]['id']);
+                                                      await refetch();
+                                                    },
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                                ),
-                                Flexible(
-                                  flex: 20,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Flexible(
-                                        flex: 55,
-                                        child: Container(
-                                          child: Align(
-                                            child: Text(
-                                              '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(orderedReadingList[index]['created_at'].toString()))}',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      _masterContainerHeight *
-                                                          0.07),
-                                            ),
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                      Flexible(
-                                        flex: 45,
-                                        child: Container(
-                                          child: Align(
-                                            child: Text(
-                                              'Posted by {author name}',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      _masterContainerHeight *
-                                                          0.07),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                    ]),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ]),
                           ),
                         ),
                       );

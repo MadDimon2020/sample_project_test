@@ -90,7 +90,6 @@ class HomeView extends GetView<HomeController> {
           var fetchedNews =
               NewsFeed$SubscriptionRoot.fromJson(result.data).news;
           return Scrollbar(
-            isAlwaysShown: true,
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return Container(
@@ -235,6 +234,9 @@ class HomeView extends GetView<HomeController> {
                                                     ? userDetails[
                                                         'display_name']
                                                     : 'Author unknown',
+                                                softWrap: true,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontSize:
                                                         _masterContainerHeight *
