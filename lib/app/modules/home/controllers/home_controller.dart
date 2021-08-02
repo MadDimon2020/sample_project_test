@@ -23,6 +23,7 @@ class HomeController extends GetxController {
 query UserNameAndAvatar(\$id: uuid!) {
   users_by_pk(id: \$id) {
     display_name
+    avatar_url
   }
 }
 ''';

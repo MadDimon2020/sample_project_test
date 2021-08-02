@@ -173,6 +173,41 @@ class FetchPostByIdQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UserNameAndAvatar$QueryRoot$UsersByPk with EquatableMixin {
+  UserNameAndAvatar$QueryRoot$UsersByPk();
+
+  factory UserNameAndAvatar$QueryRoot$UsersByPk.fromJson(
+          Map<String, dynamic> json) =>
+      _$UserNameAndAvatar$QueryRoot$UsersByPkFromJson(json);
+
+  @JsonKey(name: 'display_name')
+  String displayName;
+
+  @JsonKey(name: 'avatar_url')
+  String avatarUrl;
+
+  @override
+  List<Object> get props => [displayName, avatarUrl];
+  Map<String, dynamic> toJson() =>
+      _$UserNameAndAvatar$QueryRoot$UsersByPkToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserNameAndAvatar$QueryRoot with EquatableMixin {
+  UserNameAndAvatar$QueryRoot();
+
+  factory UserNameAndAvatar$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$UserNameAndAvatar$QueryRootFromJson(json);
+
+  @JsonKey(name: 'users_by_pk')
+  UserNameAndAvatar$QueryRoot$UsersByPk usersByPk;
+
+  @override
+  List<Object> get props => [usersByPk];
+  Map<String, dynamic> toJson() => _$UserNameAndAvatar$QueryRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetCurrentUserArguments extends JsonSerializable with EquatableMixin {
   GetCurrentUserArguments({@required this.userId});
 
@@ -560,4 +595,78 @@ class FetchPostByIdQueryQuery extends GraphQLQuery<FetchPostByIdQuery$QueryRoot,
   @override
   FetchPostByIdQuery$QueryRoot parse(Map<String, dynamic> json) =>
       FetchPostByIdQuery$QueryRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserNameAndAvatarArguments extends JsonSerializable with EquatableMixin {
+  UserNameAndAvatarArguments({@required this.id});
+
+  @override
+  factory UserNameAndAvatarArguments.fromJson(Map<String, dynamic> json) =>
+      _$UserNameAndAvatarArgumentsFromJson(json);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$UserNameAndAvatarArgumentsToJson(this);
+}
+
+class UserNameAndAvatarQuery extends GraphQLQuery<UserNameAndAvatar$QueryRoot,
+    UserNameAndAvatarArguments> {
+  UserNameAndAvatarQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'UserNameAndAvatar'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'id')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'users_by_pk'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'id'),
+                    value: VariableNode(name: NameNode(value: 'id')))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'display_name'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'avatar_url'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'UserNameAndAvatar';
+
+  @override
+  final UserNameAndAvatarArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  UserNameAndAvatar$QueryRoot parse(Map<String, dynamic> json) =>
+      UserNameAndAvatar$QueryRoot.fromJson(json);
 }

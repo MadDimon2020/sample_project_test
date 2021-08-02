@@ -232,6 +232,51 @@ Map<String, dynamic> _$FetchPostByIdQuery$QueryRootToJson(
   return val;
 }
 
+UserNameAndAvatar$QueryRoot$UsersByPk
+    _$UserNameAndAvatar$QueryRoot$UsersByPkFromJson(Map<String, dynamic> json) {
+  return UserNameAndAvatar$QueryRoot$UsersByPk()
+    ..displayName = json['display_name'] as String
+    ..avatarUrl = json['avatar_url'] as String;
+}
+
+Map<String, dynamic> _$UserNameAndAvatar$QueryRoot$UsersByPkToJson(
+    UserNameAndAvatar$QueryRoot$UsersByPk instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_name', instance.displayName);
+  writeNotNull('avatar_url', instance.avatarUrl);
+  return val;
+}
+
+UserNameAndAvatar$QueryRoot _$UserNameAndAvatar$QueryRootFromJson(
+    Map<String, dynamic> json) {
+  return UserNameAndAvatar$QueryRoot()
+    ..usersByPk = json['users_by_pk'] == null
+        ? null
+        : UserNameAndAvatar$QueryRoot$UsersByPk.fromJson(
+            json['users_by_pk'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$UserNameAndAvatar$QueryRootToJson(
+    UserNameAndAvatar$QueryRoot instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('users_by_pk', instance.usersByPk?.toJson());
+  return val;
+}
+
 GetCurrentUserArguments _$GetCurrentUserArgumentsFromJson(
     Map<String, dynamic> json) {
   return GetCurrentUserArguments(
@@ -282,6 +327,27 @@ FetchPostByIdQueryArguments _$FetchPostByIdQueryArgumentsFromJson(
 
 Map<String, dynamic> _$FetchPostByIdQueryArgumentsToJson(
     FetchPostByIdQueryArguments instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+UserNameAndAvatarArguments _$UserNameAndAvatarArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return UserNameAndAvatarArguments(
+    id: json['id'] as String,
+  );
+}
+
+Map<String, dynamic> _$UserNameAndAvatarArgumentsToJson(
+    UserNameAndAvatarArguments instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

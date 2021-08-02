@@ -216,8 +216,8 @@ class HomeView extends GetView<HomeController> {
                                     if (fetchedNews[index].userId != null)
                                       Query(
                                         options: QueryOptions(
-                                          document: gql(HomeController
-                                              .userNameAndAvatarQuery),
+                                          document:
+                                              UserNameAndAvatarQuery().document,
                                           variables: {
                                             'id': fetchedNews[index].userId
                                           },
@@ -225,14 +225,15 @@ class HomeView extends GetView<HomeController> {
                                         builder: (result,
                                             {fetchMore, refetch}) {
                                           final userDetails =
-                                              result.data['users_by_pk']
-                                                  as Map<String, dynamic>;
+                                              UserNameAndAvatar$QueryRoot
+                                                      .fromJson(result.data)
+                                                  .usersByPk;
                                           return Flexible(
                                             flex: 20,
                                             child: Container(
                                               child: Align(
                                                 child: Text(
-                                                  userDetails['display_name'],
+                                                  userDetails.displayName,
                                                   softWrap: true,
                                                   maxLines: 2,
                                                   overflow:
