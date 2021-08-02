@@ -20,7 +20,7 @@ class HomeController extends GetxController {
 // ''';
 
   static String userNameAndAvatarQuery = '''
-query GetUserDetails(\$id: uuid!) {
+query UserNameAndAvatar(\$id: uuid!) {
   users_by_pk(id: \$id) {
     display_name
   }

@@ -47,12 +47,13 @@ class PostDetailsView extends GetView<PostDetailsController> {
                 children: <Widget>[
                   Flexible(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.04,
-                        deviceWidth * 0.04,
-                        deviceWidth * 0.06,
-                        deviceWidth * 0.04,
-                      ),
+                      // padding: EdgeInsets.fromLTRB(
+                      //   deviceWidth * 0.04,
+                      //   deviceWidth * 0.04,
+                      //   deviceWidth * 0.06,
+                      //   deviceWidth * 0.04,
+                      // ),
+                      padding: EdgeInsets.all(deviceWidth * 0.04),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -66,11 +67,14 @@ class PostDetailsView extends GetView<PostDetailsController> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: deviceHeight * 0.01,
+                  ),
                   Flexible(
+                    flex: 20,
                     child: Container(
                       padding: EdgeInsets.all(deviceWidth * 0.04),
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
                             child: Align(
@@ -84,6 +88,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                             ),
                           ),
                           Flexible(
+                            flex: 40,
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: deviceWidth * 0.02,
@@ -102,15 +107,16 @@ class PostDetailsView extends GetView<PostDetailsController> {
                             ),
                           ),
                           Flexible(
-                            fit: FlexFit.tight,
+                            flex: 40,
                             child: Container(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
                                   style: TextStyle(
-                                      fontSize: deviceHeight * 0.022,
+                                      fontSize: deviceHeight * 0.02,
                                       fontStyle: FontStyle.italic),
+                                  maxLines: 2,
                                 ),
                               ),
                             ),
@@ -118,6 +124,9 @@ class PostDetailsView extends GetView<PostDetailsController> {
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: deviceHeight * 0.01,
                   ),
                   Flexible(
                     child: Container(

@@ -213,40 +213,58 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                       ),
                                     ),
-                                    Query(
-                                      options: QueryOptions(
-                                        document: gql(HomeController
-                                            .userNameAndAvatarQuery),
-                                        variables: {
-                                          'id': fetchedNews[index].userId
-                                        },
-                                      ),
-                                      builder: (result, {fetchMore, refetch}) {
-                                        final userDetails =
-                                            result.data['users_by_pk']
-                                                as Map<String, dynamic>;
-                                        return Flexible(
-                                          flex: 20,
-                                          child: Container(
-                                            child: Align(
-                                              child: Text(
-                                                userDetails != null
-                                                    ? userDetails[
-                                                        'display_name']
-                                                    : 'Author unknown',
-                                                softWrap: true,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        _masterContainerHeight *
-                                                            0.07),
+                                    if (fetchedNews[index].userId != null)
+                                      Query(
+                                        options: QueryOptions(
+                                          document: gql(HomeController
+                                              .userNameAndAvatarQuery),
+                                          variables: {
+                                            'id': fetchedNews[index].userId
+                                          },
+                                        ),
+                                        builder: (result,
+                                            {fetchMore, refetch}) {
+                                          final userDetails =
+                                              result.data['users_by_pk']
+                                                  as Map<String, dynamic>;
+                                          return Flexible(
+                                            flex: 20,
+                                            child: Container(
+                                              child: Align(
+                                                child: Text(
+                                                  userDetails['display_name'],
+                                                  softWrap: true,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          _masterContainerHeight *
+                                                              0.07),
+                                                ),
                                               ),
                                             ),
+                                          );
+                                        },
+                                      )
+                                    else
+                                      Flexible(
+                                        flex: 20,
+                                        child: Container(
+                                          child: Align(
+                                            child: Text(
+                                              'Author unknown',
+                                              softWrap: true,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      _masterContainerHeight *
+                                                          0.07),
+                                            ),
                                           ),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      ),
                                     Flexible(
                                       flex: 20,
                                       child: Container(
