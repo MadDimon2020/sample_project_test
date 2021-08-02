@@ -45,7 +45,7 @@ class NewPostView extends GetView<NewPostController> {
                           snackPosition: SnackPosition.BOTTOM,
                         );
                         log(error.graphqlErrors.toString(),
-                            name: 'ApiController');
+                            name: 'NewPostView');
                       },
                       onCompleted: (data) {
                         print(data);
