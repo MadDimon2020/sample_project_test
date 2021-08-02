@@ -132,7 +132,8 @@ NewsFeed$SubscriptionRoot$News _$NewsFeed$SubscriptionRoot$NewsFromJson(
         ? null
         : DateTime.parse(json['created_at'] as String)
     ..id = json['id'] as String
-    ..title = json['title'] as String;
+    ..title = json['title'] as String
+    ..userId = json['user_id'] as String;
 }
 
 Map<String, dynamic> _$NewsFeed$SubscriptionRoot$NewsToJson(
@@ -149,6 +150,7 @@ Map<String, dynamic> _$NewsFeed$SubscriptionRoot$NewsToJson(
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('id', instance.id);
   writeNotNull('title', instance.title);
+  writeNotNull('user_id', instance.userId);
   return val;
 }
 
@@ -185,7 +187,8 @@ FetchPostByIdQuery$QueryRoot$NewsByPk
         ? null
         : DateTime.parse(json['created_at'] as String)
     ..id = json['id'] as String
-    ..title = json['title'] as String;
+    ..title = json['title'] as String
+    ..userId = json['user_id'] as String;
 }
 
 Map<String, dynamic> _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(
@@ -202,6 +205,7 @@ Map<String, dynamic> _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('id', instance.id);
   writeNotNull('title', instance.title);
+  writeNotNull('user_id', instance.userId);
   return val;
 }
 

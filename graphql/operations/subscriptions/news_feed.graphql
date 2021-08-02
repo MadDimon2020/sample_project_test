@@ -4,5 +4,6 @@ subscription newsFeed {
     created_at
     id
     title
+    user_id
   }
 }

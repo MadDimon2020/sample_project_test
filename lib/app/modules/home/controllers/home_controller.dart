@@ -19,6 +19,14 @@ class HomeController extends GetxController {
 // }
 // ''';
 
+  static String userNameAndAvatarQuery = '''
+query GetUserDetails(\$id: uuid!) {
+  users_by_pk(id: \$id) {
+    display_name
+  }
+}
+''';
+
   static FutureOr<sql.Database> _initDataBase() async {
     final dbPath = await sql.getDatabasesPath();
     log('Initializing local database', name: 'HomeController');
@@ -47,7 +55,8 @@ class HomeController extends GetxController {
   Future<void> deleteFromDatabase(String postId) async {
     await _readingListDB
         .delete('post_ids', where: 'post_id = ?', whereArgs: [postId]);
-    log('The following data has been removed from the local database: $postId');
+    log('The following data has been removed from the local database: $postId',
+        name: 'HomeController');
   }
 
   void insertToReadingList(String postId) {

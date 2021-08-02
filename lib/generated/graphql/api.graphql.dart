@@ -109,8 +109,11 @@ class NewsFeed$SubscriptionRoot$News with EquatableMixin {
 
   String title;
 
+  @JsonKey(name: 'user_id')
+  String userId;
+
   @override
-  List<Object> get props => [content, createdAt, id, title];
+  List<Object> get props => [content, createdAt, id, title, userId];
   Map<String, dynamic> toJson() => _$NewsFeed$SubscriptionRoot$NewsToJson(this);
 }
 
@@ -145,8 +148,11 @@ class FetchPostByIdQuery$QueryRoot$NewsByPk with EquatableMixin {
 
   String title;
 
+  @JsonKey(name: 'user_id')
+  String userId;
+
   @override
-  List<Object> get props => [content, createdAt, id, title];
+  List<Object> get props => [content, createdAt, id, title, userId];
   Map<String, dynamic> toJson() =>
       _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(this);
 }
@@ -443,13 +449,19 @@ class NewsFeedSubscription
                     alias: null,
                     arguments: [],
                     directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'user_id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
                     selectionSet: null)
               ]))
         ]))
   ]);
 
   @override
-  final String operationName = 'newsFeedSubscription';
+  final String operationName = 'newsFeed';
 
   @override
   List<Object> get props => [document, operationName];
@@ -523,6 +535,12 @@ class FetchPostByIdQueryQuery extends GraphQLQuery<FetchPostByIdQuery$QueryRoot,
                     selectionSet: null),
                 FieldNode(
                     name: NameNode(value: 'title'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'user_id'),
                     alias: null,
                     arguments: [],
                     directives: [],

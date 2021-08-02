@@ -4,5 +4,6 @@ query fetchPostByIdQuery($id: uuid!) {
         created_at
         id
         title
+        user_id
     }
 }

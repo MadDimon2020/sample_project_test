@@ -49,8 +49,8 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Align(
-                    child: Expanded(
+                  Expanded(
+                    child: Align(
                       child: Text(
                         'Oops...\n Something went wrong...\n Try to login again',
                         textAlign: TextAlign.center,
@@ -123,7 +123,7 @@ class HomeView extends GetView<HomeController> {
                                 child: Column(
                                   children: [
                                     Flexible(
-                                      flex: 70,
+                                      flex: 60,
                                       child: Container(
                                         margin: EdgeInsets.only(
                                           top: _masterContainerWidth * 0.03,
@@ -147,7 +147,7 @@ class HomeView extends GetView<HomeController> {
                                       ),
                                     ),
                                     Flexible(
-                                      flex: 30,
+                                      flex: 25,
                                       child: Container(
                                         margin: EdgeInsets.symmetric(
                                           vertical:
@@ -170,6 +170,23 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                       ),
                                     ),
+                                    Flexible(
+                                      flex: 15,
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            bottom:
+                                                _masterContainerHeight * 0.03),
+                                        child: Align(
+                                          child: Text(
+                                            '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index].createdAt.toString()))}',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    _masterContainerHeight *
+                                                        0.07),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -178,7 +195,7 @@ class HomeView extends GetView<HomeController> {
                                 child: Column(
                                   children: [
                                     Flexible(
-                                      flex: 75,
+                                      flex: 60,
                                       child: Container(
                                         margin: EdgeInsets.only(
                                           top: _masterContainerWidth * 0.03,
@@ -197,9 +214,43 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                       ),
                                     ),
+                                    Query(
+                                      options: QueryOptions(
+                                        document: gql(HomeController
+                                            .userNameAndAvatarQuery),
+                                        variables: {
+                                          'id': fetchedNews[index].userId
+                                        },
+                                      ),
+                                      builder: (result, {fetchMore, refetch}) {
+                                        final userDetails =
+                                            result.data['users_by_pk']
+                                                as Map<String, dynamic>;
+                                        return Flexible(
+                                          flex: 20,
+                                          child: Container(
+                                            child: Align(
+                                              child: Text(
+                                                userDetails != null
+                                                    ? userDetails[
+                                                        'display_name']
+                                                    : 'Author unknown',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        _masterContainerHeight *
+                                                            0.07),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     Flexible(
-                                      flex: 25,
+                                      flex: 20,
                                       child: Container(
+                                        padding: EdgeInsets.only(
+                                            bottom:
+                                                _masterContainerHeight * 0.04),
                                         child: Align(
                                           child: Obx(
                                             () => ElevatedButton(
@@ -285,40 +336,6 @@ class HomeView extends GetView<HomeController> {
                                 ),
                               ),
                             ]),
-                          ),
-                          Flexible(
-                            flex: 20,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Flexible(
-                                  flex: 55,
-                                  child: Container(
-                                    child: Align(
-                                      child: Text(
-                                        '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index].createdAt.toString()))}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                _masterContainerHeight * 0.07),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 45,
-                                  child: Container(
-                                    child: Align(
-                                      child: Text(
-                                        'Posted by {author name}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                _masterContainerHeight * 0.07),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
                           ),
                         ],
                       ),

@@ -775,6 +775,7 @@ type news {
     "Заголовок новости"
     title: String!
     updated_at: timestamptz!
+    user_id: uuid
 }
 
 "aggregated selection of \"news\""
@@ -797,6 +798,7 @@ type news_max_fields {
     id: uuid
     title: String
     updated_at: timestamptz
+    user_id: uuid
 }
 
 "aggregate min on columns"
@@ -806,6 +808,7 @@ type news_min_fields {
     id: uuid
     title: String
     updated_at: timestamptz
+    user_id: uuid
 }
 
 "response of any mutation on the table \"news\""
@@ -1576,6 +1579,8 @@ enum news_select_column {
     title
     "column name"
     updated_at
+    "column name"
+    user_id
 }
 
 "update columns of table \"news\""
@@ -1590,6 +1595,8 @@ enum news_update_column {
     title
     "column name"
     updated_at
+    "column name"
+    user_id
 }
 
 "column ordering options"
@@ -2350,6 +2357,7 @@ input news_bool_exp {
     id: uuid_comparison_exp
     title: String_comparison_exp
     updated_at: timestamptz_comparison_exp
+    user_id: uuid_comparison_exp
 }
 
 "input type for inserting data into table \"news\""
@@ -2359,6 +2367,7 @@ input news_insert_input {
     id: uuid
     title: String
     updated_at: timestamptz
+    user_id: uuid
 }
 
 "order by max() on columns of table \"news\""
@@ -2368,6 +2377,7 @@ input news_max_order_by {
     id: order_by
     title: order_by
     updated_at: order_by
+    user_id: order_by
 }
 
 "order by min() on columns of table \"news\""
@@ -2377,6 +2387,7 @@ input news_min_order_by {
     id: order_by
     title: order_by
     updated_at: order_by
+    user_id: order_by
 }
 
 "input type for inserting object relation for remote table \"news\""
@@ -2399,6 +2410,7 @@ input news_order_by {
     id: order_by
     title: order_by
     updated_at: order_by
+    user_id: order_by
 }
 
 "primary key columns input for table: \"news\""
@@ -2413,6 +2425,7 @@ input news_set_input {
     id: uuid
     title: String
     updated_at: timestamptz
+    user_id: uuid
 }
 
 "expression to compare columns of type timestamptz. All fields are combined with logical 'AND'."
