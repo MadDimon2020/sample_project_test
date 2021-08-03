@@ -37,7 +37,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
             );
           }
           // var postDetails = result.data['news_by_pk'];
-          var postDetails =
+          final postDetails =
               FetchPostByIdQuery$QueryRoot.fromJson(result.data).newsByPk;
           return Align(
             alignment: Alignment.topCenter,
@@ -74,54 +74,69 @@ class PostDetailsView extends GetView<PostDetailsController> {
                     flex: 20,
                     child: Container(
                       padding: EdgeInsets.all(deviceWidth * 0.04),
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: CircleAvatar(
-                                child: Image.asset(
-                                  'assets/images/user-image-placeholder.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 40,
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: deviceWidth * 0.02,
-                                  right: deviceWidth * 0.01),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Post Author',
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: deviceHeight * 0.022,
+                      child: Query(
+                        options: QueryOptions(
+                          document: UserNameAndAvatarQuery().document,
+                          variables: {
+                            'id': postDetails.userId,
+                          },
+                        ),
+                        builder: (result, {fetchMore, refetch}) {
+                          final userDetails =
+                              UserNameAndAvatar$QueryRoot.fromJson(result.data)
+                                  .usersByPk;
+                          return Row(
+                            children: [
+                              Container(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: CircleAvatar(
+                                    child: Image.asset(
+                                      'assets/images/user-image-placeholder.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 40,
-                            child: Container(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
-                                  style: TextStyle(
-                                      fontSize: deviceHeight * 0.02,
-                                      fontStyle: FontStyle.italic),
-                                  maxLines: 2,
+                              Flexible(
+                                flex: 40,
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      left: deviceWidth * 0.02,
+                                      right: deviceWidth * 0.01),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      userDetails != null
+                                          ? userDetails.displayName
+                                          : 'Author unknown',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: deviceHeight * 0.022,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
+                              Flexible(
+                                flex: 40,
+                                child: Container(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
+                                      style: TextStyle(
+                                          fontSize: deviceHeight * 0.02,
+                                          fontStyle: FontStyle.italic),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
+import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/reading_list_controller.dart';
 
@@ -100,6 +101,9 @@ class ReadingListView extends GetView<ReadingListController> {
                                 },
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: _masterContainerHeight * 0.03,
                           ),
                         ],
                       ),
@@ -251,8 +255,9 @@ class ReadingListView extends GetView<ReadingListController> {
                                             ),
                                             Query(
                                               options: QueryOptions(
-                                                document: gql(HomeController
-                                                    .userNameAndAvatarQuery),
+                                                document:
+                                                    UserNameAndAvatarQuery()
+                                                        .document,
                                                 variables: {
                                                   'id':
                                                       orderedReadingList[index]
@@ -262,16 +267,17 @@ class ReadingListView extends GetView<ReadingListController> {
                                               builder: (result,
                                                   {fetchMore, refetch}) {
                                                 final userDetails =
-                                                    result.data['users_by_pk']
-                                                        as Map<String, dynamic>;
+                                                    UserNameAndAvatar$QueryRoot$UsersByPk
+                                                        .fromJson(result.data);
                                                 return Flexible(
                                                   flex: 20,
                                                   child: Container(
                                                     child: Align(
                                                       child: Text(
-                                                        userDetails != null
-                                                            ? userDetails[
-                                                                'display_name']
+                                                        userDetails.displayName !=
+                                                                null
+                                                            ? userDetails
+                                                                .displayName
                                                             : 'Author unknown',
                                                         softWrap: true,
                                                         maxLines: 2,

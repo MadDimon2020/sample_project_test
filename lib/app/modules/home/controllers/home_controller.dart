@@ -19,14 +19,14 @@ class HomeController extends GetxController {
 // }
 // ''';
 
-  static String userNameAndAvatarQuery = '''
-query UserNameAndAvatar(\$id: uuid!) {
-  users_by_pk(id: \$id) {
-    display_name
-    avatar_url
-  }
-}
-''';
+//   static String userNameAndAvatarQuery = '''
+// query UserNameAndAvatar(\$id: uuid!) {
+//   users_by_pk(id: \$id) {
+//     display_name
+//     avatar_url
+//   }
+// }
+// ''';
 
   static FutureOr<sql.Database> _initDataBase() async {
     final dbPath = await sql.getDatabasesPath();
