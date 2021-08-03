@@ -91,8 +91,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: CircleAvatar(
-                                    backgroundImage: userDetails.avatarUrl !=
-                                            null
+                                    backgroundImage: userDetails != null
                                         ? NetworkImage(userDetails.avatarUrl)
                                         : AssetImage(
                                             'assets/images/user-image-placeholder.jpg',
