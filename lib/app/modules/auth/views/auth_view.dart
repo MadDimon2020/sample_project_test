@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'dart:math';
 
 import 'package:get/get.dart';
@@ -29,21 +30,17 @@ class AuthView extends StatelessWidget {
 class AuthForm extends GetWidget<AuthController> {
   double get deviceHeight => Get.height;
   double get deviceWidth => Get.width;
-  final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final userNameController = TextEditingController();
-  final passwordController = TextEditingController();
 
   void _trySubmit() {
-    final isValid = _formKey.currentState.validate();
+    final isValid = controller.formKey.currentState.validate();
     Get.focusScope.unfocus();
 
     if (isValid) {
-      _formKey.currentState.save();
+      controller.formKey.currentState.save();
       controller.submitAuthForm(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-        userName: userNameController.text.trim(),
+        email: controller.emailController.text.trim(),
+        password: controller.passwordController.text.trim(),
+        userName: controller.userNameController.text.trim(),
       );
     }
   }
@@ -64,7 +61,7 @@ class AuthForm extends GetWidget<AuthController> {
                     padding: EdgeInsets.symmetric(
                         vertical: deviceHeight * 0.011,
                         horizontal: deviceWidth * 0.025),
-                    transform: Matrix4.rotationZ(-5 * pi / 180)
+                    transform: Matrix4.rotationZ(-4 * pi / 180)
                       ..translate(deviceWidth * (-0.01)),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -102,8 +99,38 @@ class AuthForm extends GetWidget<AuthController> {
                 SizedBox(
                   height: deviceHeight * 0.0271,
                 ),
+                if (!controller.isLoginMode)
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: deviceHeight * 0.05,
+                        backgroundColor: Colors.white,
+                        backgroundImage: controller.pickedImage != null
+                            ? FileImage(controller.pickedImage)
+                            : AssetImage('assets/images/anonymous_user.jpg'),
+                      ),
+                      TextButton.icon(
+                        onPressed: controller.pickImage,
+                        icon: Icon(
+                          Entypo.camera,
+                          color:
+                              Theme.of(context).accentTextTheme.headline5.color,
+                          size: deviceHeight * 0.04,
+                        ),
+                        label: Text(
+                          'Add Image',
+                          style: TextStyle(
+                              fontSize: deviceHeight * 0.0271,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.01,
+                      ),
+                    ],
+                  ),
                 Form(
-                  key: _formKey,
+                  key: controller.formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -115,7 +142,7 @@ class AuthForm extends GetWidget<AuthController> {
                         decoration: BoxDecoration(color: Colors.black54),
                         child: TextFormField(
                           key: ValueKey('email'),
-                          controller: emailController,
+                          controller: controller.emailController,
                           validator: (value) {
                             if (value.isEmpty || !value.contains('@')) {
                               return 'Please enter a valid email address';
@@ -139,7 +166,7 @@ class AuthForm extends GetWidget<AuthController> {
                                   .headline4
                                   .color),
                           onSaved: (value) {
-                            emailController.text = value;
+                            controller.emailController.text = value;
                           },
                         ),
                       ),
@@ -155,7 +182,7 @@ class AuthForm extends GetWidget<AuthController> {
                           decoration: BoxDecoration(color: Colors.black54),
                           child: TextFormField(
                             key: ValueKey('username'),
-                            controller: userNameController,
+                            controller: controller.userNameController,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter your username';
@@ -175,7 +202,7 @@ class AuthForm extends GetWidget<AuthController> {
                                     .headline4
                                     .color),
                             onSaved: (value) {
-                              userNameController.text = value;
+                              controller.userNameController.text = value;
                             },
                           ),
                         ),
@@ -191,7 +218,7 @@ class AuthForm extends GetWidget<AuthController> {
                         decoration: BoxDecoration(color: Colors.black54),
                         child: TextFormField(
                           key: ValueKey('password'),
-                          controller: passwordController,
+                          controller: controller.passwordController,
                           validator: (value) {
                             if (value.isEmpty || value.length < 7) {
                               return 'Password must be at least 7 characters long.';
@@ -215,7 +242,7 @@ class AuthForm extends GetWidget<AuthController> {
                                   .color),
                           obscureText: true,
                           onSaved: (value) {
-                            passwordController.text = value;
+                            controller.passwordController.text = value;
                           },
                         ),
                       ),
