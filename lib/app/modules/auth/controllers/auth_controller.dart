@@ -41,7 +41,7 @@ class AuthController extends GetxController {
         imageQuality: 50,
         maxHeight: 150,
         maxWidth: 150);
-    final pickedImageFile = File(pickedImage.path);
+    final pickedImageFile = pickedImage != null ? File(pickedImage.path) : null;
     _pickedImage = pickedImageFile;
     update();
   }
@@ -62,8 +62,8 @@ class AuthController extends GetxController {
   }
 
   static String updateUserNameAndAvatar = '''
-mutation updateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_name: String) {
-  update_users_by_pk(pk_columns: {id: \$id}, _set: {avatar_url: \$avatar_url, display_name: \$display_name}) {
+mutation UpdateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_name: String) {
+  update_users_by_pk(_set: {avatar_url: \$avatar_url, display_name: \$display_name}, pk_columns: {id: \$id}) {
     avatar_url
     display_name
     id
@@ -87,12 +87,17 @@ mutation updateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_na
         await ApiController.to.register(email, password);
         await ApiController.to.login(email, password);
         final avatarUrl = await _getAvatarUrl();
-        await ApiController.mutate(
-            MutationOptions(document: gql(updateUserNameAndAvatar), variables: {
-          'id': ApiController.to.userId,
-          'display_name': _userNameController.text,
-          'avatar_url': avatarUrl,
-        }));
+        ApiController.mutate(
+          MutationOptions(
+            operationName: 'UpdateUserNameAndAvatar',
+            document: gql(updateUserNameAndAvatar),
+            variables: {
+              'id': ApiController.to.userId,
+              'display_name': _userNameController.text,
+              'avatar_url': avatarUrl,
+            },
+          ),
+        );
         _isLoading = false;
         _emailController.clear();
         _userNameController.clear();

@@ -100,34 +100,39 @@ class AuthForm extends GetWidget<AuthController> {
                   height: deviceHeight * 0.0271,
                 ),
                 if (!controller.isLoginMode)
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: deviceHeight * 0.05,
-                        backgroundColor: Colors.white,
-                        backgroundImage: controller.pickedImage != null
-                            ? FileImage(controller.pickedImage)
-                            : AssetImage('assets/images/anonymous_user.jpg'),
-                      ),
-                      TextButton.icon(
-                        onPressed: controller.pickImage,
-                        icon: Icon(
-                          Entypo.camera,
-                          color:
-                              Theme.of(context).accentTextTheme.headline5.color,
-                          size: deviceHeight * 0.04,
+                  InkWell(
+                    onTap: controller.pickImage,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: deviceHeight * 0.05,
+                          backgroundColor: Colors.white,
+                          backgroundImage: controller.pickedImage != null
+                              ? FileImage(controller.pickedImage)
+                              : AssetImage('assets/images/anonymous_user.jpg'),
                         ),
-                        label: Text(
-                          'Add Image',
-                          style: TextStyle(
-                              fontSize: deviceHeight * 0.0271,
-                              color: Colors.white),
+                        TextButton.icon(
+                          onPressed: controller.pickImage,
+                          icon: Icon(
+                            Entypo.camera,
+                            color: Theme.of(context)
+                                .accentTextTheme
+                                .headline5
+                                .color,
+                            size: deviceHeight * 0.04,
+                          ),
+                          label: Text(
+                            'Add Image',
+                            style: TextStyle(
+                                fontSize: deviceHeight * 0.0271,
+                                color: Colors.white),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: deviceHeight * 0.01,
-                      ),
-                    ],
+                        SizedBox(
+                          height: deviceHeight * 0.01,
+                        ),
+                      ],
+                    ),
                   ),
                 Form(
                   key: controller.formKey,
