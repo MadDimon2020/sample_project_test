@@ -471,12 +471,14 @@ class ReadingListView extends GetView<ReadingListController> {
                                                       //   await refetch();
                                                       // },
                                                       onPressed: () {
-                                                        controller.removeFromReadingList(
-                                                            postId:
-                                                                orderedReadingList[
-                                                                        index]
-                                                                    .id,
-                                                            refetchFn: refetch);
+                                                        ReadingListController
+                                                            .removeFromReadingList(
+                                                                postId:
+                                                                    orderedReadingList[
+                                                                            index]
+                                                                        .id,
+                                                                refetchFn:
+                                                                    refetch);
                                                       }),
                                                 ),
                                               ),

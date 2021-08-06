@@ -33,7 +33,7 @@ query ReadingList(\$_in: [uuid!]) {
       return null;
   }
 
-  Future<void> removeFromReadingList(
+  static Future<void> removeFromReadingList(
       {@required String postId,
       Future<QueryResult> Function() refetchFn}) async {
     log('Unsave-button pressed', name: 'ReadingListController');

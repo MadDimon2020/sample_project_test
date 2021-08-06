@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
+import 'package:sample_project/app/modules/reading_list/controllers/reading_list_controller.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
@@ -16,6 +17,7 @@ class NewsCard extends GetWidget<HomeController> {
   final DateTime createdAt;
   final bool interactiveButton;
   final Function onButtonPressed;
+  final Future<QueryResult> Function() refetchFn;
 
   double get deviceWidth => Get.width;
   double get deviceHeight => Get.height;
@@ -34,6 +36,7 @@ class NewsCard extends GetWidget<HomeController> {
     @required this.createdAt,
     @required this.interactiveButton,
     @required this.onButtonPressed,
+    this.refetchFn,
   }) : super(key: key);
 
   @override
@@ -280,7 +283,9 @@ class NewsCard extends GetWidget<HomeController> {
                                 bottom: _masterContainerHeight * 0.04),
                             child: Align(
                               child: buildNewsCardButton(
-                                  interactive: interactiveButton),
+                                interactive: interactiveButton,
+                                refetchFn: refetchFn,
+                              ),
                             ),
                           ),
                         ),
@@ -296,7 +301,8 @@ class NewsCard extends GetWidget<HomeController> {
     );
   }
 
-  Widget buildNewsCardButton({@required bool interactive}) {
+  Widget buildNewsCardButton(
+      {@required bool interactive, Future<QueryResult> Function() refetchFn}) {
     return interactive
         ? Obx(
             () => ElevatedButton(
@@ -332,7 +338,12 @@ class NewsCard extends GetWidget<HomeController> {
                   ),
                 )),
             child: Text('UNSAVE'),
-            onPressed: () async {},
+            onPressed: () {
+              ReadingListController.removeFromReadingList(
+                postId: postId,
+                refetchFn: refetchFn,
+              );
+            },
           );
   }
 }
