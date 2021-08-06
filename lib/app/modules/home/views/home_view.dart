@@ -444,12 +444,12 @@ class HomeView extends GetView<HomeController> {
                                                   ],
                                                 );
                                                 dataList.length == 0
-                                                    ? await controller
+                                                    ? await HomeController
                                                         .insertToDatabase({
                                                         'post_id':
                                                             '${fetchedNews[index].id}'
                                                       })
-                                                    : controller
+                                                    : await HomeController
                                                         .deleteFromDatabase(
                                                             fetchedNews[index]
                                                                 .id);
@@ -457,11 +457,11 @@ class HomeView extends GetView<HomeController> {
                                                         .contains(
                                                             fetchedNews[index]
                                                                 .id)
-                                                    ? controller
+                                                    ? HomeController
                                                         .insertToReadingList(
                                                             fetchedNews[index]
                                                                 .id)
-                                                    : controller
+                                                    : HomeController
                                                         .deleteFromReadingList(
                                                             fetchedNews[index]
                                                                 .id);

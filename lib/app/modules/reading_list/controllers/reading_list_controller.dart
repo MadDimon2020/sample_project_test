@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
@@ -27,6 +31,15 @@ query ReadingList(\$_in: [uuid!]) {
       return orderedList;
     } else
       return null;
+  }
+
+  Future<void> removeFromReadingList(
+      {@required String postId,
+      Future<QueryResult> Function() refetchFn}) async {
+    log('Unsave-button pressed', name: 'ReadingListController');
+    await HomeController.deleteFromDatabase(postId);
+    HomeController.deleteFromReadingList(postId);
+    refetchFn();
   }
 
   @override

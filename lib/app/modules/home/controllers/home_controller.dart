@@ -43,29 +43,48 @@ class HomeController extends GetxController {
   static sql.Database _readingListDB;
   sql.Database get readingListDB => _readingListDB;
 
-  RxList<String> _readingList = RxList<String>();
+  static RxList<String> _readingList = RxList<String>();
   RxList<String> get readingList => _readingList;
 
-  Future<void> insertToDatabase(Map<String, Object> data) async {
+  static Future<void> insertToDatabase(Map<String, Object> data) async {
     await _readingListDB.insert('post_ids', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     log('The following data has been inserted to the local database: $data',
         name: 'HomeController');
   }
 
-  Future<void> deleteFromDatabase(String postId) async {
+  static Future<void> deleteFromDatabase(String postId) async {
     await _readingListDB
         .delete('post_ids', where: 'post_id = ?', whereArgs: [postId]);
     log('The following data has been removed from the local database: $postId',
         name: 'HomeController');
   }
 
-  void insertToReadingList(String postId) {
+  static void insertToReadingList(String postId) {
     _readingList.add(postId);
   }
 
-  void deleteFromReadingList(String postId) {
+  static void deleteFromReadingList(String postId) {
     _readingList.removeWhere((element) => element == postId);
+  }
+
+  Future<void> saveUnsaveHandler(String postId) async {
+    log('Save/Unsave-button pressed', name: 'HomeController');
+    var dataList = await _readingListDB.query(
+      'post_ids',
+      columns: ['post_id'],
+      where: 'post_id = ?',
+      whereArgs: [postId],
+    );
+    dataList.length == 0
+        ? await insertToDatabase({'post_id': postId})
+        : await deleteFromDatabase(postId);
+    !readingList.contains(postId)
+        ? insertToReadingList(postId)
+        : deleteFromReadingList(postId);
+    dataList = await _readingListDB.query('post_ids');
+    print(dataList);
+    print(readingList);
   }
 
   @override

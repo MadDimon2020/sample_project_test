@@ -428,48 +428,56 @@ class ReadingListView extends GetView<ReadingListController> {
                                                             0.04),
                                                 child: Align(
                                                   child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        padding:
-                                                            MaterialStateProperty
-                                                                .all<
-                                                                    EdgeInsets>(
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  deviceWidth *
-                                                                      0.04),
-                                                        ),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                                    Colors.red),
-                                                        shape: MaterialStateProperty
-                                                            .all<
-                                                                OutlinedBorder>(
-                                                          RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15.0),
+                                                      style: ButtonStyle(
+                                                          padding:
+                                                              MaterialStateProperty
+                                                                  .all<
+                                                                      EdgeInsets>(
+                                                            EdgeInsets.symmetric(
+                                                                horizontal:
+                                                                    deviceWidth *
+                                                                        0.04),
                                                           ),
-                                                        )),
-                                                    child: Text('UNSAVE'),
-                                                    onPressed: () async {
-                                                      log('Unsave-button pressed',
-                                                          name:
-                                                              'ReadingListView');
-                                                      await homeController
-                                                          .deleteFromDatabase(
-                                                              orderedReadingList[
-                                                                      index]
-                                                                  .id);
-                                                      homeController
-                                                          .deleteFromReadingList(
-                                                              orderedReadingList[
-                                                                      index]
-                                                                  .id);
-                                                      await refetch();
-                                                    },
-                                                  ),
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all<Color>(
+                                                                      Colors
+                                                                          .red),
+                                                          shape: MaterialStateProperty
+                                                              .all<
+                                                                  OutlinedBorder>(
+                                                            RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15.0),
+                                                            ),
+                                                          )),
+                                                      child: Text('UNSAVE'),
+                                                      // onPressed: () async {
+                                                      //   log('Unsave-button pressed',
+                                                      //       name:
+                                                      //           'ReadingListView');
+                                                      //   await HomeController
+                                                      //       .deleteFromDatabase(
+                                                      //           orderedReadingList[
+                                                      //                   index]
+                                                      //               .id);
+                                                      //   HomeController
+                                                      //       .deleteFromReadingList(
+                                                      //           orderedReadingList[
+                                                      //                   index]
+                                                      //               .id);
+                                                      //   await refetch();
+                                                      // },
+                                                      onPressed: () {
+                                                        controller.removeFromReadingList(
+                                                            postId:
+                                                                orderedReadingList[
+                                                                        index]
+                                                                    .id,
+                                                            refetchFn: refetch);
+                                                      }),
                                                 ),
                                               ),
                                             ),

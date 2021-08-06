@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -281,57 +279,8 @@ class NewsCard extends GetWidget<HomeController> {
                             padding: EdgeInsets.only(
                                 bottom: _masterContainerHeight * 0.04),
                             child: Align(
-                              child: Obx(
-                                () => ElevatedButton(
-                                  style: ButtonStyle(
-                                      padding:
-                                          MaterialStateProperty.all<EdgeInsets>(
-                                        EdgeInsets.symmetric(
-                                            horizontal: deviceWidth * 0.04),
-                                      ),
-                                      backgroundColor: !controller.readingList
-                                              .contains(postId)
-                                          ? MaterialStateProperty.all<Color>(
-                                              Colors.green)
-                                          : MaterialStateProperty.all<Color>(
-                                              Colors.red),
-                                      shape: MaterialStateProperty.all<
-                                          OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                      )),
-                                  child: Text(
-                                      !controller.readingList.contains(postId)
-                                          ? '  SAVE  '
-                                          : 'UNSAVE'),
-                                  onPressed: () async {
-                                    log('Save/Unsave-button pressed',
-                                        name: 'HomeView');
-                                    var dataList =
-                                        await controller.readingListDB.query(
-                                      'post_ids',
-                                      columns: ['post_id'],
-                                      where: 'post_id = ?',
-                                      whereArgs: [postId],
-                                    );
-                                    dataList.length == 0
-                                        ? await controller.insertToDatabase(
-                                            {'post_id': postId})
-                                        : await controller
-                                            .deleteFromDatabase(postId);
-                                    !controller.readingList.contains(postId)
-                                        ? controller.insertToReadingList(postId)
-                                        : controller
-                                            .deleteFromReadingList(postId);
-                                    dataList = await controller.readingListDB
-                                        .query('post_ids');
-                                    print(dataList);
-                                    print(controller.readingList);
-                                  },
-                                ),
-                              ),
+                              child: buildNewsCardButton(
+                                  interactive: interactiveButton),
                             ),
                           ),
                         ),
@@ -345,5 +294,45 @@ class NewsCard extends GetWidget<HomeController> {
         ),
       ),
     );
+  }
+
+  Widget buildNewsCardButton({@required bool interactive}) {
+    return interactive
+        ? Obx(
+            () => ElevatedButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
+                  ),
+                  backgroundColor: !controller.readingList.contains(postId)
+                      ? MaterialStateProperty.all<Color>(Colors.green)
+                      : MaterialStateProperty.all<Color>(Colors.red),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  )),
+              child: Text(!controller.readingList.contains(postId)
+                  ? '  SAVE  '
+                  : 'UNSAVE'),
+              onPressed: () {
+                controller.saveUnsaveHandler(postId);
+              },
+            ),
+          )
+        : ElevatedButton(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                )),
+            child: Text('UNSAVE'),
+            onPressed: () async {},
+          );
   }
 }
