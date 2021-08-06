@@ -359,7 +359,7 @@ class HomeView extends GetView<HomeController> {
                                                     ),
                                                   ),
                                                 ),
-                                                // News author placeholder
+                                                // News author's name placeholder
                                                 Flexible(
                                                   flex: 20,
                                                   child: Container(

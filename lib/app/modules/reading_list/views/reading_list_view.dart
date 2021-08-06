@@ -28,7 +28,7 @@ class ReadingListView extends GetView<ReadingListController> {
       ),
       body: Query(
         options: QueryOptions(
-          document: gql(ReadingListController.readingList),
+          document: ReadingListQuery().document,
           variables: {"_in": homeController.readingList},
         ),
         builder: (result, {fetchMore, refetch}) {
@@ -42,7 +42,8 @@ class ReadingListView extends GetView<ReadingListController> {
               child: CircularProgressIndicator(),
             );
           }
-          var fetchedNews = result.data['news'] as List<dynamic>;
+          // final fetchedNews = result.data['news'] as List<dynamic>;
+          final fetchedNews = ReadingList$QueryRoot.fromJson(result.data).news;
           var orderedReadingList = fetchedNews != null
               ? ReadingListController.to.orderFetchedData(fetchedNews)
               : null;
@@ -124,7 +125,7 @@ class ReadingListView extends GetView<ReadingListController> {
                         child: InkWell(
                           onTap: () {
                             Get.toNamed(Routes.POST_DETAILS,
-                                arguments: [orderedReadingList[index]['id']]);
+                                arguments: [orderedReadingList[index].id]);
                           },
                           splashColor: Theme.of(context).primaryColor,
                           child: Card(
@@ -159,7 +160,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                                       Alignment.centerLeft,
                                                   child: Text(
                                                     orderedReadingList[index]
-                                                        ['title'],
+                                                        .title,
                                                     style: TextStyle(
                                                       fontSize:
                                                           _masterContainerHeight *
@@ -190,7 +191,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
                                                     orderedReadingList[index]
-                                                        ['content'],
+                                                        .content,
                                                     style: TextStyle(
                                                       fontSize:
                                                           _masterContainerHeight *
@@ -213,7 +214,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                                             0.03),
                                                 child: Align(
                                                   child: Text(
-                                                    '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(orderedReadingList[index]['created_at'].toString()))}',
+                                                    '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(orderedReadingList[index].createdAt.toString()))}',
                                                     style: TextStyle(
                                                         fontStyle:
                                                             FontStyle.italic,
@@ -235,11 +236,11 @@ class ReadingListView extends GetView<ReadingListController> {
                                               flex: 80,
                                               child:
                                                   (orderedReadingList[index]
-                                                                  ['user_id'] !=
+                                                                  .userId !=
                                                               null &&
                                                           orderedReadingList[
                                                                       index]
-                                                                  ['user_id'] !=
+                                                                  .userId !=
                                                               '')
                                                       ? Query(
                                                           options: QueryOptions(
@@ -382,7 +383,7 @@ class ReadingListView extends GetView<ReadingListController> {
                                                                 ),
                                                               ),
                                                             ),
-                                                            // News author placeholder
+                                                            // News author's name placeholder
                                                             Flexible(
                                                               flex: 20,
                                                               child: Container(
@@ -459,11 +460,13 @@ class ReadingListView extends GetView<ReadingListController> {
                                                       await homeController
                                                           .deleteFromDatabase(
                                                               orderedReadingList[
-                                                                  index]['id']);
+                                                                      index]
+                                                                  .id);
                                                       homeController
                                                           .deleteFromReadingList(
                                                               orderedReadingList[
-                                                                  index]['id']);
+                                                                      index]
+                                                                  .id);
                                                       await refetch();
                                                     },
                                                   ),

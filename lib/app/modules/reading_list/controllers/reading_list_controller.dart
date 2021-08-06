@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
+import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 class ReadingListController extends GetxController {
   static ReadingListController get to => Get.find<ReadingListController>();
@@ -10,16 +11,18 @@ query ReadingList(\$_in: [uuid!]) {
     created_at
     id
     title
+    user_id
   }
 }
 ''';
 
-  List<dynamic> orderFetchedData(List<dynamic> fetchedData) {
-    List<dynamic> orderedList = [];
+  List<ReadingList$QueryRoot$News> orderFetchedData(
+      List<ReadingList$QueryRoot$News> fetchedData) {
+    List<ReadingList$QueryRoot$News> orderedList = [];
     if (fetchedData.isNotEmpty) {
       for (int i = 0; i < HomeController.to.readingList.length; i++) {
         orderedList.add(fetchedData.firstWhere(
-            (element) => element['id'] == HomeController.to.readingList[i]));
+            (element) => element.id == HomeController.to.readingList[i]));
       }
       return orderedList;
     } else

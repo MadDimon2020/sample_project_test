@@ -10,7 +10,6 @@ mutation addNewPost(\$content: String, \$title: String) {
     content
     created_at
     id
-    updated_at
   }
 }
 ''';

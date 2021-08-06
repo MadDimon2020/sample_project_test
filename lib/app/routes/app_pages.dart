@@ -15,7 +15,7 @@ import 'package:sample_project/app/modules/reading_list/views/reading_list_view.
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.ROOT;
 
   static final routes = [
     GetPage(

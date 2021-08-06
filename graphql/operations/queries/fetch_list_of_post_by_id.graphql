@@ -1,0 +1,9 @@
+query ReadingList($_in: [uuid!]) {
+  news(where: { id: { _in: $_in } }) {
+    content
+    created_at
+    id
+    title
+    user_id
+  }
+}

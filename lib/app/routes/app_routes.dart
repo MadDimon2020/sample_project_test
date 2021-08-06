@@ -11,7 +11,7 @@ abstract class Routes {
 }
 
 abstract class _Paths {
-  static const ROOT = '/auth';
+  static const ROOT = '/root';
   static const HOME = '/home';
   static const AUTH = '/auth';
   static const NEW_POST = '/new-post';
