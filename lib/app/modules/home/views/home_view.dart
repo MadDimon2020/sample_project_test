@@ -192,6 +192,7 @@ class HomeView extends GetView<HomeController> {
                                           child: Text(
                                             '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(fetchedNews[index].createdAt.toString()))}',
                                             style: TextStyle(
+                                                fontStyle: FontStyle.italic,
                                                 fontSize:
                                                     _masterContainerHeight *
                                                         0.07),
@@ -207,183 +208,187 @@ class HomeView extends GetView<HomeController> {
                                 child: Column(
                                   children: [
                                     Flexible(
-                                        flex: 80,
-                                        child: (fetchedNews[index].userId !=
-                                                    null &&
-                                                fetchedNews[index].userId != '')
-                                            ? Query(
-                                                options: QueryOptions(
-                                                  document:
-                                                      UserNameAndAvatarQuery()
-                                                          .document,
-                                                  variables: {
-                                                    'id': fetchedNews[index]
-                                                        .userId
-                                                  },
-                                                ),
-                                                builder: (result,
-                                                    {fetchMore, refetch}) {
-                                                  final userDetails =
-                                                      UserNameAndAvatar$QueryRoot
-                                                              .fromJson(
-                                                                  result.data)
-                                                          .usersByPk;
-                                                  return Column(
-                                                    children: [
-                                                      Flexible(
-                                                        flex: 80,
-                                                        child: Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            top:
-                                                                _masterContainerWidth *
-                                                                    0.03,
-                                                            right:
-                                                                _masterContainerWidth *
-                                                                    0.015,
-                                                          ),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topCenter,
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15.0),
-                                                              child: (userDetails
-                                                                              .avatarUrl !=
-                                                                          null &&
-                                                                      userDetails
-                                                                              .avatarUrl !=
-                                                                          '')
-                                                                  ? Image
-                                                                      .network(
-                                                                      userDetails
-                                                                          .avatarUrl,
-                                                                      width: _masterContainerWidth *
-                                                                          0.25,
-                                                                      height:
-                                                                          _masterContainerWidth *
-                                                                              0.25,
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    )
-                                                                  : Image.asset(
-                                                                      'assets/images/user-image-placeholder.jpg',
-                                                                      width: _masterContainerWidth *
-                                                                          0.25,
-                                                                      height:
-                                                                          _masterContainerWidth *
-                                                                              0.25,
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Flexible(
-                                                        flex: 20,
-                                                        child: Container(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topCenter,
-                                                            child: Text(
-                                                              (userDetails.displayName !=
-                                                                          null &&
-                                                                      userDetails
-                                                                              .displayName !=
-                                                                          '')
-                                                                  ? userDetails
-                                                                      .displayName
-                                                                  : 'Author unknown',
-                                                              softWrap: true,
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic,
-                                                                fontSize:
-                                                                    _masterContainerHeight *
-                                                                        0.07,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  );
+                                      flex: 80,
+                                      child: (fetchedNews[index].userId !=
+                                                  null &&
+                                              fetchedNews[index].userId != '')
+                                          ? Query(
+                                              options: QueryOptions(
+                                                document:
+                                                    UserNameAndAvatarQuery()
+                                                        .document,
+                                                variables: {
+                                                  'id':
+                                                      fetchedNews[index].userId
                                                 },
-                                              )
-                                            : Column(
-                                                children: [
-                                                  Flexible(
-                                                    flex: 80,
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                        top:
-                                                            _masterContainerWidth *
-                                                                0.03,
-                                                        right:
-                                                            _masterContainerWidth *
-                                                                0.015,
-                                                      ),
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      15.0),
-                                                          child: Image.asset(
-                                                            'assets/images/user-image-placeholder.jpg',
-                                                            width:
-                                                                _masterContainerWidth *
-                                                                    0.25,
-                                                            height:
-                                                                _masterContainerWidth *
-                                                                    0.25,
-                                                            fit: BoxFit.fill,
+                                              ),
+                                              builder: (result,
+                                                  {fetchMore, refetch}) {
+                                                final userDetails =
+                                                    UserNameAndAvatar$QueryRoot
+                                                            .fromJson(
+                                                                result.data)
+                                                        .usersByPk;
+                                                return Column(
+                                                  children: [
+                                                    //Author's avatar provided the data is available
+                                                    Flexible(
+                                                      flex: 80,
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          top:
+                                                              _masterContainerWidth *
+                                                                  0.03,
+                                                          right:
+                                                              _masterContainerWidth *
+                                                                  0.015,
+                                                        ),
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .topCenter,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0),
+                                                            child: (userDetails
+                                                                            .avatarUrl !=
+                                                                        null &&
+                                                                    userDetails
+                                                                            .avatarUrl !=
+                                                                        '')
+                                                                ? Image.network(
+                                                                    userDetails
+                                                                        .avatarUrl,
+                                                                    width:
+                                                                        _masterContainerWidth *
+                                                                            0.25,
+                                                                    height:
+                                                                        _masterContainerWidth *
+                                                                            0.25,
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )
+                                                                : Image.asset(
+                                                                    'assets/images/user-image-placeholder.jpg',
+                                                                    width:
+                                                                        _masterContainerWidth *
+                                                                            0.25,
+                                                                    height:
+                                                                        _masterContainerWidth *
+                                                                            0.25,
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  ),
                                                           ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    //News author provided the data is available
+                                                    Flexible(
+                                                      flex: 20,
+                                                      child: Container(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .topCenter,
+                                                          child: Text(
+                                                            (userDetails.displayName !=
+                                                                        null &&
+                                                                    userDetails
+                                                                            .displayName !=
+                                                                        '')
+                                                                ? userDetails
+                                                                    .displayName
+                                                                : 'Author unknown',
+                                                            softWrap: true,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                              fontSize:
+                                                                  _masterContainerHeight *
+                                                                      0.07,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            )
+                                          : Column(
+                                              children: [
+                                                // Author's avatar placeholder
+                                                Flexible(
+                                                  flex: 80,
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                      top:
+                                                          _masterContainerWidth *
+                                                              0.03,
+                                                      right:
+                                                          _masterContainerWidth *
+                                                              0.015,
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.0),
+                                                        child: Image.asset(
+                                                          'assets/images/user-image-placeholder.jpg',
+                                                          width:
+                                                              _masterContainerWidth *
+                                                                  0.25,
+                                                          height:
+                                                              _masterContainerWidth *
+                                                                  0.25,
+                                                          fit: BoxFit.fill,
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                  Flexible(
-                                                    flex: 20,
-                                                    child: Container(
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                        child: Text(
-                                                          'Author unknown',
-                                                          softWrap: true,
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: TextStyle(
-                                                            fontStyle: FontStyle
-                                                                .italic,
-                                                            fontSize:
-                                                                _masterContainerHeight *
-                                                                    0.07,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
+                                                ),
+                                                // News author placeholder
+                                                Flexible(
+                                                  flex: 20,
+                                                  child: Container(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      child: Text(
+                                                        'Author unknown',
+                                                        softWrap: true,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          fontSize:
+                                                              _masterContainerHeight *
+                                                                  0.07,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                       ),
                                                     ),
-                                                  )
-                                                ],
-                                              )),
-                                    //SAVE-Button
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                    ),
+                                    // SAVE-Button
                                     Flexible(
                                       flex: 20,
                                       child: Container(
