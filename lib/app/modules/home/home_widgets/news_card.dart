@@ -36,6 +36,7 @@ class NewsCard extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: ValueKey(postId),
       height: _masterContainerHeight,
       width: _masterContainerWidth,
       margin: EdgeInsets.only(
