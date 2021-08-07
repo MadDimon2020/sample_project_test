@@ -186,7 +186,7 @@ class NewsCard extends GetWidget<HomeController> {
                                     height: _masterContainerWidth * 0.25,
                                     fit: BoxFit.fill,
                                     placeholder: AssetImage(
-                                        'assets/images/anonymous-user.jpg'),
+                                        'assets/images/user-image-placeholder.jpg'),
                                     image: NetworkImage(
                                       userDetails.avatarUrl,
                                     ),
