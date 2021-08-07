@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
 import 'package:sample_project/app/modules/home/home_widgets/news_card.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
