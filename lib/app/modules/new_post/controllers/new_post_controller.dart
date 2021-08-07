@@ -146,5 +146,7 @@ class NewPostController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    _titleController.dispose();
+    _postContentController.dispose();
   }
 }

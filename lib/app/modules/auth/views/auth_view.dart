@@ -257,8 +257,6 @@ class AuthForm extends GetWidget<AuthController> {
                       if (controller.isLoading) CircularProgressIndicator(),
                       if (!controller.isLoading)
                         ElevatedButton(
-                          // minWidth: double.maxFinite,
-                          // color: Colors.pink,
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.pink),
