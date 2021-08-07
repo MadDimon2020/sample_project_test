@@ -12,18 +12,9 @@ class NewsCard extends GetWidget<HomeController> {
   final String postTitle;
   final String postContent;
   final String authorId;
-  final String authorName;
-  final Image avatar;
   final DateTime createdAt;
   final bool interactiveButton;
-  final Function onButtonPressed;
   final Future<QueryResult> Function() refetchFn;
-
-  double get deviceWidth => Get.width;
-  double get deviceHeight => Get.height;
-  double get _masterContainerWidth => deviceWidth;
-  double get _masterContainerHeight => _masterContainerWidth * 0.53;
-  double get _masterContainerMargin => deviceWidth * 0.015;
 
   const NewsCard({
     Key key,
@@ -31,13 +22,16 @@ class NewsCard extends GetWidget<HomeController> {
     @required this.postTitle,
     @required this.postContent,
     @required this.authorId,
-    @required this.authorName,
-    @required this.avatar,
     @required this.createdAt,
     @required this.interactiveButton,
-    @required this.onButtonPressed,
     this.refetchFn,
   }) : super(key: key);
+
+  double get deviceWidth => Get.width;
+  double get deviceHeight => Get.height;
+  double get _masterContainerWidth => deviceWidth;
+  double get _masterContainerHeight => _masterContainerWidth * 0.53;
+  double get _masterContainerMargin => deviceWidth * 0.015;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +70,7 @@ class NewsCard extends GetWidget<HomeController> {
                         // SAVE/UNSAVE-Button
                         buildNewsCardButton(
                           interactive: interactiveButton,
-                          refetchFn: refetchFn,
+                          refetchReadingList: refetchFn,
                         ),
                       ],
                     ),
@@ -279,13 +273,14 @@ class NewsCard extends GetWidget<HomeController> {
   }
 
   Widget buildNewsCardButton(
-      {@required bool interactive, Future<QueryResult> Function() refetchFn}) {
+      {@required bool interactive,
+      Future<QueryResult> Function() refetchReadingList}) {
     return Flexible(
       flex: 20,
       child: Container(
         padding: EdgeInsets.only(bottom: _masterContainerHeight * 0.04),
         child: Align(
-          child: interactive
+          child: interactive == true
               ? Obx(
                   () => ElevatedButton(
                     style: ButtonStyle(
@@ -325,7 +320,7 @@ class NewsCard extends GetWidget<HomeController> {
                   onPressed: () {
                     ReadingListController.removeFromReadingList(
                       postId: postId,
-                      refetchFn: refetchFn,
+                      refetchFn: refetchReadingList,
                     );
                   },
                 ),
