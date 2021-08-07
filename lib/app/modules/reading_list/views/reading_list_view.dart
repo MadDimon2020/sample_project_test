@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/app/modules/home/home_widgets/news_card.dart';
-import 'package:sample_project/app/routes/app_pages.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/reading_list_controller.dart';
