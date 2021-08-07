@@ -88,7 +88,7 @@ class AuthForm extends GetWidget<AuthController> {
                           backgroundColor: Colors.white,
                           backgroundImage: controller.pickedImage != null
                               ? FileImage(controller.pickedImage)
-                              : AssetImage('assets/images/anonymous_user.jpg'),
+                              : AssetImage('assets/images/anonymous-user.jpg'),
                         ),
                         TextButton.icon(
                           onPressed: controller.pickImage,

@@ -181,11 +181,15 @@ class NewsCard extends GetWidget<HomeController> {
                             borderRadius: BorderRadius.circular(15.0),
                             child: (userDetails.avatarUrl != null &&
                                     userDetails.avatarUrl != '')
-                                ? Image.network(
-                                    userDetails.avatarUrl,
+                                ? FadeInImage(
                                     width: _masterContainerWidth * 0.25,
                                     height: _masterContainerWidth * 0.25,
                                     fit: BoxFit.fill,
+                                    placeholder: AssetImage(
+                                        'assets/images/anonymous-user.jpg'),
+                                    image: NetworkImage(
+                                      userDetails.avatarUrl,
+                                    ),
                                   )
                                 : Image.asset(
                                     'assets/images/user-image-placeholder.jpg',
