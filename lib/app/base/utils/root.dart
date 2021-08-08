@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sample_project/app/modules/auth/views/auth_view.dart';
 import 'package:sample_project/app/modules/home/views/home_view.dart';
-import 'package:sample_project/controllers/api_controller.dart';
 import 'package:sample_project/controllers/controllers.dart';
 
 class Root extends GetWidget<UserController> {
