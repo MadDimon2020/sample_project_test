@@ -106,6 +106,7 @@ class HomeView extends GetView<HomeController> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return NewsCard(
+                  key: ValueKey(fetchedNews[index].id),
                   postId: fetchedNews[index].id,
                   postTitle: fetchedNews[index].title,
                   postContent: fetchedNews[index].content,

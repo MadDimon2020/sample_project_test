@@ -39,7 +39,7 @@ class HomeController extends GetxController {
   sql.Database get readingListDB => _readingListDB;
 
   static RxList<String> _readingList = RxList<String>();
-  RxList<String> get readingList => _readingList;
+  static RxList<String> get readingList => _readingList;
 
   static Future<void> insertToDatabase(Map<String, Object> data) async {
     await _readingListDB.insert('post_ids', data,
@@ -74,12 +74,12 @@ class HomeController extends GetxController {
     dataList.length == 0
         ? await insertToDatabase({'post_id': postId})
         : await deleteFromDatabase(postId);
-    !readingList.contains(postId)
+    !_readingList.contains(postId)
         ? insertToReadingList(postId)
         : deleteFromReadingList(postId);
     dataList = await _readingListDB.query('post_ids');
     print(dataList);
-    print(readingList);
+    print(_readingList);
   }
 
   @override

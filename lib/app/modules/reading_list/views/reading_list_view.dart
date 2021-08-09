@@ -17,7 +17,6 @@ class ReadingListView extends GetView<ReadingListController> {
 
   @override
   Widget build(BuildContext context) {
-    final homeController = Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         title: Text('My Reading List'),
@@ -26,7 +25,7 @@ class ReadingListView extends GetView<ReadingListController> {
       body: Query(
         options: QueryOptions(
           document: ReadingListQuery().document,
-          variables: {"_in": homeController.readingList},
+          variables: {"_in": HomeController.readingList},
         ),
         builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {
@@ -50,6 +49,7 @@ class ReadingListView extends GetView<ReadingListController> {
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return NewsCard(
+                        key: ValueKey(fetchedNews[index].id),
                         postId: fetchedNews[index].id,
                         postTitle: fetchedNews[index].title,
                         postContent: fetchedNews[index].content,

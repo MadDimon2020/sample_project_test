@@ -24,9 +24,9 @@ query ReadingList(\$_in: [uuid!]) {
       List<ReadingList$QueryRoot$News> fetchedData) {
     List<ReadingList$QueryRoot$News> orderedList = [];
     if (fetchedData.isNotEmpty) {
-      for (int i = 0; i < HomeController.to.readingList.length; i++) {
+      for (int i = 0; i < HomeController.readingList.length; i++) {
         orderedList.add(fetchedData.firstWhere(
-            (element) => element.id == HomeController.to.readingList[i]));
+            (element) => element.id == HomeController.readingList[i]));
       }
       return orderedList;
     } else

@@ -37,15 +37,6 @@ class NewsCard extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: ObjectKey(NewsCard(
-        postId: postId,
-        postTitle: postTitle,
-        postContent: postContent,
-        createdAt: createdAt,
-        authorName: authorName,
-        authorAvatarUrl: authorAvatarUrl,
-        interactiveButton: interactiveButton,
-      )),
       height: _masterContainerHeight,
       width: _masterContainerWidth,
       margin: EdgeInsets.only(
@@ -255,7 +246,7 @@ class NewsCard extends GetWidget<HomeController> {
                           EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
                         ),
                         backgroundColor:
-                            !controller.readingList.contains(postId)
+                            !HomeController.readingList.contains(postId)
                                 ? MaterialStateProperty.all<Color>(Colors.green)
                                 : MaterialStateProperty.all<Color>(Colors.red),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -263,7 +254,7 @@ class NewsCard extends GetWidget<HomeController> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                         )),
-                    child: Text(!controller.readingList.contains(postId)
+                    child: Text(!HomeController.readingList.contains(postId)
                         ? '  SAVE  '
                         : 'UNSAVE'),
                     onPressed: () {
