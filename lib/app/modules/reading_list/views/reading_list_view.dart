@@ -44,7 +44,7 @@ class ReadingListView extends GetView<ReadingListController> {
               ? ReadingListController.to.orderFetchedData(fetchedNews)
               : null;
           return orderedReadingList == null
-              ? buildEmptyListMessage()
+              ? _buildEmptyListMessage()
               : Scrollbar(
                   child: ListView.builder(
                     itemBuilder: (context, index) {
@@ -68,7 +68,7 @@ class ReadingListView extends GetView<ReadingListController> {
     );
   }
 
-  Center buildEmptyListMessage() {
+  Center _buildEmptyListMessage() {
     return Center(
       child: Container(
         height: _masterContainerHeight,

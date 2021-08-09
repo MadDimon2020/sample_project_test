@@ -8,17 +8,17 @@ import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 class ReadingListController extends GetxController {
   static ReadingListController get to => Get.find<ReadingListController>();
-  static String readingList = '''
-query ReadingList(\$_in: [uuid!]) {
-  news(where: {id: {_in: \$_in}}) {
-    content
-    created_at
-    id
-    title
-    user_id
-  }
-}
-''';
+//   static String readingList = '''
+// query ReadingList(\$_in: [uuid!]) {
+//   news(where: {id: {_in: \$_in}}) {
+//     content
+//     created_at
+//     id
+//     title
+//     user_id
+//   }
+// }
+// ''';
 
   List<ReadingList$QueryRoot$News> orderFetchedData(
       List<ReadingList$QueryRoot$News> fetchedData) {

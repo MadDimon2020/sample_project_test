@@ -100,7 +100,7 @@ class HomeView extends GetView<HomeController> {
               child: CircularProgressIndicator(),
             );
           }
-          var fetchedNews =
+          final fetchedNews =
               NewsFeed$SubscriptionRoot.fromJson(result.data).news;
           return Scrollbar(
             child: ListView.builder(
