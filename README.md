@@ -10,6 +10,6 @@ Sample flutter project SimpleApps
 
 Для скачивания схемы graphql нужно использовать `download_schema.sh` в аргументы принимает токен пользователя.
 
-Для генирации методов запросов `graphql` используется `appolo` клиент, вызывается командой `flutter pub run build_runner build --delete-conflicting-outputs`
+Для генерации методов запросов `graphql` используется `artemis` клиент, вызывается командой `flutter pub run build_runner build --delete-conflicting-outputs`
 
-Для генерации моделуей проекта использовать `get_cli`. Подробнее в `GET_CLI.md`
+Для генерации моделей проекта использовать `get_cli`. Подробнее в `GET_CLI.md`

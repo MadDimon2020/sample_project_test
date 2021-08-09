@@ -768,6 +768,8 @@ type mutation_root {
 columns and relationships of "news"
 """
 type news {
+    "An object relationship"
+    author: users
     "Содержание новости"
     content: String!
     created_at: timestamptz!
@@ -2352,6 +2354,7 @@ input news_bool_exp {
     _and: [news_bool_exp]
     _not: news_bool_exp
     _or: [news_bool_exp]
+    author: users_bool_exp
     content: String_comparison_exp
     created_at: timestamptz_comparison_exp
     id: uuid_comparison_exp
@@ -2362,6 +2365,7 @@ input news_bool_exp {
 
 "input type for inserting data into table \"news\""
 input news_insert_input {
+    author: users_obj_rel_insert_input
     content: String
     created_at: timestamptz
     id: uuid
@@ -2405,6 +2409,7 @@ input news_on_conflict {
 
 "ordering options when selecting data from \"news\""
 input news_order_by {
+    author: users_order_by
     content: order_by
     created_at: order_by
     id: order_by

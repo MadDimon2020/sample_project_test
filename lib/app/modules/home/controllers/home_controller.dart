@@ -12,19 +12,14 @@ class HomeController extends GetxController {
 //   static String newsSubscription = '''
 // subscription newsFeedSubscription {
 //   news(order_by: {created_at: desc}) {
+//     author {
+//      display_name
+//      avatar_url
+//     }
 //     content
 //     created_at
 //     id
 //     title
-//   }
-// }
-// ''';
-
-//   static String userNameAndAvatarQuery = '''
-// query UserNameAndAvatar(\$id: uuid!) {
-//   users_by_pk(id: \$id) {
-//     display_name
-//     avatar_url
 //   }
 // }
 // ''';
@@ -44,28 +39,28 @@ class HomeController extends GetxController {
   static sql.Database _readingListDB;
   sql.Database get readingListDB => _readingListDB;
 
-  static RxList<String> _readingList = RxList<String>();
+  RxList<String> _readingList = RxList<String>();
   RxList<String> get readingList => _readingList;
 
-  static Future<void> insertToDatabase(Map<String, Object> data) async {
+  Future<void> insertToDatabase(Map<String, Object> data) async {
     await _readingListDB.insert('post_ids', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     log('The following data has been inserted to the local database: $data',
         name: 'HomeController');
   }
 
-  static Future<void> deleteFromDatabase(String postId) async {
+  Future<void> deleteFromDatabase(String postId) async {
     await _readingListDB
         .delete('post_ids', where: 'post_id = ?', whereArgs: [postId]);
     log('The following data has been removed from the local database: $postId',
         name: 'HomeController');
   }
 
-  static void insertToReadingList(String postId) {
+  void insertToReadingList(String postId) {
     _readingList.add(postId);
   }
 
-  static void deleteFromReadingList(String postId) {
+  void deleteFromReadingList(String postId) {
     _readingList.removeWhere((element) => element == postId);
   }
 

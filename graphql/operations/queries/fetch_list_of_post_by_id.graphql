@@ -1,9 +1,12 @@
 query ReadingList($_in: [uuid!]) {
   news(where: { id: { _in: $_in } }) {
+    author {
+      display_name
+      avatar_url
+    }
     content
     created_at
     id
     title
-    user_id
   }
 }

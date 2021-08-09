@@ -38,7 +38,7 @@ class AppDrawer extends GetView<HomeController> {
             iconColor: Colors.green,
             title: 'My Reading List',
             onTapHandler: () {
-              Get.toNamed(Routes.READING_LIST);
+              Get.toNamed(Routes.READING_LIST).then((_) => Get.back());
             },
           ),
           _buildMenuItem(

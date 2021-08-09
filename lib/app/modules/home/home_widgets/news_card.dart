@@ -5,14 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/app/modules/reading_list/controllers/reading_list_controller.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
-import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 class NewsCard extends GetWidget<HomeController> {
   final String postId;
   final String postTitle;
   final String postContent;
-  final String authorId;
   final DateTime createdAt;
+  final String authorName;
+  final String authorAvatarUrl;
   final bool interactiveButton;
   final Future<QueryResult> Function() refetchFn;
 
@@ -21,8 +21,9 @@ class NewsCard extends GetWidget<HomeController> {
     @required this.postId,
     @required this.postTitle,
     @required this.postContent,
-    @required this.authorId,
     @required this.createdAt,
+    @required this.authorName,
+    @required this.authorAvatarUrl,
     @required this.interactiveButton,
     this.refetchFn,
   }) : super(key: key);
@@ -36,7 +37,6 @@ class NewsCard extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: ObjectKey(NewsCard),
       height: _masterContainerHeight,
       width: _masterContainerWidth,
       margin: EdgeInsets.only(
@@ -61,17 +61,26 @@ class NewsCard extends GetWidget<HomeController> {
                 flex: 80,
                 child: Row(children: [
                   //Title, content and date of the news.
-                  buildNewsSection(),
+                  _buildNewsSection(
+                    title: postTitle,
+                    content: postContent,
+                    createdAt: createdAt,
+                  ),
                   Flexible(
                     flex: 30,
                     child: Column(
                       children: [
                         //User name and avatar
-                        buildUserDetails(),
+                        _buildAuthorDetails(
+                          authorName: authorName,
+                          authorAvatarUrl: authorAvatarUrl,
+                        ),
                         // SAVE/UNSAVE-Button
-                        buildNewsCardButton(
+                        _NewsCardSaveButton(
+                          key: ValueKey(postId),
+                          postId: postId,
                           interactive: interactiveButton,
-                          refetchReadingList: refetchFn,
+                          refetchFn: refetchFn,
                         ),
                       ],
                     ),
@@ -85,7 +94,10 @@ class NewsCard extends GetWidget<HomeController> {
     );
   }
 
-  Flexible buildNewsSection() {
+  Flexible _buildNewsSection(
+      {@required String title,
+      @required String content,
+      @required DateTime createdAt}) {
     return Flexible(
       flex: 70,
       child: Column(
@@ -101,7 +113,7 @@ class NewsCard extends GetWidget<HomeController> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  postTitle,
+                  title,
                   style: TextStyle(
                     fontSize: _masterContainerHeight * 0.10,
                     fontWeight: FontWeight.bold,
@@ -123,7 +135,7 @@ class NewsCard extends GetWidget<HomeController> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  postContent,
+                  content,
                   style: TextStyle(
                     fontSize: _masterContainerHeight * 0.07,
                   ),
@@ -153,133 +165,89 @@ class NewsCard extends GetWidget<HomeController> {
     );
   }
 
-  Flexible buildUserDetails() {
+  Flexible _buildAuthorDetails({String authorName, String authorAvatarUrl}) {
     return Flexible(
       flex: 80,
-      child: (authorId != null && authorId != '')
-          ? Query(
-              options: QueryOptions(
-                document: UserNameAndAvatarQuery().document,
-                variables: {'id': authorId},
+      child: Column(
+        children: [
+          Flexible(
+            flex: 80,
+            child: Container(
+              margin: EdgeInsets.only(
+                top: _masterContainerWidth * 0.03,
+                right: _masterContainerWidth * 0.015,
               ),
-              builder: (result, {fetchMore, refetch}) {
-                final userDetails =
-                    UserNameAndAvatar$QueryRoot.fromJson(result.data).usersByPk;
-                return Column(
-                  children: [
-                    //Author's avatar provided the data is available
-                    Flexible(
-                      flex: 80,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: _masterContainerWidth * 0.03,
-                          right: _masterContainerWidth * 0.015,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: (userDetails.avatarUrl != null &&
-                                    userDetails.avatarUrl != '')
-                                ? FadeInImage(
-                                    width: _masterContainerWidth * 0.25,
-                                    height: _masterContainerWidth * 0.25,
-                                    fit: BoxFit.fill,
-                                    placeholder: AssetImage(
-                                        'assets/images/user-image-placeholder.jpg'),
-                                    image: NetworkImage(
-                                      userDetails.avatarUrl,
-                                    ),
-                                  )
-                                : Image.asset(
-                                    'assets/images/user-image-placeholder.jpg',
-                                    width: _masterContainerWidth * 0.25,
-                                    height: _masterContainerWidth * 0.25,
-                                    fit: BoxFit.fill,
-                                  ),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: (authorAvatarUrl != null && authorAvatarUrl != '')
+                      ? FadeInImage(
+                          width: _masterContainerWidth * 0.25,
+                          height: _masterContainerWidth * 0.25,
+                          fit: BoxFit.fill,
+                          placeholder: AssetImage(
+                              'assets/images/user-image-placeholder.jpg'),
+                          image: NetworkImage(
+                            authorAvatarUrl,
                           ),
-                        ),
-                      ),
-                    ),
-                    //News author provided the data is available
-                    Flexible(
-                      flex: 20,
-                      child: Container(
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            (userDetails.displayName != null &&
-                                    userDetails.displayName != '')
-                                ? userDetails.displayName
-                                : 'Author unknown',
-                            softWrap: true,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: _masterContainerHeight * 0.07,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              },
-            )
-          : Column(
-              children: [
-                // Author's avatar placeholder
-                Flexible(
-                  flex: 80,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: _masterContainerWidth * 0.03,
-                      right: _masterContainerWidth * 0.015,
-                    ),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset(
+                        )
+                      : Image.asset(
                           'assets/images/user-image-placeholder.jpg',
                           width: _masterContainerWidth * 0.25,
                           height: _masterContainerWidth * 0.25,
                           fit: BoxFit.fill,
                         ),
-                      ),
-                    ),
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 20,
+            child: Container(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  (authorName != null && authorName != '')
+                      ? authorName
+                      : 'Author unknown',
+                  softWrap: true,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: _masterContainerHeight * 0.07,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                // News author's name placeholder
-                Flexible(
-                  flex: 20,
-                  child: Container(
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'Author unknown',
-                        softWrap: true,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: _masterContainerHeight * 0.07,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
+          )
+        ],
+      ),
     );
   }
+}
 
-  Widget buildNewsCardButton(
-      {@required bool interactive,
-      Future<QueryResult> Function() refetchReadingList}) {
+class _NewsCardSaveButton extends GetWidget<HomeController> {
+  final String postId;
+  final bool interactive;
+  final Future<QueryResult> Function() refetchFn;
+
+  _NewsCardSaveButton({
+    Key key,
+    @required this.postId,
+    @required this.interactive,
+    this.refetchFn,
+  }) : super(key: key);
+
+  double get deviceWidth => Get.width;
+  double get deviceHeight => Get.height;
+  double get _masterContainerWidth => deviceWidth;
+  double get _masterContainerHeight => _masterContainerWidth * 0.53;
+
+  @override
+  Widget build(BuildContext context) {
     return Flexible(
       flex: 20,
       child: Container(
@@ -293,7 +261,7 @@ class NewsCard extends GetWidget<HomeController> {
                           EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
                         ),
                         backgroundColor:
-                            !controller.readingList.contains(postId)
+                            !HomeController.to.readingList.contains(postId)
                                 ? MaterialStateProperty.all<Color>(Colors.green)
                                 : MaterialStateProperty.all<Color>(Colors.red),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -301,11 +269,11 @@ class NewsCard extends GetWidget<HomeController> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                         )),
-                    child: Text(!controller.readingList.contains(postId)
+                    child: Text(!HomeController.to.readingList.contains(postId)
                         ? '  SAVE  '
                         : 'UNSAVE'),
                     onPressed: () {
-                      controller.saveUnsaveHandler(postId);
+                      HomeController.to.saveUnsaveHandler(postId);
                     },
                   ),
                 )
@@ -323,9 +291,9 @@ class NewsCard extends GetWidget<HomeController> {
                       )),
                   child: Text('UNSAVE'),
                   onPressed: () {
-                    ReadingListController.removeFromReadingList(
+                    ReadingListController.to.removeFromReadingList(
                       postId: postId,
-                      refetchFn: refetchReadingList,
+                      refetchFn: refetchFn,
                     );
                   },
                 ),
