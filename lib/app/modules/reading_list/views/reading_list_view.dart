@@ -115,8 +115,9 @@ class ReadingListView extends GetView<ReadingListController> {
                         postId: fetchedNews[index].id,
                         postTitle: fetchedNews[index].title,
                         postContent: fetchedNews[index].content,
-                        authorId: fetchedNews[index].userId,
                         createdAt: fetchedNews[index].createdAt,
+                        authorAvatarUrl: fetchedNews[index].author?.avatarUrl,
+                        authorName: fetchedNews[index].author?.displayName,
                         interactiveButton: false,
                         refetchFn: refetch,
                       );

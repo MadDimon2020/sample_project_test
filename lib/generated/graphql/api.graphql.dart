@@ -57,11 +57,33 @@ class AddNewPost$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ReadingList$QueryRoot$News$Author with EquatableMixin {
+  ReadingList$QueryRoot$News$Author();
+
+  factory ReadingList$QueryRoot$News$Author.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReadingList$QueryRoot$News$AuthorFromJson(json);
+
+  @JsonKey(name: 'display_name')
+  String displayName;
+
+  @JsonKey(name: 'avatar_url')
+  String avatarUrl;
+
+  @override
+  List<Object> get props => [displayName, avatarUrl];
+  Map<String, dynamic> toJson() =>
+      _$ReadingList$QueryRoot$News$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReadingList$QueryRoot$News with EquatableMixin {
   ReadingList$QueryRoot$News();
 
   factory ReadingList$QueryRoot$News.fromJson(Map<String, dynamic> json) =>
       _$ReadingList$QueryRoot$NewsFromJson(json);
+
+  ReadingList$QueryRoot$News$Author author;
 
   String content;
 
@@ -72,11 +94,8 @@ class ReadingList$QueryRoot$News with EquatableMixin {
 
   String title;
 
-  @JsonKey(name: 'user_id')
-  String userId;
-
   @override
-  List<Object> get props => [content, createdAt, id, title, userId];
+  List<Object> get props => [author, content, createdAt, id, title];
   Map<String, dynamic> toJson() => _$ReadingList$QueryRoot$NewsToJson(this);
 }
 
@@ -432,6 +451,25 @@ class ReadingListQuery
               directives: [],
               selectionSet: SelectionSetNode(selections: [
                 FieldNode(
+                    name: NameNode(value: 'author'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
+                      FieldNode(
+                          name: NameNode(value: 'display_name'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null),
+                      FieldNode(
+                          name: NameNode(value: 'avatar_url'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null)
+                    ])),
+                FieldNode(
                     name: NameNode(value: 'content'),
                     alias: null,
                     arguments: [],
@@ -451,12 +489,6 @@ class ReadingListQuery
                     selectionSet: null),
                 FieldNode(
                     name: NameNode(value: 'title'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null),
-                FieldNode(
-                    name: NameNode(value: 'user_id'),
                     alias: null,
                     arguments: [],
                     directives: [],

@@ -47,12 +47,6 @@ class PostDetailsView extends GetView<PostDetailsController> {
                 children: <Widget>[
                   Flexible(
                     child: Container(
-                      // padding: EdgeInsets.fromLTRB(
-                      //   deviceWidth * 0.04,
-                      //   deviceWidth * 0.04,
-                      //   deviceWidth * 0.06,
-                      //   deviceWidth * 0.04,
-                      // ),
                       padding: EdgeInsets.all(deviceWidth * 0.04),
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -73,73 +67,61 @@ class PostDetailsView extends GetView<PostDetailsController> {
                   Flexible(
                     flex: 20,
                     child: Container(
-                      padding: EdgeInsets.all(deviceWidth * 0.04),
-                      child: Query(
-                        options: QueryOptions(
-                          document: UserNameAndAvatarQuery().document,
-                          variables: {
-                            'id': postDetails.userId,
-                          },
-                        ),
-                        builder: (result, {fetchMore, refetch}) {
-                          final userDetails =
-                              UserNameAndAvatar$QueryRoot.fromJson(result.data)
-                                  .usersByPk;
-                          return Row(
-                            children: [
-                              Container(
+                        padding: EdgeInsets.all(deviceWidth * 0.04),
+                        child: Row(
+                          children: [
+                            Container(
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: CircleAvatar(
+                                  backgroundImage:
+                                      postDetails.author?.avatarUrl != null
+                                          ? NetworkImage(
+                                              postDetails.author.avatarUrl)
+                                          : AssetImage(
+                                              'assets/images/user-image-placeholder.jpg',
+                                            ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 40,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: deviceWidth * 0.02,
+                                    right: deviceWidth * 0.01),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: CircleAvatar(
-                                    backgroundImage: userDetails != null
-                                        ? NetworkImage(userDetails.avatarUrl)
-                                        : AssetImage(
-                                            'assets/images/user-image-placeholder.jpg',
-                                          ),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 40,
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: deviceWidth * 0.02,
-                                      right: deviceWidth * 0.01),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      userDetails != null
-                                          ? userDetails.displayName
-                                          : 'Author unknown',
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: deviceHeight * 0.022,
-                                      ),
+                                  child: Text(
+                                    postDetails.author.displayName != null
+                                        ? postDetails.author.displayName
+                                        : 'Author unknown',
+                                    softWrap: true,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: deviceHeight * 0.022,
                                     ),
                                   ),
                                 ),
                               ),
-                              Flexible(
-                                flex: 40,
-                                child: Container(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
-                                      style: TextStyle(
-                                          fontSize: deviceHeight * 0.02,
-                                          fontStyle: FontStyle.italic),
-                                      maxLines: 2,
-                                    ),
+                            ),
+                            Flexible(
+                              flex: 40,
+                              child: Container(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '${DateFormat('EEEE, dd LLLL yyyy').format(DateTime.parse(postDetails.createdAt.toString()))}',
+                                    style: TextStyle(
+                                        fontSize: deviceHeight * 0.02,
+                                        fontStyle: FontStyle.italic),
+                                    maxLines: 2,
                                   ),
                                 ),
                               ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
+                            ),
+                          ],
+                        )),
                   ),
                   SizedBox(
                     height: deviceHeight * 0.01,

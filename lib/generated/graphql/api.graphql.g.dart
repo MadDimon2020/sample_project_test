@@ -51,16 +51,41 @@ Map<String, dynamic> _$AddNewPost$MutationRootToJson(
   return val;
 }
 
+ReadingList$QueryRoot$News$Author _$ReadingList$QueryRoot$News$AuthorFromJson(
+    Map<String, dynamic> json) {
+  return ReadingList$QueryRoot$News$Author()
+    ..displayName = json['display_name'] as String
+    ..avatarUrl = json['avatar_url'] as String;
+}
+
+Map<String, dynamic> _$ReadingList$QueryRoot$News$AuthorToJson(
+    ReadingList$QueryRoot$News$Author instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_name', instance.displayName);
+  writeNotNull('avatar_url', instance.avatarUrl);
+  return val;
+}
+
 ReadingList$QueryRoot$News _$ReadingList$QueryRoot$NewsFromJson(
     Map<String, dynamic> json) {
   return ReadingList$QueryRoot$News()
+    ..author = json['author'] == null
+        ? null
+        : ReadingList$QueryRoot$News$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
     ..content = json['content'] as String
     ..createdAt = json['created_at'] == null
         ? null
         : DateTime.parse(json['created_at'] as String)
     ..id = json['id'] as String
-    ..title = json['title'] as String
-    ..userId = json['user_id'] as String;
+    ..title = json['title'] as String;
 }
 
 Map<String, dynamic> _$ReadingList$QueryRoot$NewsToJson(
@@ -73,11 +98,11 @@ Map<String, dynamic> _$ReadingList$QueryRoot$NewsToJson(
     }
   }
 
+  writeNotNull('author', instance.author?.toJson());
   writeNotNull('content', instance.content);
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('id', instance.id);
   writeNotNull('title', instance.title);
-  writeNotNull('user_id', instance.userId);
   return val;
 }
 
