@@ -93,7 +93,7 @@ class PostDetailsView extends GetView<PostDetailsController> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    postDetails.author.displayName != null
+                                    postDetails.author?.displayName != null
                                         ? postDetails.author.displayName
                                         : 'Author unknown',
                                     softWrap: true,
