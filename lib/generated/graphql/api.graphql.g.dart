@@ -10,11 +10,7 @@ AddNewPost$MutationRoot$InsertNewsOne
     _$AddNewPost$MutationRoot$InsertNewsOneFromJson(Map<String, dynamic> json) {
   return AddNewPost$MutationRoot$InsertNewsOne()
     ..title = json['title'] as String
-    ..content = json['content'] as String
-    ..createdAt = json['created_at'] == null
-        ? null
-        : DateTime.parse(json['created_at'] as String)
-    ..id = json['id'] as String;
+    ..content = json['content'] as String;
 }
 
 Map<String, dynamic> _$AddNewPost$MutationRoot$InsertNewsOneToJson(
@@ -29,8 +25,6 @@ Map<String, dynamic> _$AddNewPost$MutationRoot$InsertNewsOneToJson(
 
   writeNotNull('title', instance.title);
   writeNotNull('content', instance.content);
-  writeNotNull('created_at', instance.createdAt?.toIso8601String());
-  writeNotNull('id', instance.id);
   return val;
 }
 
@@ -111,16 +105,42 @@ Map<String, dynamic> _$ReadingList$QueryRootToJson(
   return val;
 }
 
+FetchPostByIdQuery$QueryRoot$NewsByPk$Author
+    _$FetchPostByIdQuery$QueryRoot$NewsByPk$AuthorFromJson(
+        Map<String, dynamic> json) {
+  return FetchPostByIdQuery$QueryRoot$NewsByPk$Author()
+    ..displayName = json['display_name'] as String
+    ..avatarUrl = json['avatar_url'] as String;
+}
+
+Map<String, dynamic> _$FetchPostByIdQuery$QueryRoot$NewsByPk$AuthorToJson(
+    FetchPostByIdQuery$QueryRoot$NewsByPk$Author instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_name', instance.displayName);
+  writeNotNull('avatar_url', instance.avatarUrl);
+  return val;
+}
+
 FetchPostByIdQuery$QueryRoot$NewsByPk
     _$FetchPostByIdQuery$QueryRoot$NewsByPkFromJson(Map<String, dynamic> json) {
   return FetchPostByIdQuery$QueryRoot$NewsByPk()
+    ..author = json['author'] == null
+        ? null
+        : FetchPostByIdQuery$QueryRoot$NewsByPk$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
     ..content = json['content'] as String
     ..createdAt = json['created_at'] == null
         ? null
         : DateTime.parse(json['created_at'] as String)
     ..id = json['id'] as String
-    ..title = json['title'] as String
-    ..userId = json['user_id'] as String;
+    ..title = json['title'] as String;
 }
 
 Map<String, dynamic> _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(
@@ -133,11 +153,11 @@ Map<String, dynamic> _$FetchPostByIdQuery$QueryRoot$NewsByPkToJson(
     }
   }
 
+  writeNotNull('author', instance.author?.toJson());
   writeNotNull('content', instance.content);
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('id', instance.id);
   writeNotNull('title', instance.title);
-  writeNotNull('user_id', instance.userId);
   return val;
 }
 
@@ -223,51 +243,6 @@ Map<String, dynamic> _$GetCurrentUser$QueryRootToJson(
   return val;
 }
 
-UserNameAndAvatar$QueryRoot$UsersByPk
-    _$UserNameAndAvatar$QueryRoot$UsersByPkFromJson(Map<String, dynamic> json) {
-  return UserNameAndAvatar$QueryRoot$UsersByPk()
-    ..displayName = json['display_name'] as String
-    ..avatarUrl = json['avatar_url'] as String;
-}
-
-Map<String, dynamic> _$UserNameAndAvatar$QueryRoot$UsersByPkToJson(
-    UserNameAndAvatar$QueryRoot$UsersByPk instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('display_name', instance.displayName);
-  writeNotNull('avatar_url', instance.avatarUrl);
-  return val;
-}
-
-UserNameAndAvatar$QueryRoot _$UserNameAndAvatar$QueryRootFromJson(
-    Map<String, dynamic> json) {
-  return UserNameAndAvatar$QueryRoot()
-    ..usersByPk = json['users_by_pk'] == null
-        ? null
-        : UserNameAndAvatar$QueryRoot$UsersByPk.fromJson(
-            json['users_by_pk'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$UserNameAndAvatar$QueryRootToJson(
-    UserNameAndAvatar$QueryRoot instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('users_by_pk', instance.usersByPk?.toJson());
-  return val;
-}
-
 CurrentUser$SubscriptionRoot$User _$CurrentUser$SubscriptionRoot$UserFromJson(
     Map<String, dynamic> json) {
   return CurrentUser$SubscriptionRoot$User()
@@ -327,9 +302,35 @@ Map<String, dynamic> _$CurrentUser$SubscriptionRootToJson(
   return val;
 }
 
+NewsFeed$SubscriptionRoot$News$Author
+    _$NewsFeed$SubscriptionRoot$News$AuthorFromJson(Map<String, dynamic> json) {
+  return NewsFeed$SubscriptionRoot$News$Author()
+    ..displayName = json['display_name'] as String
+    ..avatarUrl = json['avatar_url'] as String;
+}
+
+Map<String, dynamic> _$NewsFeed$SubscriptionRoot$News$AuthorToJson(
+    NewsFeed$SubscriptionRoot$News$Author instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_name', instance.displayName);
+  writeNotNull('avatar_url', instance.avatarUrl);
+  return val;
+}
+
 NewsFeed$SubscriptionRoot$News _$NewsFeed$SubscriptionRoot$NewsFromJson(
     Map<String, dynamic> json) {
   return NewsFeed$SubscriptionRoot$News()
+    ..author = json['author'] == null
+        ? null
+        : NewsFeed$SubscriptionRoot$News$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
     ..content = json['content'] as String
     ..createdAt = json['created_at'] == null
         ? null
@@ -349,6 +350,7 @@ Map<String, dynamic> _$NewsFeed$SubscriptionRoot$NewsToJson(
     }
   }
 
+  writeNotNull('author', instance.author?.toJson());
   writeNotNull('content', instance.content);
   writeNotNull('created_at', instance.createdAt?.toIso8601String());
   writeNotNull('id', instance.id);
@@ -462,27 +464,6 @@ Map<String, dynamic> _$GetCurrentUserArgumentsToJson(
   }
 
   writeNotNull('userId', instance.userId);
-  return val;
-}
-
-UserNameAndAvatarArguments _$UserNameAndAvatarArgumentsFromJson(
-    Map<String, dynamic> json) {
-  return UserNameAndAvatarArguments(
-    id: json['id'] as String,
-  );
-}
-
-Map<String, dynamic> _$UserNameAndAvatarArgumentsToJson(
-    UserNameAndAvatarArguments instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
   return val;
 }
 
