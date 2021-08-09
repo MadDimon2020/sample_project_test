@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
+import 'package:sample_project/app/modules/home/home_widgets/error_message.dart';
 import 'package:sample_project/app/modules/home/home_widgets/news_card.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
@@ -29,9 +32,8 @@ class ReadingListView extends GetView<ReadingListController> {
         ),
         builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {
-            return Center(
-              child: Text(result.exception.toString()),
-            );
+            log(result.exception.toString(), name: 'ReadingListView');
+            return ErrorMessageView();
           }
           if (result.isLoading) {
             return const Center(
