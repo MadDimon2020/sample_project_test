@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sample_project/controllers/api_controller.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/post_details_controller.dart';
@@ -10,6 +13,9 @@ import '../controllers/post_details_controller.dart';
 class PostDetailsView extends GetView<PostDetailsController> {
   final deviceHeight = Get.height;
   final deviceWidth = Get.width;
+  double get _masterContainerWidth => deviceWidth;
+  double get _masterContainerHeight => _masterContainerWidth * 0.53;
+  double get _masterContainerMargin => deviceWidth * 0.015;
   double get titleSectionHeight => deviceHeight * 0.3;
   double get titleSectionWidth => deviceWidth;
 
@@ -27,8 +33,55 @@ class PostDetailsView extends GetView<PostDetailsController> {
         ),
         builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {
+            log(result.exception.toString(), name: 'PostDetailsView');
             return Center(
-              child: Text(result.exception.toString()),
+              child: Container(
+                height: _masterContainerHeight,
+                padding: EdgeInsets.all(_masterContainerMargin),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: Colors.grey[400],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Align(
+                          child: Text(
+                            'Oops...\n Something went wrong...\n Try to login again',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: deviceHeight * 0.03,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.01,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ))),
+                        onPressed: () {
+                          ApiController.to.logout();
+                        },
+                        child: Text(
+                          'Go to Login page',
+                          style: TextStyle(fontSize: deviceHeight * 0.03),
+                        ),
+                      ),
+                      SizedBox(
+                        height: _masterContainerHeight * 0.03,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           }
           if (result.isLoading) {
