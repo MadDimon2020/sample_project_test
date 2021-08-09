@@ -45,69 +45,7 @@ class ReadingListView extends GetView<ReadingListController> {
               ? ReadingListController.to.orderFetchedData(fetchedNews)
               : null;
           return orderedReadingList == null
-              ? Center(
-                  child: Container(
-                    height: _masterContainerHeight,
-                    padding: EdgeInsets.all(_masterContainerMargin),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.greenAccent,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 65,
-                            child: Align(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: _masterContainerMargin),
-                                child: Text(
-                                  'You have no posts added to your reading list. Please return to the home page and select the desired news by pressing the "SAVE" button.',
-                                  textAlign: TextAlign.center,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      fontSize: deviceHeight * 0.025,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 35,
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                    elevation:
-                                        MaterialStateProperty.all<double>(8.0),
-                                    shape: MaterialStateProperty.all<
-                                        OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    )),
-                                icon: Icon(Icons.home),
-                                label: Text(
-                                  'Return to the Homepage',
-                                  style: TextStyle(
-                                      fontSize: deviceHeight * 0.025,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: _masterContainerHeight * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+              ? buildEmptyListMessage()
               : Scrollbar(
                   child: ListView.builder(
                     itemBuilder: (context, index) {
@@ -126,6 +64,70 @@ class ReadingListView extends GetView<ReadingListController> {
                   ),
                 );
         },
+      ),
+    );
+  }
+
+  Center buildEmptyListMessage() {
+    return Center(
+      child: Container(
+        height: _masterContainerHeight,
+        padding: EdgeInsets.all(_masterContainerMargin),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: Colors.greenAccent,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 65,
+                child: Align(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: _masterContainerMargin),
+                    child: Text(
+                      'You have no posts added to your reading list. Please return to the home page and select the desired news by pressing the "SAVE" button.',
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(
+                          fontSize: deviceHeight * 0.025,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 35,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        elevation: MaterialStateProperty.all<double>(8.0),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        )),
+                    icon: Icon(Icons.home),
+                    label: Text(
+                      'Return to the Homepage',
+                      style: TextStyle(
+                          fontSize: deviceHeight * 0.025,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: _masterContainerHeight * 0.03,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
