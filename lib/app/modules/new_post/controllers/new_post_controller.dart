@@ -93,7 +93,7 @@ class NewPostController extends GetxController {
           title: 'Congratulations!',
           titleStyle: TextStyle(color: Colors.black),
           middleText:
-              'Your post "${_titleController.text.length < 50 ? _titleController.text : (_titleController.text.substring(0, 100) + "...")}" has been published.',
+              'Your post "${_titleController.text.length < 50 ? _titleController.text : (_titleController.text.substring(0, 50) + "...")}" has been published.',
           middleTextStyle: TextStyle(fontWeight: FontWeight.bold),
           actions: [
             ElevatedButton.icon(
