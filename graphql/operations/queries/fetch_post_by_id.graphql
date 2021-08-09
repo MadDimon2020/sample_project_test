@@ -1,9 +1,12 @@
 query fetchPostByIdQuery($id: uuid!) {
-    news_by_pk(id: $id) {
-        content
-        created_at
-        id
-        title
-        user_id
+  news_by_pk(id: $id) {
+    author {
+      display_name
+      avatar_url
     }
+    content
+    created_at
+    id
+    title
+  }
 }

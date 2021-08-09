@@ -2,7 +2,5 @@ mutation AddNewPost($content: String, $title: String) {
   insert_news_one(object: { content: $content, title: $title }) {
     title
     content
-    created_at
-    id
   }
 }

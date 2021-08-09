@@ -1,5 +1,9 @@
 subscription newsFeed {
   news(order_by: { created_at: desc }) {
+    author {
+      display_name
+      avatar_url
+    }
     content
     created_at
     id

@@ -11,19 +11,14 @@ class HomeController extends GetxController {
 //   static String newsSubscription = '''
 // subscription newsFeedSubscription {
 //   news(order_by: {created_at: desc}) {
+//     author {
+//      display_name
+//      avatar_url
+//     }
 //     content
 //     created_at
 //     id
 //     title
-//   }
-// }
-// ''';
-
-//   static String userNameAndAvatarQuery = '''
-// query UserNameAndAvatar(\$id: uuid!) {
-//   users_by_pk(id: \$id) {
-//     display_name
-//     avatar_url
 //   }
 // }
 // ''';

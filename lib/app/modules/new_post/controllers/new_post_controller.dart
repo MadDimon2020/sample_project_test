@@ -22,8 +22,6 @@ class NewPostController extends GetxController {
 //   insert_news_one(object: {content: \$content, title: \$title}) {
 //     title
 //     content
-//     created_at
-//     id
 //   }
 // }
 // ''';
