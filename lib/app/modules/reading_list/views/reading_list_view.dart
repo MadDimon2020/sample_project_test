@@ -25,7 +25,7 @@ class ReadingListView extends GetView<ReadingListController> {
       body: Query(
         options: QueryOptions(
           document: ReadingListQuery().document,
-          variables: {"_in": HomeController.readingList},
+          variables: {"_in": HomeController.to.readingList},
         ),
         builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {

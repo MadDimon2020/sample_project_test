@@ -24,21 +24,21 @@ query ReadingList(\$_in: [uuid!]) {
       List<ReadingList$QueryRoot$News> fetchedData) {
     List<ReadingList$QueryRoot$News> orderedList = [];
     if (fetchedData.isNotEmpty) {
-      for (int i = 0; i < HomeController.readingList.length; i++) {
+      for (int i = 0; i < HomeController.to.readingList.length; i++) {
         orderedList.add(fetchedData.firstWhere(
-            (element) => element.id == HomeController.readingList[i]));
+            (element) => element.id == HomeController.to.readingList[i]));
       }
       return orderedList;
     } else
       return null;
   }
 
-  static Future<void> removeFromReadingList(
+  Future<void> removeFromReadingList(
       {@required String postId,
       Future<QueryResult> Function() refetchFn}) async {
     log('Unsave-button pressed', name: 'ReadingListController');
-    await HomeController.deleteFromDatabase(postId);
-    HomeController.deleteFromReadingList(postId);
+    await HomeController.to.deleteFromDatabase(postId);
+    HomeController.to.deleteFromReadingList(postId);
     refetchFn();
   }
 

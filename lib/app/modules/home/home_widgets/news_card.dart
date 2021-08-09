@@ -76,10 +76,11 @@ class NewsCard extends GetWidget<HomeController> {
                           authorAvatarUrl: authorAvatarUrl,
                         ),
                         // SAVE/UNSAVE-Button
-                        _buildNewsCardButton(
+                        _NewsCardSaveButton(
+                          key: ValueKey(postId),
                           postId: postId,
                           interactive: interactiveButton,
-                          refetchReadingList: refetchFn,
+                          refetchFn: refetchFn,
                         ),
                       ],
                     ),
@@ -201,7 +202,6 @@ class NewsCard extends GetWidget<HomeController> {
               ),
             ),
           ),
-          //News author provided the data is available
           Flexible(
             flex: 20,
             child: Container(
@@ -227,12 +227,27 @@ class NewsCard extends GetWidget<HomeController> {
       ),
     );
   }
+}
 
-  Widget _buildNewsCardButton({
-    @required String postId,
-    @required bool interactive,
-    Future<QueryResult> Function() refetchReadingList,
-  }) {
+class _NewsCardSaveButton extends GetWidget<HomeController> {
+  final String postId;
+  final bool interactive;
+  final Future<QueryResult> Function() refetchFn;
+
+  _NewsCardSaveButton({
+    Key key,
+    @required this.postId,
+    @required this.interactive,
+    this.refetchFn,
+  }) : super(key: key);
+
+  double get deviceWidth => Get.width;
+  double get deviceHeight => Get.height;
+  double get _masterContainerWidth => deviceWidth;
+  double get _masterContainerHeight => _masterContainerWidth * 0.53;
+
+  @override
+  Widget build(BuildContext context) {
     return Flexible(
       flex: 20,
       child: Container(
@@ -246,7 +261,7 @@ class NewsCard extends GetWidget<HomeController> {
                           EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
                         ),
                         backgroundColor:
-                            !HomeController.readingList.contains(postId)
+                            !HomeController.to.readingList.contains(postId)
                                 ? MaterialStateProperty.all<Color>(Colors.green)
                                 : MaterialStateProperty.all<Color>(Colors.red),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -254,11 +269,11 @@ class NewsCard extends GetWidget<HomeController> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                         )),
-                    child: Text(!HomeController.readingList.contains(postId)
+                    child: Text(!HomeController.to.readingList.contains(postId)
                         ? '  SAVE  '
                         : 'UNSAVE'),
                     onPressed: () {
-                      controller.saveUnsaveHandler(postId);
+                      HomeController.to.saveUnsaveHandler(postId);
                     },
                   ),
                 )
@@ -276,9 +291,9 @@ class NewsCard extends GetWidget<HomeController> {
                       )),
                   child: Text('UNSAVE'),
                   onPressed: () {
-                    ReadingListController.removeFromReadingList(
+                    ReadingListController.to.removeFromReadingList(
                       postId: postId,
-                      refetchFn: refetchReadingList,
+                      refetchFn: refetchFn,
                     );
                   },
                 ),
