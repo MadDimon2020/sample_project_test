@@ -98,11 +98,6 @@ class AuthController extends GetxController {
             },
           ),
         );
-        _isLoading = false;
-        _emailController.clear();
-        _userNameController.clear();
-        _passwordController.clear();
-        _pickedImage = null;
       }
     } on PlatformException catch (e) {
       var message = 'An error occured, please check your credentials';
@@ -128,6 +123,11 @@ class AuthController extends GetxController {
       _isLoading = false;
       update();
     }
+    _isLoading = false;
+    _emailController.clear();
+    _userNameController.clear();
+    _passwordController.clear();
+    _pickedImage = null;
   }
 
   @override

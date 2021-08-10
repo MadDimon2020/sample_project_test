@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:sample_project/controllers/api_controller.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
@@ -27,7 +28,7 @@ class HomeController extends GetxController {
     final dbPath = await sql.getDatabasesPath();
     log('Initializing local database', name: 'HomeController');
     return sql.openDatabase(
-      path.join(dbPath, 'reading_list.db'),
+      path.join(dbPath, '${ApiController.to.userId} + "_" + reading_list.db'),
       onCreate: (db, version) {
         return db.execute('CREATE TABLE post_ids(post_id TEXT PRIMARY KEY)');
       },
