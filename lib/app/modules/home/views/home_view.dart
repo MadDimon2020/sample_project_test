@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sample_project/app/modules/home/home_widgets/app_drawer.dart';
-import 'package:sample_project/app/modules/home/home_widgets/error_message.dart';
 import 'package:sample_project/app/modules/home/home_widgets/news_card.dart';
 import 'package:sample_project/app/routes/app_pages.dart';
+import 'package:sample_project/controllers/api_controller.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/home_controller.dart';
@@ -40,9 +40,37 @@ class HomeView extends GetView<HomeController> {
         builder: (result) {
           if (result.hasException) {
             log(result.exception.toString(), name: 'HomeView');
-            return ErrorMessageView();
-          }
-          if (result.isLoading) {
+            Get.defaultDialog(
+              barrierDismissible: false,
+              title: 'Oops... Something went wrong...',
+              titleStyle: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+              middleText:
+                  'Could not load data from server...n\Try to enter again later',
+              middleTextStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              actions: [
+                ElevatedButton.icon(
+                  icon: Icon(Icons.login),
+                  label: Text('Go to Login Screen'),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    ApiController.to.logout();
+                  },
+                ),
+              ],
+            );
+          } else if (result.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );

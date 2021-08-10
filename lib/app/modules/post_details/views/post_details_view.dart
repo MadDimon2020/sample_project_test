@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:sample_project/app/modules/home/home_widgets/error_message.dart';
+import 'package:sample_project/controllers/api_controller.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/post_details_controller.dart';
@@ -31,7 +31,36 @@ class PostDetailsView extends GetView<PostDetailsController> {
         builder: (result, {fetchMore, refetch}) {
           if (result.hasException) {
             log(result.exception.toString(), name: 'PostDetailsView');
-            return ErrorMessageView();
+            Get.defaultDialog(
+              barrierDismissible: false,
+              title: 'Oops... Something went wrong...',
+              titleStyle: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+              middleText:
+                  'Could not load data from server...n\Try to enter again later',
+              middleTextStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              actions: [
+                ElevatedButton.icon(
+                  icon: Icon(Icons.login),
+                  label: Text('Go to Login Screen'),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    ApiController.to.logout();
+                  },
+                ),
+              ],
+            );
           }
           if (result.isLoading) {
             return const Center(
