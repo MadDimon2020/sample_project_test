@@ -1,0 +1,15 @@
+mutation UpdateUserNameAndAvatar(
+  $id: uuid!
+  $avatar_url: String
+  $display_name: String
+) {
+  update_users_by_pk(
+    _set: { avatar_url: $avatar_url, display_name: $display_name }
+    pk_columns: { id: $id }
+  ) {
+    avatar_url
+    display_name
+    id
+    created_at
+  }
+}

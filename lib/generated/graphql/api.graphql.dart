@@ -304,6 +304,48 @@ class NewsFeed$SubscriptionRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk with EquatableMixin {
+  UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk();
+
+  factory UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPkFromJson(json);
+
+  @JsonKey(name: 'avatar_url')
+  String avatarUrl;
+
+  @JsonKey(name: 'display_name')
+  String displayName;
+
+  String id;
+
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+
+  @override
+  List<Object> get props => [avatarUrl, displayName, id, createdAt];
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPkToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNameAndAvatar$MutationRoot with EquatableMixin {
+  UpdateUserNameAndAvatar$MutationRoot();
+
+  factory UpdateUserNameAndAvatar$MutationRoot.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserNameAndAvatar$MutationRootFromJson(json);
+
+  @JsonKey(name: 'update_users_by_pk')
+  UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk updateUsersByPk;
+
+  @override
+  List<Object> get props => [updateUsersByPk];
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserNameAndAvatar$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class AddNewPostArguments extends JsonSerializable with EquatableMixin {
   AddNewPostArguments({this.content, this.title});
 
@@ -930,4 +972,126 @@ class NewsFeedSubscription
   @override
   NewsFeed$SubscriptionRoot parse(Map<String, dynamic> json) =>
       NewsFeed$SubscriptionRoot.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNameAndAvatarArguments extends JsonSerializable
+    with EquatableMixin {
+  UpdateUserNameAndAvatarArguments(
+      {@required this.id, this.avatarUrl, this.displayName});
+
+  @override
+  factory UpdateUserNameAndAvatarArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateUserNameAndAvatarArgumentsFromJson(json);
+
+  final String id;
+
+  final String avatarUrl;
+
+  final String displayName;
+
+  @override
+  List<Object> get props => [id, avatarUrl, displayName];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserNameAndAvatarArgumentsToJson(this);
+}
+
+class UpdateUserNameAndAvatarMutation extends GraphQLQuery<
+    UpdateUserNameAndAvatar$MutationRoot, UpdateUserNameAndAvatarArguments> {
+  UpdateUserNameAndAvatarMutation({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.mutation,
+        name: NameNode(value: 'UpdateUserNameAndAvatar'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'id')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'avatar_url')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'String'), isNonNull: false),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'display_name')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'String'), isNonNull: false),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'update_users_by_pk'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: '_set'),
+                    value: ObjectValueNode(fields: [
+                      ObjectFieldNode(
+                          name: NameNode(value: 'avatar_url'),
+                          value: VariableNode(
+                              name: NameNode(value: 'avatar_url'))),
+                      ObjectFieldNode(
+                          name: NameNode(value: 'display_name'),
+                          value: VariableNode(
+                              name: NameNode(value: 'display_name')))
+                    ])),
+                ArgumentNode(
+                    name: NameNode(value: 'pk_columns'),
+                    value: ObjectValueNode(fields: [
+                      ObjectFieldNode(
+                          name: NameNode(value: 'id'),
+                          value: VariableNode(name: NameNode(value: 'id')))
+                    ]))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'avatar_url'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'display_name'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'created_at'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'UpdateUserNameAndAvatar';
+
+  @override
+  final UpdateUserNameAndAvatarArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  UpdateUserNameAndAvatar$MutationRoot parse(Map<String, dynamic> json) =>
+      UpdateUserNameAndAvatar$MutationRoot.fromJson(json);
 }

@@ -409,6 +409,59 @@ Map<String, dynamic> _$NewsFeed$SubscriptionRootToJson(
   return val;
 }
 
+UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk
+    _$UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPkFromJson(
+        Map<String, dynamic> json) {
+  return UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk()
+    ..avatarUrl = json['avatar_url'] as String
+    ..displayName = json['display_name'] as String
+    ..id = json['id'] as String
+    ..createdAt = json['created_at'] == null
+        ? null
+        : DateTime.parse(json['created_at'] as String);
+}
+
+Map<String, dynamic>
+    _$UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPkToJson(
+        UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('avatar_url', instance.avatarUrl);
+  writeNotNull('display_name', instance.displayName);
+  writeNotNull('id', instance.id);
+  writeNotNull('created_at', instance.createdAt?.toIso8601String());
+  return val;
+}
+
+UpdateUserNameAndAvatar$MutationRoot
+    _$UpdateUserNameAndAvatar$MutationRootFromJson(Map<String, dynamic> json) {
+  return UpdateUserNameAndAvatar$MutationRoot()
+    ..updateUsersByPk = json['update_users_by_pk'] == null
+        ? null
+        : UpdateUserNameAndAvatar$MutationRoot$UpdateUsersByPk.fromJson(
+            json['update_users_by_pk'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$UpdateUserNameAndAvatar$MutationRootToJson(
+    UpdateUserNameAndAvatar$MutationRoot instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('update_users_by_pk', instance.updateUsersByPk?.toJson());
+  return val;
+}
+
 AddNewPostArguments _$AddNewPostArgumentsFromJson(Map<String, dynamic> json) {
   return AddNewPostArguments(
     content: json['content'] as String,
@@ -509,5 +562,30 @@ Map<String, dynamic> _$CurrentUserArgumentsToJson(
   }
 
   writeNotNull('userId', instance.userId);
+  return val;
+}
+
+UpdateUserNameAndAvatarArguments _$UpdateUserNameAndAvatarArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return UpdateUserNameAndAvatarArguments(
+    id: json['id'] as String,
+    avatarUrl: json['avatar_url'] as String,
+    displayName: json['display_name'] as String,
+  );
+}
+
+Map<String, dynamic> _$UpdateUserNameAndAvatarArgumentsToJson(
+    UpdateUserNameAndAvatarArguments instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('avatar_url', instance.avatarUrl);
+  writeNotNull('display_name', instance.displayName);
   return val;
 }

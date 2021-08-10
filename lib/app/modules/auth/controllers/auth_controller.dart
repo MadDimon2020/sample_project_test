@@ -11,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:sample_project/controllers/api_controller.dart';
+import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 class AuthController extends GetxController {
   final _auth = FirebaseAuth.instance;
@@ -61,16 +62,16 @@ class AuthController extends GetxController {
     return null;
   }
 
-  static String updateUserNameAndAvatar = '''
-mutation UpdateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_name: String) {
-  update_users_by_pk(_set: {avatar_url: \$avatar_url, display_name: \$display_name}, pk_columns: {id: \$id}) {
-    avatar_url
-    display_name
-    id
-    created_at
-  }
-}
-  ''';
+//   static String updateUserNameAndAvatar = '''
+// mutation UpdateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_name: String) {
+//   update_users_by_pk(_set: {avatar_url: \$avatar_url, display_name: \$display_name}, pk_columns: {id: \$id}) {
+//     avatar_url
+//     display_name
+//     id
+//     created_at
+//   }
+// }
+//   ''';
 
   void submitAuthForm({String userName, String email, String password}) async {
     try {
@@ -89,8 +90,7 @@ mutation UpdateUserNameAndAvatar(\$id: uuid!, \$avatar_url: String, \$display_na
         final avatarUrl = await _getAvatarUrl();
         ApiController.mutate(
           MutationOptions(
-            operationName: 'UpdateUserNameAndAvatar',
-            document: gql(updateUserNameAndAvatar),
+            document: UpdateUserNameAndAvatarMutation().document,
             variables: {
               'id': ApiController.to.userId,
               'display_name': _userNameController.text,
