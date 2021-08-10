@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:sample_project/controllers/controllers.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
@@ -86,12 +85,12 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await ApiController.to.loginByFirebase();
     _readingListDB = await _initDataBase();
     var dataList = await _readingListDB.query('post_ids');
     log('The Database contains the data: $dataList',
         name: 'HomeController.onInit()');
-    _readingList = dataList?.map((e) => e['post_id'].toString())?.toList()?.obs;
+    _readingList
+        .assignAll(dataList?.map((e) => e['post_id'].toString())?.toList());
     log('The readingList contains the data: $readingList',
         name: 'HomeController.onInit()');
   }
