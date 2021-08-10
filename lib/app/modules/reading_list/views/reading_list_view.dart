@@ -7,6 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sample_project/app/modules/home/controllers/home_controller.dart';
 import 'package:sample_project/app/modules/home/home_widgets/error_message.dart';
 import 'package:sample_project/app/modules/home/home_widgets/news_card.dart';
+import 'package:sample_project/app/modules/home/home_widgets/splash_screen.dart';
 import 'package:sample_project/generated/graphql/api.graphql.dart';
 
 import '../controllers/reading_list_controller.dart';
@@ -20,32 +21,30 @@ class ReadingListView extends GetView<ReadingListController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My Reading List'),
-        centerTitle: true,
+    return Query(
+      options: QueryOptions(
+        document: ReadingListQuery().document,
+        variables: {"_in": HomeController.to.readingList},
       ),
-      body: Query(
-        options: QueryOptions(
-          document: ReadingListQuery().document,
-          variables: {"_in": HomeController.to.readingList},
-        ),
-        builder: (result, {fetchMore, refetch}) {
-          if (result.hasException) {
-            log(result.exception.toString(), name: 'ReadingListView');
-            return ErrorMessageView();
-          }
-          if (result.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          // final fetchedNews = result.data['news'] as List<dynamic>;
-          final fetchedNews = ReadingList$QueryRoot.fromJson(result.data).news;
-          var orderedReadingList = fetchedNews != null
-              ? ReadingListController.to.orderFetchedData(fetchedNews)
-              : null;
-          return orderedReadingList == null
+      builder: (result, {fetchMore, refetch}) {
+        if (result.hasException) {
+          log(result.exception.toString(), name: 'ReadingListView');
+          return ErrorMessageView();
+        }
+        if (result.isLoading) {
+          return SplashScreen();
+        }
+        // final fetchedNews = result.data['news'] as List<dynamic>;
+        final fetchedNews = ReadingList$QueryRoot.fromJson(result.data).news;
+        final orderedReadingList = fetchedNews != null
+            ? ReadingListController.to.orderFetchedData(fetchedNews)
+            : null;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('My Reading List'),
+            centerTitle: true,
+          ),
+          body: orderedReadingList == null
               ? _buildEmptyListMessage()
               : Scrollbar(
                   child: ListView.builder(
@@ -64,9 +63,9 @@ class ReadingListView extends GetView<ReadingListController> {
                     },
                     itemCount: orderedReadingList.length,
                   ),
-                );
-        },
-      ),
+                ),
+        );
+      },
     );
   }
 
