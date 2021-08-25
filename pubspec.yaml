@@ -74,7 +74,7 @@ dependencies:
   jwt_decoder: ^1.0.3
   gql_dio_link: ^0.0.4
   artemis: ^6.15.1-beta.1
-  fluttericon: ^2.0.0
+  fluttericon: ^1.0.7
   sqflite: ^2.0.0+3
   path: ^1.8.0
   image_picker: ^0.6.7+22
